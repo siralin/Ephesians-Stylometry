@@ -59,8 +59,8 @@ pprint(book_to_word_zscores)
 xpoints = []
 ypoints = []
 for book, zscores in book_to_word_zscores.items():
-  xpoints.add(zscores['και'])
-  ypoints.add(zscores['ο'])
+  xpoints.append(zscores['και'])
+  ypoints.append(zscores['ο'])
   print(book + ',' + str(zscores['και']) + ',' + str(zscores['ο']))
 
 plt.plot(np.array(xpoints), np.array(ypoints))
