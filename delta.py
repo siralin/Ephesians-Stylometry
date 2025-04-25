@@ -58,12 +58,19 @@ pprint(book_to_word_zscores)
 
 xpoints = []
 ypoints = []
+labels = []
 for book, zscores in book_to_word_zscores.items():
   xpoints.append(zscores['και'])
   ypoints.append(zscores['ο'])
+  labels.append(book)
   print(book + ',' + str(zscores['και']) + ',' + str(zscores['ο']))
 
-plt.plot(np.array(xpoints), np.array(ypoints))
+fig, ax = plt.subplots()
+ax.scatter(np.array(xpoints), np.array(ypoints))
+
+for i, label in enumerate(labels):
+  ax.annotate(label, (xpoints[i], ypoints[i]))
+
 plt.show()
 
 manhattan_distances = calculate_text_manhattan_distances(book_to_word_zscores)
