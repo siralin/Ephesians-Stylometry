@@ -74,6 +74,8 @@ def read_and_calculate_text_to_zscores(num_most_frequent_words):
   for filename in os.listdir(DIRECTORY):
     if NORMALIZED_FILE_SUFFIX in filename:
       book = filename[:filename.index('-', 2)]
+      #if book in ['1-john', 'john', 'mark', 'luke', 'matthew', 'acts', 'revelation', '2-john']:
+      #  continue
       if book not in book_to_word_counts:
         book_to_word_counts[book] = Counter()
 
