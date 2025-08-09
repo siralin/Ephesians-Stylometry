@@ -30,7 +30,7 @@ for book, text in books.items():
     book_to_ngram_counts[book][ngram] += 1
     total_ngram_counts[ngram] += 1
 
-zscores = word_counts_to_zscores(2, book_to_ngram_counts, total_ngram_counts)
+zscores = word_counts_to_zscores(24 * 24, book_to_ngram_counts, total_ngram_counts)
 print(zscores)
 
-display_graph(zscores, 0.1, -0.05)
+display_graph(zscores, 0.4, -0.2)
