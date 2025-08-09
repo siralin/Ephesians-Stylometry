@@ -1,6 +1,9 @@
 import os
 from collections import Counter
 from statistics import stdev, fmean
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.decomposition import PCA
 
 # convert frequency to z-score (the number of standard deviations above/below the mean)
 # this means that over the whole corpus,
@@ -125,3 +128,43 @@ def word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_w
 
   # we have a dictionary of dictionaries
   return normalize_frequencies_to_zscore(most_frequent_words, book_to_word_frequencies)
+
+def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
+
+  # create DataFrame from dictionary
+  # where keys are Greek words and values are
+  # the z-scores (consistently ordered)
+  word_to_zscores = {}
+  labels = [] # TODO make sure labels accurate
+  colors = []
+  for book, word_zscores in book_to_word_zscores.items(): # note dicts are insertion-ordered
+    for word, zscore in word_zscores.items():
+      if word not in word_to_zscores:
+        word_to_zscores[word] = []
+      word_to_zscores[word].append(zscore)
+    labels.append(book)
+
+    if book in ["romans", "1-corinthians", "2-corinthians", "galatians", "philippians", "1-thessalonians", "philemon"]:
+      colors.append("b")
+    elif book in ["ephesians", "colossians", "2-thessalonians", "1-timothy", "2-timothy", "titus"]:
+      colors.append("r")
+    else:
+      colors.append("g")
+
+  # DataFrame column order follows dict insertion order
+  data = pd.DataFrame(word_to_zscores)
+
+  fig = plt.figure(1, figsize=(8, 6))
+  ax = fig.add_subplot(111)
+
+  X_reduced = PCA(n_components=2).fit_transform(data)
+  scatter = ax.scatter(
+      X_reduced[:, 0],
+      X_reduced[:, 1],
+      c = colors
+  )
+
+  for i, label in enumerate(labels):
+    ax.annotate(label, (X_reduced[i, 0] + label_x_adjustment, X_reduced[i, 1] + label_y_adjustment))
+
+  plt.show()

@@ -1,4 +1,4 @@
-from delta_utils import read_texts, word_counts_to_zscores
+from delta_utils import read_texts, word_counts_to_zscores, display_graph
 from pprint import pprint
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -32,3 +32,5 @@ for book, text in books.items():
 
 zscores = word_counts_to_zscores(2, book_to_ngram_counts, total_ngram_counts)
 print(zscores)
+
+display_graph(zscores, 0.1, -0.05)
