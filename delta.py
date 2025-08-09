@@ -1,45 +1,34 @@
-from delta_utils import read_and_calculate_text_to_zscores
+from delta_utils import read_texts, word_counts_to_zscores
 from pprint import pprint
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.decomposition import PCA
+from collections import Counter
 
-book_to_word_zscores = read_and_calculate_text_to_zscores(100)
-pprint(book_to_word_zscores)
+NGRAM_SIZE = 2
 
-# create DataFrame from dictionary
-# where keys are Greek words and values are
-# the z-scores (consistently ordered)
-word_to_zscores = {}
-labels = [] # TODO make sure labels accurate
-colors = []
-for book, word_zscores in book_to_word_zscores.items():
-  for word, zscore in word_zscores.items():
-    if word not in word_to_zscores:
-      word_to_zscores[word] = []
-    word_to_zscores[word].append(zscore)
-  labels.append(book)
+# calculate frequency of every possible 2-gram in each book
+book_to_chapter_to_text = read_texts()
 
-  if book in ["romans", "1-corinthians", "2-corinthians", "galatians", "philippians", "1-thessalonians", "philemon"]:
-    colors.append("b")
-  elif book in ["ephesians", "colossians", "2-thessalonians", "1-timothy", "2-timothy", "titus"]:
-    colors.append("r")
-  else:
-    colors.append("g")
+books = {}
+for book, chapter_to_text in book_to_chapter_to_text.items():
+  book_text = ''
+  for c in range(0, len(chapter_to_text)):
+    book_text += chapter_to_text[c+1]
+  books[book] = ''.join(book_text.split())
 
-data = pd.DataFrame(word_to_zscores)
+# we now have the text of each book, in order without spaces
 
-fig = plt.figure(1, figsize=(8, 6))
-ax = fig.add_subplot(111)
+book_to_ngram_counts = {}
+total_ngram_counts = Counter()
 
-X_reduced = PCA(n_components=2).fit_transform(data)
-scatter = ax.scatter(
-    X_reduced[:, 0],
-    X_reduced[:, 1],
-    c = colors
-)
+for book, text in books.items():
+  book_to_ngram_counts[book] = Counter()
+  for i in range(0, len(text) - 1):
+    ngram = text[i:i + NGRAM_SIZE]
 
-for i, label in enumerate(labels):
-  ax.annotate(label, (X_reduced[i, 0] + 0.15, X_reduced[i, 1] - 0.2))
+    book_to_ngram_counts[book][ngram] += 1
+    total_ngram_counts[ngram] += 1
 
-plt.show()
+zscores = word_counts_to_zscores(2, book_to_ngram_counts, total_ngram_counts)
+print(zscores)

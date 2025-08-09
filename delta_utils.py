@@ -61,6 +61,34 @@ def find_book_to_word_frequencies(book_to_word_counts, most_frequent_words):
   return book_to_word_frequencies
 
 # returns a dictionary of book name
+#   to dictionary of chapter number to text of that chapter
+def read_texts():
+
+  DIRECTORY = 'netbible_chapters'
+  NORMALIZED_FILE_SUFFIX = '-norm'
+
+  book_to_chapter_to_text = {}
+
+  for filename in os.listdir(DIRECTORY):
+    if NORMALIZED_FILE_SUFFIX in filename:
+      book_chapter_hyphen_index = filename.index('-', 2)
+      book = filename[:book_chapter_hyphen_index]
+      post_chapter_hyphen_index = filename.index('-', book_chapter_hyphen_index + 1)
+      chapter = filename[book_chapter_hyphen_index + 1:post_chapter_hyphen_index]
+
+      if book not in book_to_chapter_to_text:
+        book_to_chapter_to_text[book] = {}
+
+      chapter_contents = ''
+      with open(os.path.join(DIRECTORY, filename), 'r') as handle:
+        for line in handle:
+          chapter_contents += line
+      book_to_chapter_to_text[book][int(chapter)] = chapter_contents
+
+  return book_to_chapter_to_text
+
+# reads in the netbible chapter texts and
+# returns a dictionary of book name
 #   to dictionary of word to z-score (normalized frequency)
 def read_and_calculate_text_to_zscores(num_most_frequent_words):
 
@@ -74,8 +102,6 @@ def read_and_calculate_text_to_zscores(num_most_frequent_words):
   for filename in os.listdir(DIRECTORY):
     if NORMALIZED_FILE_SUFFIX in filename:
       book = filename[:filename.index('-', 2)]
-      #if book in ['1-john', 'john', 'mark', 'luke', 'matthew', 'acts', 'revelation', '2-john']:
-      #  continue
       if book not in book_to_word_counts:
         book_to_word_counts[book] = Counter()
 
@@ -85,7 +111,12 @@ def read_and_calculate_text_to_zscores(num_most_frequent_words):
           for word in words:
             book_to_word_counts[book][word] += 1
             total_word_counts[word] += 1
+  return word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_word_counts)
 
+# using the given word count dicts,
+# returns a dictionary of book name
+#   to dictionary of word to z-score (normalized frequency)
+def word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_word_counts):
   # we have a list of words
   most_frequent_words = [x[0] for x in total_word_counts.most_common(num_most_frequent_words)]
 
