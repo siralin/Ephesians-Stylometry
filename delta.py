@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.decomposition import PCA
 from collections import Counter
+import math
 
 NGRAM_SIZE = 2
 
@@ -30,7 +31,7 @@ for book, text in books.items():
     book_to_ngram_counts[book][ngram] += 1
     total_ngram_counts[ngram] += 1
 
-zscores = word_counts_to_zscores(24 * 24, book_to_ngram_counts, total_ngram_counts)
+zscores = word_counts_to_zscores(round(math.pow(24, NGRAM_SIZE)), book_to_ngram_counts, total_ngram_counts)
 print(zscores)
 
 display_graph(zscores, 0.4, -0.2)
