@@ -36,13 +36,14 @@ for book, sentence_lengths in book_to_sentence_lengths.items():
   for sentence_length in sentence_lengths:
     buckets[(sentence_length - 1) // 10] += 1
   frequency_buckets = [b / num_sentences for b in buckets]
-  print(book, frequency_buckets)
 
   linestyle = 'dotted'
   if book in UNCONTESTED_PAUL_BOOKS:
     linestyle = 'solid'
-  elif book in CONTESTED_PAUL_BOOKS:
+  elif book == 'ephesians':
     linestyle = 'dashed'
+  else:
+    continue
 
   ax.plot(range(1, 20), frequency_buckets, label=book, linestyle=linestyle)
   ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
