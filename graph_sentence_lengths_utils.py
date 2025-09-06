@@ -33,4 +33,7 @@ def read_books():
 def count_sentence_lengths(text):
   # TODO remove text in brackets, verse numbers, etc from word counts
   # TODO make sure all sentences end in a period or consider alternate punctuation
-  return [len(sen.split()) for sen in text.split('.')]
+  lengths = [len(sen.split()) for sen in text.split('.')]
+
+  # Remove data for empty "sentences"
+  return [l for l in lengths if l > 0]
