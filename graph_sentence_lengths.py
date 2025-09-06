@@ -1,6 +1,7 @@
 import graph_sentence_lengths_utils as gslu
 import sys
 import matplotlib.pyplot as plt
+from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 
 # Read in all the (non-normalized) NT texts,
 # so that we have a dictionary of book name to complete text.
@@ -29,7 +30,7 @@ if max_length != 181:
 # matplotlib.pyplot.plot()
 
 fig = plt.figure()
-ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+ax = fig.add_axes([0.1, 0.1, 0.7, 0.8])
 
 for book, sentence_lengths in book_to_sentence_lengths.items():
   num_sentences = len(sentence_lengths)
@@ -41,6 +42,13 @@ for book, sentence_lengths in book_to_sentence_lengths.items():
   frequency_buckets = [b / num_sentences for b in buckets]
   print(book, frequency_buckets)
 
-  ax.plot(range(1, 20), frequency_buckets)
+  linestyle = 'dotted'
+  if book in UNCONTESTED_PAUL_BOOKS:
+    linestyle = 'solid'
+  elif book in CONTESTED_PAUL_BOOKS:
+    linestyle = 'dashed'
+
+  ax.plot(range(1, 20), frequency_buckets, label=book, linestyle=linestyle)
+  ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 
 plt.show()

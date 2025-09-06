@@ -4,6 +4,7 @@ from statistics import stdev, fmean
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.decomposition import PCA
+from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 
 # convert frequency to z-score (the number of standard deviations above/below the mean)
 # this means that over the whole corpus,
@@ -146,9 +147,9 @@ def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
       word_to_zscores[word].append(zscore)
     labels.append(book)
 
-    if book in ["romans", "1-corinthians", "2-corinthians", "galatians", "philippians", "1-thessalonians", "philemon"]:
+    if book in UNCONTESTED_PAUL_BOOKS:
       colors.append("b")
-    elif book in ["ephesians", "colossians", "2-thessalonians", "1-timothy", "2-timothy", "titus"]:
+    elif book in CONTESTED_PAUL_BOOKS:
       colors.append("r")
     else:
       colors.append("g")
