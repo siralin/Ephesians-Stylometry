@@ -8,7 +8,11 @@ import math
 
 NGRAM_SIZE = 2
 
-# calculate frequency of every possible 2-gram in each book
+# Some books (like Philemon) are very short, and so there is uncertainty especially about them:
+# what sort of error are we dealing with?
+# Let's find the shortest book (by number of characters in original manuscript)
+# and use it to build error clouds for the other books.
+
 book_to_chapter_to_text = read_texts()
 
 books = {}
@@ -20,6 +24,16 @@ for book, chapter_to_text in book_to_chapter_to_text.items():
 
 # we now have the text of each book, in order without spaces
 
+shortest_book = ("", 999999)
+for book, text in books.items():
+  length = len(text)
+  if length < shortest_book[1]:
+    shortest_book = (book, length)
+
+# It's 3 John with 1107 characters (about 70% the length of Philemon)
+print(shortest_book)
+
+"""
 book_to_ngram_counts = {}
 total_ngram_counts = Counter()
 
@@ -35,3 +49,4 @@ zscores = word_counts_to_zscores(round(math.pow(24, NGRAM_SIZE)), book_to_ngram_
 print(zscores)
 
 display_graph(zscores, 0.4, -0.2)
+"""

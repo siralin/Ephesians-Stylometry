@@ -12,6 +12,8 @@ from sklearn.decomposition import PCA
 # words: list of all the words we're interested in
 # text_to_word_frequencies: dictionary of text title -> dictionary of word to frequency within text
 #   (as a proportion of all words in that text).  May include words we're not interested in.
+#
+# returns a dict of the text_to_word_frequencies keys to their normalized zscores
 def normalize_frequencies_to_zscore(words, text_to_word_frequencies):
   word_to_mean = {}
   word_to_sd = {}
