@@ -19,12 +19,11 @@ print(book_to_sentence_lengths)
 # Decide on buckets for sentence lengths (1-5 words, 6-10, etc).
 max_lengths = [max(x) for x in book_to_sentence_lengths.values()]
 max_length = max(max_lengths)
-if max_length != 181:
+if max_length != 165:
   print("error: max length is " + str(max_length))
   sys.exit()
 
-# The maximum number of sentences is 181,
-# so let's go with twenty buckets, each with a range of 10.
+# Let's go with buckets with a range of 10.
 
 # Convert counts to frequencies.
 # matplotlib.pyplot.plot()

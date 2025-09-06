@@ -31,9 +31,12 @@ def read_books():
   return {book: merge_chapters(chapters) for book, chapters in book_to_chapters.items()}
 
 def count_sentence_lengths(text):
-  # TODO remove text in brackets, verse numbers, etc from word counts
+  # TODO remove text in brackets etc from word counts
   # TODO make sure all sentences end in a period or consider alternate punctuation
-  lengths = [len(sen.split()) for sen in text.split('.')]
+  # TODO is this an effect of a later punctuator?  could we split up sentences in Ephesians by adding more periods?
+  sentences = [sen.split() for sen in text.split('.')]
+  normalized_sentences = [[w for w in sentence if not w.isdigit()] for sentence in sentences]
+  lengths = [len(sen) for sen in normalized_sentences]
 
   # Remove data for empty "sentences"
   return [l for l in lengths if l > 0]
