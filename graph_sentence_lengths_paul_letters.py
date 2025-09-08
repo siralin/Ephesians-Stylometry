@@ -45,6 +45,7 @@ for book, sentence_lengths in book_to_sentence_lengths.items():
   else:
     continue
 
+  # TODO fix x-axis labels so buckets are clear
   ax.plot(range(1, 20), frequency_buckets, label=book, linestyle=linestyle)
   ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 

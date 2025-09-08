@@ -1,9 +1,6 @@
 import os
 from collections import Counter
 from statistics import stdev, fmean
-import matplotlib.pyplot as plt
-import pandas as pd
-from sklearn.decomposition import PCA
 from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 
 # convert frequency to z-score (the number of standard deviations above/below the mean)
@@ -11,23 +8,24 @@ from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 # the mean for each word is 0 and the standard deviation is 1
 #
 # words: list of all the words we're interested in
-# text_to_word_frequencies: dictionary of text title -> dictionary of word to frequency within text
+# title_to_word_frequencies: dictionary of text title -> dictionary of word to frequency within text
 #   (as a proportion of all words in that text).  May include words we're not interested in.
+#   May or may not contain entries for frequencies of 0.
 #
-# returns a dict of the text_to_word_frequencies keys to their normalized zscores
-def normalize_frequencies_to_zscore(words, text_to_word_frequencies):
+# returns a dict of the title_to_word_frequencies keys to their normalized zscores
+def normalize_frequencies_to_zscore(words, title_to_word_frequencies):
   word_to_mean = {}
   word_to_sd = {}
   for word in words:
-    frequencies = [f[word] for f in text_to_word_frequencies.values()]
+    frequencies = [f.get(word, 0) for f in title_to_word_frequencies.values()]
     word_to_mean[word] = fmean(frequencies)
     word_to_sd[word] = stdev(frequencies)
 
   book_to_word_zscores = {}
-  for book, frequencies in text_to_word_frequencies.items():
+  for book, frequencies in title_to_word_frequencies.items():
     book_to_word_zscores[book] = {}
     for word, mean in word_to_mean.items():
-      zscore = (frequencies[word] - mean) / word_to_sd[word]
+      zscore = (frequencies.get(word, 0) - mean) / word_to_sd[word]
       book_to_word_zscores[book][word] = zscore
 
   return book_to_word_zscores
@@ -131,43 +129,3 @@ def word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_w
 
   # we have a dictionary of dictionaries
   return normalize_frequencies_to_zscore(most_frequent_words, book_to_word_frequencies)
-
-def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
-
-  # create DataFrame from dictionary
-  # where keys are Greek words and values are
-  # the z-scores (consistently ordered)
-  word_to_zscores = {}
-  labels = [] # TODO make sure labels accurate
-  colors = []
-  for book, word_zscores in book_to_word_zscores.items(): # note dicts are insertion-ordered
-    for word, zscore in word_zscores.items():
-      if word not in word_to_zscores:
-        word_to_zscores[word] = []
-      word_to_zscores[word].append(zscore)
-    labels.append(book)
-
-    if book in UNCONTESTED_PAUL_BOOKS:
-      colors.append("b")
-    elif book in CONTESTED_PAUL_BOOKS:
-      colors.append("r")
-    else:
-      colors.append("g")
-
-  # DataFrame column order follows dict insertion order
-  data = pd.DataFrame(word_to_zscores)
-
-  fig = plt.figure(1, figsize=(8, 6))
-  ax = fig.add_subplot(111)
-
-  X_reduced = PCA(n_components=2).fit_transform(data)
-  scatter = ax.scatter(
-      X_reduced[:, 0],
-      X_reduced[:, 1],
-      c = colors
-  )
-
-  for i, label in enumerate(labels):
-    ax.annotate(label, (X_reduced[i, 0] + label_x_adjustment, X_reduced[i, 1] + label_y_adjustment))
-
-  plt.show()
