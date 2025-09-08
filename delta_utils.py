@@ -21,27 +21,27 @@ def normalize_frequencies_to_zscore(words, title_to_word_frequencies):
     word_to_mean[word] = fmean(frequencies)
     word_to_sd[word] = stdev(frequencies)
 
-  book_to_word_zscores = {}
+  title_to_word_zscores = {}
   for book, frequencies in title_to_word_frequencies.items():
-    book_to_word_zscores[book] = {}
+    title_to_word_zscores[book] = {}
     for word, mean in word_to_mean.items():
       zscore = (frequencies.get(word, 0) - mean) / word_to_sd[word]
-      book_to_word_zscores[book][word] = zscore
+      title_to_word_zscores[book][word] = zscore
 
-  return book_to_word_zscores
+  return title_to_word_zscores
 
-# book_to_word_zscores: dictionary of text title to dictionary of word to its z-score
+# title_to_word_zscores: dictionary of text title to dictionary of word to its z-score
 # returns dictionary of text title to
 #     dictionary of other text title to manhattan distance between their z-scores
-def calculate_text_manhattan_distances(book_to_word_zscores):
+def calculate_text_manhattan_distances(title_to_word_zscores):
   manhattan_distances = {}
-  for book, word_to_zscore in book_to_word_zscores.items():
-    manhattan_distances[book] = {}
-    for other_book, other_word_to_zscore in book_to_word_zscores.items():
+  for title, word_to_zscore in title_to_word_zscores.items():
+    manhattan_distances[title] = {}
+    for other_title, other_word_to_zscore in title_to_word_zscores.items():
       sum = 0.0
       for word, zscore in word_to_zscore.items():
         sum += abs(zscore - other_word_to_zscore[word])
-      manhattan_distances[book][other_book] = sum
+      manhattan_distances[title][other_title] = sum
   return manhattan_distances
 
 # get the counts for each book for just the overall most frequent words
