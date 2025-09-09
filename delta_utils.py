@@ -44,13 +44,14 @@ def calculate_text_manhattan_distances(title_to_word_zscores):
       manhattan_distances[title][other_title] = sum
   return manhattan_distances
 
-# get the counts for each book for just the overall most frequent words
+# Returns the frequencies of the given words
+# (as a fraction of the total words in the book).
 def find_book_to_word_frequencies(book_to_word_counts, most_frequent_words):
   book_to_frequent_word_counts = {}
   for book in book_to_word_counts.keys():
     book_to_frequent_word_counts[book] = {}
     for word in most_frequent_words:
-      book_to_frequent_word_counts[book][word] = book_to_word_counts[book][word]
+      book_to_frequent_word_counts[book][word] = book_to_word_counts[book].get(word, 0)
 
   # transform the counts to frequencies
   # result: a dictionary of book title string to
@@ -64,9 +65,10 @@ def find_book_to_word_frequencies(book_to_word_counts, most_frequent_words):
 
   return book_to_word_frequencies
 
-# returns a dictionary of book name
-#   to dictionary of chapter number to text of that chapter
-def read_texts():
+# Teturns a dictionary of book name
+#   to dictionary of chapter number to text of that chapter,
+#   with the text normalized to remove all punctuation and capitalization.
+def read_normalized_texts():
 
   DIRECTORY = 'netbible_chapters'
   NORMALIZED_FILE_SUFFIX = '-norm'
