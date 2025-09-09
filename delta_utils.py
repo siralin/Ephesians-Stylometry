@@ -96,6 +96,7 @@ def read_normalized_texts():
 # reads in the netbible chapter texts and
 # returns a dictionary of book name
 #   to dictionary of word to z-score (normalized frequency)
+# TODO test this
 def read_and_calculate_text_to_zscores(num_most_frequent_words):
 
   DIRECTORY = 'netbible_chapters'
@@ -122,6 +123,7 @@ def read_and_calculate_text_to_zscores(num_most_frequent_words):
 # using the given word count dicts,
 # returns a dictionary of book name
 #   to dictionary of word to z-score (normalized frequency)
+# TODO test this
 def word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_word_counts):
   # we have a list of words
   most_frequent_words = [x[0] for x in total_word_counts.most_common(num_most_frequent_words)]

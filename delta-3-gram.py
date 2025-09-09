@@ -1,4 +1,5 @@
-from delta_utils import read_texts, word_counts_to_zscores, display_graph
+from delta_utils import read_normalized_texts, word_counts_to_zscores
+from delta_plot_utils import display_graph
 from pprint import pprint
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -9,7 +10,7 @@ import math
 NGRAM_SIZE = 3
 
 # calculate frequency of every possible 2-gram in each book
-book_to_chapter_to_text = read_texts()
+book_to_chapter_to_text = read_normalized_texts()
 
 books = {}
 for book, chapter_to_text in book_to_chapter_to_text.items():

@@ -1,4 +1,5 @@
-from delta_utils import read_texts, word_counts_to_zscores, display_graph
+from delta_utils import read_normalized_texts, word_counts_to_zscores
+from delta_plot_utils import display_graph
 from pprint import pprint
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -13,7 +14,7 @@ NGRAM_SIZE = 2
 # Let's find the shortest book (by number of characters in original manuscript)
 # and use it to build error clouds for the other books.
 
-book_to_chapter_to_text = read_texts()
+book_to_chapter_to_text = read_normalized_texts()
 
 books = {}
 for book, chapter_to_text in book_to_chapter_to_text.items():

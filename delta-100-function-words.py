@@ -1,4 +1,5 @@
-from delta_utils import read_and_calculate_text_to_zscores, display_graph
+from delta_utils import read_and_calculate_text_to_zscores
+from delta_plot_utils import display_graph
 from pprint import pprint
 import matplotlib.pyplot as plt
 import pandas as pd
