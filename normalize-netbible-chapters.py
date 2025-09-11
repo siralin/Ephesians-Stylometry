@@ -1,7 +1,6 @@
 import os
 import unicodedata
-
-DIRECTORY = 'netbible_chapters'
+from general_utils import TEXT_DIRECTORY, PARALLEL_TEXT_SUBDIRECTORY, NORMALIZED_FILE_SUFFIX
 
 # https://stackoverflow.com/a/518232
 def strip_accents(s):
@@ -22,15 +21,16 @@ def normalize(text): # TODO may need to do better with text inside brackets
 
 def normalize_files_in_dir(directory):
   for filename in os.listdir(directory):
-    if filename == "parallels":
-      normalize_files_in_dir(DIRECTORY + "/parallels") # TODO may want to preserve these line breaks
-    elif '-norm' not in filename:
+    if filename == PARALLEL_TEXT_SUBDIRECTORY:
+      # TODO may want to preserve these line breaks
+      normalize_files_in_dir(TEXT_DIRECTORY + "/" + PARALLEL_TEXT_SUBDIRECTORY)
+    elif NORMALIZED_FILE_SUFFIX not in filename:
       with open(os.path.join(directory, filename), 'r') as handle:
         new_file_contents = ''
         for line in handle:
           new_file_contents += normalize(line)
 
-        with open(os.path.join(directory, filename[:-4] + "-norm.txt"), 'w') as file:
+        with open(os.path.join(directory, filename[:-4] + NORMALIZED_FILE_SUFFIX + ".txt"), 'w') as file:
           file.write(new_file_contents)
 
-normalize_files_in_dir(DIRECTORY)
+normalize_files_in_dir(TEXT_DIRECTORY)

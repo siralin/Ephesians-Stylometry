@@ -1,7 +1,7 @@
 import os
 from collections import Counter
 from statistics import stdev, fmean
-from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
+from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS, TEXT_DIRECTORY, NORMALIZED_FILE_SUFFIX
 
 # convert frequency to z-score (the number of standard deviations above/below the mean)
 # this means that over the whole corpus,
@@ -69,13 +69,9 @@ def find_book_to_word_frequencies(book_to_word_counts, most_frequent_words):
 #   to dictionary of chapter number to text of that chapter,
 #   with the text normalized to remove all punctuation and capitalization.
 def read_normalized_texts():
-
-  DIRECTORY = 'netbible_chapters'
-  NORMALIZED_FILE_SUFFIX = '-norm'
-
   book_to_chapter_to_text = {}
 
-  for filename in os.listdir(DIRECTORY):
+  for filename in os.listdir(TEXT_DIRECTORY):
     if NORMALIZED_FILE_SUFFIX in filename:
       book_chapter_hyphen_index = filename.index('-', 2)
       book = filename[:book_chapter_hyphen_index]
@@ -86,7 +82,7 @@ def read_normalized_texts():
         book_to_chapter_to_text[book] = {}
 
       chapter_contents = ''
-      with open(os.path.join(DIRECTORY, filename), 'r') as handle:
+      with open(os.path.join(TEXT_DIRECTORY, filename), 'r') as handle:
         for line in handle:
           chapter_contents += line
       book_to_chapter_to_text[book][int(chapter)] = chapter_contents
@@ -98,21 +94,17 @@ def read_normalized_texts():
 #   to dictionary of word to z-score (normalized frequency)
 # TODO test this
 def read_and_calculate_text_to_zscores(num_most_frequent_words):
-
-  DIRECTORY = 'netbible_chapters'
-  NORMALIZED_FILE_SUFFIX = '-norm'
-
   book_to_word_counts = {}
   total_word_counts = Counter()
 
   # count all words in each book and overall
-  for filename in os.listdir(DIRECTORY):
+  for filename in os.listdir(TEXT_DIRECTORY):
     if NORMALIZED_FILE_SUFFIX in filename:
       book = filename[:filename.index('-', 2)]
       if book not in book_to_word_counts:
         book_to_word_counts[book] = Counter()
 
-      with open(os.path.join(DIRECTORY, filename), 'r') as handle:
+      with open(os.path.join(TEXT_DIRECTORY, filename), 'r') as handle:
         for line in handle:
           words = line.split()
           for word in words:
