@@ -7,3 +7,5 @@ How to run:
 
 
 To run unit tests: `python -m unittest`
+
+Ephesians and Colossians were split into parallel and unique verses based on https://catholic-resources.org/Bible/Paul-Colossians-Ephesians.htm

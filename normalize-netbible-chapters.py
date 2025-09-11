@@ -1,13 +1,13 @@
 import os
 import unicodedata
 
-directory = 'netbible_chapters'
+DIRECTORY = 'netbible_chapters'
 
 # https://stackoverflow.com/a/518232
 def strip_accents(s):
   return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
 
-def normalize(text):
+def normalize(text): # TODO may need to do better with text inside brackets
   result = strip_accents(text).lower().replace('|', '').replace('.', '').replace('·', '').replace('[', '').replace(']', '').replace(',', '').replace('᾿', '').replace(';', '').replace('-', '').replace('\n', '').replace('(', '').replace(')', '').replace('_', '').replace('῾', '').replace(':', '')
 
   without_verse_numbers = ''.join([i for i in result if not i.isdigit()])
@@ -20,12 +20,17 @@ def normalize(text):
 
   return result
 
-for filename in os.listdir(directory):
-  if '-norm' not in filename:
-    with open(os.path.join(directory, filename), 'r') as handle:
-      new_file_contents = ''
-      for line in handle:
-        new_file_contents += normalize(line)
+def normalize_files_in_dir(directory):
+  for filename in os.listdir(directory):
+    if filename == "parallels":
+      normalize_files_in_dir(DIRECTORY + "/parallels") # TODO may want to preserve these line breaks
+    elif '-norm' not in filename:
+      with open(os.path.join(directory, filename), 'r') as handle:
+        new_file_contents = ''
+        for line in handle:
+          new_file_contents += normalize(line)
 
-      with open(os.path.join(directory, filename[:-4] + "-norm.txt"), 'w') as file:
-        file.write(new_file_contents)
+        with open(os.path.join(directory, filename[:-4] + "-norm.txt"), 'w') as file:
+          file.write(new_file_contents)
+
+normalize_files_in_dir(DIRECTORY)
