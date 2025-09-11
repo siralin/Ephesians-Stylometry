@@ -89,6 +89,9 @@ def read_normalized_texts():
 
   return book_to_chapter_to_text
 
+def read_normalized_parallel_texts():
+
+
 # reads in the netbible chapter texts and
 # returns a dictionary of book name
 #   to dictionary of word to z-score (normalized frequency)
