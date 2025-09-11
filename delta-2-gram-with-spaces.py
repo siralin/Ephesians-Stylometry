@@ -14,9 +14,6 @@ NGRAM_SIZE = 2
 # calculate frequency of every possible 2-gram in each book
 book_to_chapter_to_text = read_normalized_texts()
 
-# then get rid of Ephesians
-# and consider two new "books".
-#del book_to_chapter_to_text['ephesians']
 del book_to_chapter_to_text['colossiansunique']
 del book_to_chapter_to_text['colossiansparallel']
 del book_to_chapter_to_text['ephesiansunique']

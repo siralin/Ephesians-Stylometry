@@ -12,6 +12,15 @@ NGRAM_SIZE = 2
 # calculate frequency of every possible 2-gram in each book
 book_to_chapter_to_text = read_normalized_texts()
 
+# then get rid of parallel/unique texts
+del book_to_chapter_to_text['ephesiansparallel']
+del book_to_chapter_to_text['colossiansparallel']
+del book_to_chapter_to_text['ephesiansunique']
+del book_to_chapter_to_text['colossiansunique']
+
+# (Note that if you don't delete either the originals or the parallel/unique texts,
+# you get incorrect information about the most common words/bigrams/etc)
+
 books = {}
 for book, chapter_to_text in book_to_chapter_to_text.items():
   book_text = ''
@@ -33,6 +42,5 @@ for book, text in books.items():
     total_ngram_counts[ngram] += 1
 
 zscores = word_counts_to_zscores(round(math.pow(24, NGRAM_SIZE)), book_to_ngram_counts, total_ngram_counts)
-print(zscores)
 
 display_graph(zscores, 0.4, -0.2)
