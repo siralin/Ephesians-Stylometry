@@ -1,9 +1,7 @@
 from delta_utils import read_normalized_texts
 from nltk.util import ngrams
 from collections import Counter
-
-NGRAM_SIZE = 2
-NUM_NGRAMS = 30
+import general_utils
 
 def read_book_texts():
   book_to_chapter_to_text = read_normalized_texts()
@@ -25,18 +23,18 @@ def read_book_texts():
     books[book] = ''.join(book_text.split()) # or book_text to keep spaces in
   return books
 
-def find_interesting_bigrams(all_text):
-  # Take the NUM_NGRAMS most common bigrams that don't include spaces.
-  all_bigrams = ngrams(all_text, NGRAM_SIZE) # includes spaces
+def find_interesting_bigrams(all_text, num_ngrams_wanted, ngram_size):
+  # Take the most common bigrams that don't include spaces.
+  all_bigrams = ngrams(all_text, ngram_size) # includes spaces
   letter_bigrams = [bi for bi in all_bigrams if " " not in bi]
   bigram_counts = Counter(letter_bigrams)
-  return bigram_counts.most_common(NUM_NGRAMS)
+  return bigram_counts.most_common(num_ngrams_wanted)
 
 # Convert counts to frequencies.
 #   (Within each book, the number of ngram occurrences
 #    divided by the number of non-space characters.)
 def calculate_ngram_frequencies(interesting_bigrams, books):
-  bigram_to_book_to_frequency = [[0 for x in range(len(books))] for y in range(NUM_NGRAMS)]
+  bigram_to_book_to_frequency = [[0 for x in range(len(books))] for y in range(len(interesting_bigrams))]
 
   for book_index, book in enumerate(books):
     book_text = books[book]
@@ -49,11 +47,20 @@ def calculate_ngram_frequencies(interesting_bigrams, books):
 
 # Normalize frequencies _per ngram_ (cross-book) to between -1, 1
 def normalize_ngram_frequencies(bigram_to_book_to_frequency):
-  bigram_to_book_to_norm_freq = [[]] * NUM_NGRAMS
+  num_ngrams = len(bigram_to_book_to_frequency)
+  bigram_to_book_to_norm_freq = [[]] * num_ngrams
 
-  for bigram_index in range(NUM_NGRAMS):
+  for bigram_index in range(num_ngrams):
     max_freq = max(bigram_to_book_to_frequency[bigram_index])
     min_freq = min(bigram_to_book_to_frequency[bigram_index])
     multiplier = 2 / (max_freq - min_freq)
     bigram_to_book_to_norm_freq[bigram_index] = [(x - min_freq) * multiplier - 1 for x in bigram_to_book_to_frequency[bigram_index]]
   return bigram_to_book_to_norm_freq
+
+def get_label_color(label_text):
+  if label_text in general_utils.UNCONTESTED_PAUL_BOOKS:
+    return "red"
+  elif label_text in general_utils.CONTESTED_PAUL_BOOKS:
+    return "green"
+  else:
+    return "black"
