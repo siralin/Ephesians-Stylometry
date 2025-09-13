@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 
+# book_to_word_zscores: dictionary of book title to dictionary of word/ngram to its zscore.
 def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
 
   # create DataFrame from dictionary
