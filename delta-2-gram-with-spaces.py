@@ -47,6 +47,13 @@ for book, text in books.items():
     book_to_ngram_counts[book][ngram] += 1
     total_ngram_counts[ngram] += 1
 
+    # can remove ngrams containing spaces if you want
+    """
+    if " " not in ngram:
+      book_to_ngram_counts[book][ngram] += 1
+      total_ngram_counts[ngram] += 1
+    """
+
 zscores = word_counts_to_zscores(round(math.pow(25, NGRAM_SIZE)), book_to_ngram_counts, total_ngram_counts)
 
 display_graph(zscores, 0.3, -0.2)
