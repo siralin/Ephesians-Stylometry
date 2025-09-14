@@ -1,5 +1,5 @@
 from delta_utils import read_normalized_texts, word_counts_to_zscores
-from delta_plot_utils import display_graph
+from delta_plot_utils import display_graph, display_dendrogram
 from pprint import pprint
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -33,8 +33,8 @@ for book, chapter_to_text in book_to_chapter_to_text.items():
 # by leaving the spaces in.
 
 # we now have the text of each book, in order.
-for book, text in books.items():
-  print(book, len(text))
+#for book, text in books.items():
+#  print(book, len(text))
 
 book_to_ngram_counts = {}
 total_ngram_counts = Counter()
@@ -54,6 +54,20 @@ for book, text in books.items():
       total_ngram_counts[ngram] += 1
     """
 
-zscores = word_counts_to_zscores(round(math.pow(25, NGRAM_SIZE)), book_to_ngram_counts, total_ngram_counts)
+num_bigrams_wanted = round(math.pow(25, NGRAM_SIZE))
+zscores = word_counts_to_zscores(num_bigrams_wanted, book_to_ngram_counts, total_ngram_counts)
 
+# note program doesn't continue till you exit shown graph
 display_graph(zscores, 0.3, -0.2)
+
+actual_num_bigrams = len(zscores['mark']) # arbitrarily selected; they're all the same
+
+book_to_bigram_to_frequency = [[0 for x in range(actual_num_bigrams)] for y in range(len(books))]
+for book_index, book in enumerate(books):
+  for bigram_index, bigram in enumerate(zscores['mark']):
+    book_to_bigram_to_frequency[book_index][bigram_index] = zscores[book][bigram]
+
+linkage_algorithm = 'ward'
+distance_metric = 'euclidean'
+display_dendrogram(book_to_bigram_to_frequency, list(books), linkage_algorithm, distance_metric)
+

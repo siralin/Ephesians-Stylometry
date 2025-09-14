@@ -56,11 +56,3 @@ def normalize_ngram_frequencies(bigram_to_book_to_frequency):
     multiplier = 2 / (max_freq - min_freq)
     bigram_to_book_to_norm_freq[bigram_index] = [(x - min_freq) * multiplier - 1 for x in bigram_to_book_to_frequency[bigram_index]]
   return bigram_to_book_to_norm_freq
-
-def get_label_color(label_text):
-  if label_text in general_utils.UNCONTESTED_PAUL_BOOKS:
-    return "red"
-  elif label_text in general_utils.CONTESTED_PAUL_BOOKS:
-    return "green"
-  else:
-    return "black"

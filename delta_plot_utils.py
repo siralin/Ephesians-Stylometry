@@ -2,6 +2,32 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
+from scipy.cluster.hierarchy import dendrogram, linkage
+
+# book_to_bigram_to_norm_freq: list of lists
+#  where book_to_bigram_to_norm_freq[0] gets you all the bigram frequencies for the first book
+# book_titles: list of titles in the same order as book_to_bigram_to_norm_freq
+def display_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorithm, distance_metric):
+  Z = linkage(book_to_bigram_to_norm_freq, method=linkage_algorithm, metric=distance_metric)
+
+  plt.figure(figsize=(10, 4))
+  plt.title('Hierarchical Clustering Dendrogram (Bigrams)')
+  plt.xlabel('text number')
+  plt.ylabel('distance')
+  dendrogram(
+             Z,
+             leaf_rotation=90.,  # rotates the x axis labels
+             leaf_font_size=8.,  # font size for the x axis labels
+             labels=book_titles)
+
+  ax = plt.gca()
+  x_labels = ax.get_xmajorticklabels()
+  for x in x_labels:
+    x.set_color(get_label_color(x.get_text()))
+
+  #filename = '-'.join(['dendrogram', str(ngram_size) + 'gram', str(num_bigrams_wanted), linkage_algorithm, distance_metric])
+  #plt.savefig(filename + '.png', format='png', dpi=100)
+  plt.show()
 
 # book_to_word_zscores: dictionary of book title to dictionary of word/ngram to its zscore.
 def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
@@ -10,7 +36,7 @@ def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
   # where keys are Greek words and values are
   # the z-scores (consistently ordered)
   word_to_zscores = {}
-  labels = [] # TODO make sure labels accurate
+  labels = []
   colors = []
   for book, word_zscores in book_to_word_zscores.items(): # note dicts are insertion-ordered
     for word, zscore in word_zscores.items():
@@ -19,12 +45,7 @@ def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
       word_to_zscores[word].append(zscore)
     labels.append(book)
 
-    if book in UNCONTESTED_PAUL_BOOKS:
-      colors.append("b")
-    elif book in CONTESTED_PAUL_BOOKS:
-      colors.append("r")
-    else:
-      colors.append("g")
+    colors.append(get_label_color(book))
 
   # DataFrame column order follows dict insertion order
   data = pd.DataFrame(word_to_zscores)
@@ -43,3 +64,11 @@ def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
     ax.annotate(label, (X_reduced[i, 0] + label_x_adjustment, X_reduced[i, 1] + label_y_adjustment))
 
   plt.show()
+
+def get_label_color(label_text):
+  if label_text in UNCONTESTED_PAUL_BOOKS:
+    return "blue"
+  elif label_text in CONTESTED_PAUL_BOOKS:
+    return "red"
+  else:
+    return "green"
