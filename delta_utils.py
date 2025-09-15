@@ -68,6 +68,7 @@ def find_book_to_word_frequencies(book_to_word_counts, words):
 # Teturns a dictionary of book name
 #   to dictionary of chapter number to text of that chapter,
 #   with the text normalized to remove all punctuation and capitalization.
+# WARNING: includes 'parallel' and 'unique' book divisions for some books
 def read_normalized_texts():
   book_to_chapter_to_text = {}
 

@@ -16,6 +16,12 @@ NGRAM_SIZE = 2
 
 book_to_chapter_to_text = read_normalized_texts()
 
+# then get rid of parallel/unique texts
+del book_to_chapter_to_text['ephesiansparallel']
+del book_to_chapter_to_text['colossiansparallel']
+del book_to_chapter_to_text['ephesiansunique']
+del book_to_chapter_to_text['colossiansunique']
+
 books = {}
 for book, chapter_to_text in book_to_chapter_to_text.items():
   book_text = ''

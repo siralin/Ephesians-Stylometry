@@ -6,6 +6,6 @@ How to run:
 5. In the X console, `python3.9 delta.py`
 
 
-To run unit tests: `python -m unittest`
+To run unit tests: `python3.9 -m unittest`
 
 Ephesians and Colossians were split into parallel and unique verses based on https://catholic-resources.org/Bible/Paul-Colossians-Ephesians.htm

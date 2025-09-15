@@ -42,7 +42,6 @@ def calculate_ngram_frequencies(interesting_bigrams, books):
     for bigram_index, bigram in enumerate(interesting_bigrams):
       bigram_count = book_text.count("".join(bigram[0]))
       bigram_to_book_to_frequency[bigram_index][book_index] = bigram_count / text_length
-    print("book " + str(book_index) + " is " + book)
   return bigram_to_book_to_frequency
 
 # Normalize frequencies _per ngram_ (cross-book) to between -1, 1

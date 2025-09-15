@@ -8,6 +8,21 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 #  where book_to_bigram_to_norm_freq[0] gets you all the bigram frequencies for the first book
 # book_titles: list of titles in the same order as book_to_bigram_to_norm_freq
 def display_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorithm, distance_metric):
+  generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorithm, distance_metric)
+
+  #filename = '-'.join(['dendrogram', str(ngram_size) + 'gram', str(num_bigrams_wanted), linkage_algorithm, distance_metric])
+  #plt.savefig(filename + '.png', format='png', dpi=100)
+  plt.show()
+
+# Generates but does not display dendrogram.
+# Use plt.show() to display it
+# or plt.gca() to get its Axes and modify or analyze it.
+# Returns nothing.
+#
+# book_to_bigram_to_norm_freq: list of lists
+#  where book_to_bigram_to_norm_freq[0] gets you all the bigram frequencies for the first book
+# book_titles: list of titles in the same order as book_to_bigram_to_norm_freq
+def generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorithm, distance_metric):
   Z = linkage(book_to_bigram_to_norm_freq, method=linkage_algorithm, metric=distance_metric)
 
   plt.figure(figsize=(10, 4))
@@ -25,9 +40,27 @@ def display_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorit
   for x in x_labels:
     x.set_color(get_label_color(x.get_text()))
 
-  #filename = '-'.join(['dendrogram', str(ngram_size) + 'gram', str(num_bigrams_wanted), linkage_algorithm, distance_metric])
-  #plt.savefig(filename + '.png', format='png', dpi=100)
-  plt.show()
+# A valid dendrogram groups all of paul's uncontested books together without any of
+# those books that definitely aren't his in between.
+def check_dendrogram_valid():
+  ax = plt.gca()
+  x_label_colors = [x.get_color() for x in ax.get_xmajorticklabels()]
+  return check_dendrogram_labels_valid(x_label_colors)
+
+def check_dendrogram_labels_valid(label_colors):
+  num_paul_books = 0
+  for color in label_colors:
+    if color == 'blue':
+      num_paul_books += 1
+      if num_paul_books == len(UNCONTESTED_PAUL_BOOKS):
+        return True
+    elif color == 'green':
+      if num_paul_books > 0:
+        return num_paul_books == len(UNCONTESTED_PAUL_BOOKS)
+    elif color != 'red':
+      raise RuntimeError("didn't expect label color " + color)
+
+  raise RuntimeError("dendrogram appears to be missing labels")
 
 # book_to_word_zscores: dictionary of book title to dictionary of word/ngram to its zscore.
 def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment, title=""):
