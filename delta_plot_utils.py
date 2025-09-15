@@ -23,7 +23,11 @@ def display_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorit
 #  where book_to_bigram_to_norm_freq[0] gets you all the bigram frequencies for the first book
 # book_titles: list of titles in the same order as book_to_bigram_to_norm_freq
 def generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorithm, distance_metric):
-  Z = linkage(book_to_bigram_to_norm_freq, method=linkage_algorithm, metric=distance_metric)
+  try:
+    Z = linkage(book_to_bigram_to_norm_freq, method=linkage_algorithm, metric=distance_metric)
+  except ValueError as exc:
+    print(book_to_bigram_to_norm_freq)
+    raise RuntimeError from exc
 
   plt.figure(figsize=(10, 4))
   plt.title('Hierarchical Clustering Dendrogram (Bigrams)')

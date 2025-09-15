@@ -10,25 +10,32 @@ all_text = ""
 for book, book_text in books.items():
   all_text += book_text + " "
 
-# these are best with ward, euclidean
-ngram_size = 2
-num_bigrams_wanted = 10
-linkage_algorithm = 'ward'
-distance_metric = 'euclidean'
+for ngram_size in [2, 3, 4]:
+  for num_bigrams_wanted in range(2, 100):
+    interesting_bigrams = beowulf_utils.find_interesting_bigrams(all_text, num_bigrams_wanted, ngram_size)
+    bigram_to_book_to_frequency = beowulf_utils.calculate_ngram_frequencies(interesting_bigrams, books)
+    bigram_to_book_to_norm_freq = beowulf_utils.normalize_ngram_frequencies(bigram_to_book_to_frequency)
 
-# https://aclanthology.org/W15-0709.pdf claims cosine is best (for french, german, english)
-#ngram_size = 2
-#num_bigrams_wanted = 30
-#linkage_algorithm = 'average'
-#distance_metric = 'cosine'
+    new_matrix = [list(row) for row in zip(*bigram_to_book_to_norm_freq)]
 
-interesting_bigrams = beowulf_utils.find_interesting_bigrams(all_text, num_bigrams_wanted, ngram_size)
-bigram_to_book_to_frequency = beowulf_utils.calculate_ngram_frequencies(interesting_bigrams, books)
-bigram_to_book_to_norm_freq = beowulf_utils.normalize_ngram_frequencies(bigram_to_book_to_frequency)
+    for linkage_algorithm in ['single', 'complete', 'average', 'weighted', 'centroid', 'median', 'ward']:
+      for distance_metric in ['braycurtis', 'canberra', 'chebyshev', 'cityblock', 'cosine', 'euclidean', 'hamming', 'jaccard', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule']:
+        # removed 'dice' because it produces negative distances
+        # removed jensenshannon, kulczynski1, 'correlation',  because it produces non-finite distances
+        # 'mahalanobis' needed more books
 
-new_matrix = [list(row) for row in zip(*bigram_to_book_to_norm_freq)]
-delta_plot_utils.generate_dendrogram(new_matrix, list(books), linkage_algorithm, distance_metric)
-delta_plot_utils.check_dendrogram_valid()
+        if linkage_algorithm in ['centroid', 'median', 'ward'] and distance_metric != 'euclidean':
+          continue
+
+        desc = " ".join([str(ngram_size), str(num_bigrams_wanted), linkage_algorithm, distance_metric])
+        print('testing ' + desc)
+
+        delta_plot_utils.generate_dendrogram(new_matrix, list(books), linkage_algorithm, distance_metric)
+        if delta_plot_utils.check_dendrogram_valid():
+          print(desc)
+          plt.show()
+        plt.close() # otherwise they stay open and consume all the memory
+
 # differences from my 2-gram method:
 #   different number of 2-grams analyzed
 #   beowulf by default keeps spaces but doesn't include them in bigrams
