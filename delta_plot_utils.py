@@ -30,7 +30,7 @@ def display_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorit
   plt.show()
 
 # book_to_word_zscores: dictionary of book title to dictionary of word/ngram to its zscore.
-def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
+def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment, title=""):
 
   # create DataFrame from dictionary
   # where keys are Greek words and values are
@@ -59,6 +59,7 @@ def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment):
       X_reduced[:, 1],
       c = colors
   )
+  plt.gca().update(dict(title=title))
 
   for i, label in enumerate(labels):
     ax.annotate(label, (X_reduced[i, 0] + label_x_adjustment, X_reduced[i, 1] + label_y_adjustment))

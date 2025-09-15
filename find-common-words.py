@@ -1,24 +1,13 @@
-import os
 from collections import Counter
+from delta_utils import read_in_book_to_word_counts
 
-directory = 'netbible_chapters'
-
-book_to_word_counts = {}
+book_to_word_counts = read_in_book_to_word_counts()
 total_word_counts = Counter()
+for _, word_counts in book_to_word_counts.items():
+  total_word_counts.update(word_counts)
 
-for filename in os.listdir(directory):
-  if '-norm' in filename:
-    book = filename[:filename.index('-')]
-    if book not in book_to_word_counts:
-      book_to_word_counts[book] = Counter()
+print([x[0] for x in total_word_counts.most_common(100)])
 
-    with open(os.path.join(directory, filename), 'r') as handle:
-      for line in handle:
-        words = line.split()
-        for word in words:
-          book_to_word_counts[book][word] += 1
-          total_word_counts[word] += 1
-print(total_word_counts.most_common(50))
-for book in book_to_word_counts.keys():
-  print(book)
-  print(book_to_word_counts[book].most_common(50))
+#for book in book_to_word_counts.keys():
+#  print(book)
+#  print(book_to_word_counts[book].most_common(50))

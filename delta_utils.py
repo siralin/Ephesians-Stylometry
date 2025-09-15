@@ -46,11 +46,11 @@ def calculate_text_manhattan_distances(title_to_word_zscores):
 
 # Returns the frequencies of the given words
 # (as a fraction of the total words in the book).
-def find_book_to_word_frequencies(book_to_word_counts, most_frequent_words):
+def find_book_to_word_frequencies(book_to_word_counts, words):
   book_to_frequent_word_counts = {}
   for book in book_to_word_counts.keys():
     book_to_frequent_word_counts[book] = {}
-    for word in most_frequent_words:
+    for word in words:
       book_to_frequent_word_counts[book][word] = book_to_word_counts[book].get(word, 0)
 
   # transform the counts to frequencies
@@ -94,12 +94,20 @@ def read_normalized_texts():
 #   to dictionary of word to z-score (normalized frequency)
 # TODO test this
 def read_and_calculate_text_to_zscores(num_most_frequent_words):
-  book_to_word_counts = {}
+  book_to_word_counts = read_in_book_to_word_counts()
   total_word_counts = Counter()
+  for _, word_counts in book_to_word_counts.items():
+    total_word_counts.update(word_counts)
+
+  return word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_word_counts)
+
+# Returns dictionary of book title to Counter of every word in it.
+def read_in_book_to_word_counts():
+  book_to_word_counts = {}
 
   # count all words in each book and overall
   for filename in os.listdir(TEXT_DIRECTORY):
-    if NORMALIZED_FILE_SUFFIX in filename:
+    if NORMALIZED_FILE_SUFFIX in filename and 'unique' not in filename and 'parallel' not in filename:
       book = filename[:filename.index('-', 2)]
       if book not in book_to_word_counts:
         book_to_word_counts[book] = Counter()
@@ -109,8 +117,13 @@ def read_and_calculate_text_to_zscores(num_most_frequent_words):
           words = line.split()
           for word in words:
             book_to_word_counts[book][word] += 1
-            total_word_counts[word] += 1
-  return word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_word_counts)
+  return book_to_word_counts
+
+def find_zscores_for_given_words(words):
+  book_to_word_counts = read_in_book_to_word_counts()
+  book_to_word_frequencies = find_book_to_word_frequencies(book_to_word_counts, words)
+  return normalize_frequencies_to_zscore(words, book_to_word_frequencies)
+
 
 # using the given word count dicts,
 # returns a dictionary of book name
