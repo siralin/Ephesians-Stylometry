@@ -5,6 +5,8 @@ import delta_plot_utils
 # we now have the text of each book, in order without spaces
 # but we'll put spaces between books to keep them separate
 books = beowulf_utils.read_book_texts()
+del books['3-john'] # too short
+del books['2-john'] # too short
 
 all_text = ""
 for book, book_text in books.items():
@@ -19,10 +21,12 @@ for ngram_size in [2, 3, 4]:
     new_matrix = [list(row) for row in zip(*bigram_to_book_to_norm_freq)]
 
     for linkage_algorithm in ['single', 'complete', 'average', 'weighted', 'centroid', 'median', 'ward']:
-      for distance_metric in ['braycurtis', 'canberra', 'chebyshev', 'cityblock', 'cosine', 'euclidean', 'hamming', 'jaccard', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule']:
+      for distance_metric in ['canberra', 'chebyshev', 'cityblock', 'euclidean', 'hamming', 'jaccard', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule']:
         # removed 'dice' because it produces negative distances
         # removed jensenshannon, kulczynski1, 'correlation',  because it produces non-finite distances
         # 'mahalanobis' needed more books
+        # braycurtis is about species
+        # cosine ignores magnitudes
 
         if linkage_algorithm in ['centroid', 'median', 'ward'] and distance_metric != 'euclidean':
           continue
@@ -32,8 +36,9 @@ for ngram_size in [2, 3, 4]:
 
         delta_plot_utils.generate_dendrogram(new_matrix, list(books), linkage_algorithm, distance_metric)
         if delta_plot_utils.check_dendrogram_valid():
-          print(desc)
-          plt.show()
+          filename = '-'.join(['dendrogram', str(ngram_size) + 'gram', str(num_bigrams_wanted), linkage_algorithm, distance_metric])
+          plt.savefig(filename + '.png', format='png', dpi=100)
+          #plt.show()
         plt.close() # otherwise they stay open and consume all the memory
 
 # differences from my 2-gram method:
