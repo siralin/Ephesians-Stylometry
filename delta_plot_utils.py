@@ -46,21 +46,21 @@ def generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algori
 
 # A valid dendrogram groups all of paul's uncontested books together without any of
 # those books that definitely aren't his in between.
-def check_dendrogram_valid():
+def check_dendrogram_valid(num_uncontested_paul_books = len(UNCONTESTED_PAUL_BOOKS)):
   ax = plt.gca()
   x_label_colors = [x.get_color() for x in ax.get_xmajorticklabels()]
-  return check_dendrogram_labels_valid(x_label_colors)
+  return check_dendrogram_labels_valid(x_label_colors, num_uncontested_paul_books)
 
-def check_dendrogram_labels_valid(label_colors):
+def check_dendrogram_labels_valid(label_colors, num_uncontested_paul_books = len(UNCONTESTED_PAUL_BOOKS)):
   num_paul_books = 0
   for color in label_colors:
     if color == 'blue':
       num_paul_books += 1
-      if num_paul_books == len(UNCONTESTED_PAUL_BOOKS):
+      if num_paul_books == num_uncontested_paul_books:
         return True
     elif color == 'green':
       if num_paul_books > 0:
-        return num_paul_books == len(UNCONTESTED_PAUL_BOOKS)
+        return num_paul_books == num_uncontested_paul_books
     elif color != 'red':
       raise RuntimeError("didn't expect label color " + color)
 
