@@ -11,10 +11,13 @@ books = [int(val.split('｜')[0][1:]) for val in data['〔Book｜Chapter｜Verse
 # "Greek word of OGNT in unaccented form"
 words = [val.split('｜')[1] for val in data['〔OGNTk｜OGNTu｜OGNTa｜lexeme｜rmac｜sn〕']]
 
+preceding_punctuation = [val.split('｜')[0][1:] for val in data['〔PMpWord｜PMfWord〕']]
+following_punctuation = [val.split('｜')[1][:-1] for val in data['〔PMpWord｜PMfWord〕']]
+
 book_names = ['matthew', 'mark', 'luke', 'john', 'acts', 'romans', '1 corinthians', '2 corinthians', 'galatians', 'ephesians', 'philippians', 'colossians', '1 thessalonians', '2 thessalonians', '1 timothy', '2 timothy', 'titus', 'philemon', 'hebrews', 'james', '1 peter', '2 peter', '1 john', '2 john', '3 john', 'jude', 'revelation']
 
 book_to_text = {}
-for book_index, word in zip(books, words):
+for book_index, word, prec_punc, foll_punc in zip(books, words, preceding_punctuation, following_punctuation):
   book = book_names[book_index - 40]
   if book not in book_to_text:
     book_to_text[book] = ''
@@ -26,3 +29,4 @@ for book, text in book_to_text.items():
 
   with open(os.path.join('opengnt_books', book + NORMALIZED_FILE_SUFFIX + ".txt"), 'w') as file:
     file.write(normalize(text))
+
