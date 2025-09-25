@@ -45,6 +45,7 @@ def calculate_ngram_frequencies(interesting_bigrams, books):
   return bigram_to_book_to_frequency
 
 # Normalize frequencies _per ngram_ (cross-book) to between -1, 1
+# Does not use zscore!
 def normalize_ngram_frequencies(bigram_to_book_to_frequency):
   num_ngrams = len(bigram_to_book_to_frequency)
   bigram_to_book_to_norm_freq = [[]] * num_ngrams

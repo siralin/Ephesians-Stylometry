@@ -1,0 +1,28 @@
+import pandas as pd
+import os
+from general_utils import NORMALIZED_FILE_SUFFIX
+from normalization_utils import normalize
+
+data = pd.read_csv ("OpenGNT_version3_3.csv", sep = '\t')
+
+# "Book number, ranging from 40 to 66, representing books from Matthew to the book of Revelation."
+books = [int(val.split('｜')[0][1:]) for val in data['〔Book｜Chapter｜Verse〕']]
+
+# "Greek word of OGNT in unaccented form"
+words = [val.split('｜')[1] for val in data['〔OGNTk｜OGNTu｜OGNTa｜lexeme｜rmac｜sn〕']]
+
+book_names = ['matthew', 'mark', 'luke', 'john', 'acts', 'romans', '1 corinthians', '2 corinthians', 'galatians', 'ephesians', 'philippians', 'colossians', '1 thessalonians', '2 thessalonians', '1 timothy', '2 timothy', 'titus', 'philemon', 'hebrews', 'james', '1 peter', '2 peter', '1 john', '2 john', '3 john', 'jude', 'revelation']
+
+book_to_text = {}
+for book_index, word in zip(books, words):
+  book = book_names[book_index - 40]
+  if book not in book_to_text:
+    book_to_text[book] = ''
+  book_to_text[book] += word + ' '
+
+for book, text in book_to_text.items():
+  with open(os.path.join('opengnt_books', book + ".txt"), 'w') as file:
+    file.write(text)
+
+  with open(os.path.join('opengnt_books', book + NORMALIZED_FILE_SUFFIX + ".txt"), 'w') as file:
+    file.write(normalize(text))

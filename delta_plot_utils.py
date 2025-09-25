@@ -22,7 +22,7 @@ def display_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorit
 # book_to_bigram_to_norm_freq: list of lists
 #  where book_to_bigram_to_norm_freq[0] gets you all the bigram frequencies for the first book
 # book_titles: list of titles in the same order as book_to_bigram_to_norm_freq
-def generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorithm, distance_metric):
+def generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algorithm, distance_metric, title="Bigrams"):
   try:
     Z = linkage(book_to_bigram_to_norm_freq, method=linkage_algorithm, metric=distance_metric)
   except ValueError as exc:
@@ -30,7 +30,7 @@ def generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algori
     raise RuntimeError from exc
 
   plt.figure(figsize=(10, 4))
-  plt.title('Hierarchical Clustering Dendrogram (Bigrams)')
+  plt.title('Hierarchical Clustering Dendrogram (' + title + ')')
   plt.xlabel('text number')
   plt.ylabel('distance')
   dendrogram(
@@ -46,6 +46,8 @@ def generate_dendrogram(book_to_bigram_to_norm_freq, book_titles, linkage_algori
 
 # A valid dendrogram groups all of paul's uncontested books together without any of
 # those books that definitely aren't his in between.
+# Should be called immediately after generate_dendrogram, to check whether the generated dendrogram
+# is valid.
 def check_dendrogram_valid(num_uncontested_paul_books = len(UNCONTESTED_PAUL_BOOKS)):
   ax = plt.gca()
   x_label_colors = [x.get_color() for x in ax.get_xmajorticklabels()]
