@@ -1,7 +1,17 @@
 import pandas as pd
 import os
 from general_utils import NORMALIZED_FILE_SUFFIX
-from normalization_utils import normalize
+from text_normalization_utils import normalize
+
+def _add_sentence_punctuation(following_punctuation):
+  # If you add any other punctuation here, you'll have to update text_normalization_utils.normalize()
+
+  if '.' in following_punctuation:
+    return '.'
+  elif ';' in following_punctuation:
+    return ';'
+  else:
+    return ''
 
 data = pd.read_csv ("OpenGNT_version3_3.csv", sep = '\t')
 
@@ -11,7 +21,8 @@ books = [int(val.split('｜')[0][1:]) for val in data['〔Book｜Chapter｜Verse
 # "Greek word of OGNT in unaccented form"
 words = [val.split('｜')[1] for val in data['〔OGNTk｜OGNTu｜OGNTa｜lexeme｜rmac｜sn〕']]
 
-# Find the bits of Mark and John that should be excluded, and exclude them.
+# Find punctuation so we can identify the bits of Mark and John that were definitely added later and exclude them,
+# and so we can identify sentence breaks.
 preceding_punctuation = [val.split('｜')[0][1:] for val in data['〔PMpWord｜PMfWord〕']]
 following_punctuation = [val.split('｜')[1][:-1] for val in data['〔PMpWord｜PMfWord〕']]
 
@@ -30,7 +41,7 @@ for book_index, word, prec_punc, foll_punc in zip(books, words, preceding_punctu
       print('error: nested [[')
     skip = True
   elif not skip:
-    book_to_text[book] += word + ' '
+    book_to_text[book] += word + _add_sentence_punctuation(foll_punc) + ' '
   elif ']]' in foll_punc:
     skip = False
 
@@ -43,4 +54,3 @@ for book, text in book_to_text.items():
 
   with open(os.path.join('opengnt_books', book + NORMALIZED_FILE_SUFFIX + ".txt"), 'w') as file:
     file.write(normalize(text))
-

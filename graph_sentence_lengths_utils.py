@@ -1,6 +1,5 @@
 import os
-
-DIRECTORY = 'netbible_chapters'
+from general_utils import TEXT_DIRECTORY
 
 def merge_chapters(chapter_list):
   text = ''
@@ -12,7 +11,7 @@ def merge_chapters(chapter_list):
 def read_books():
   book_to_chapters = {}
 
-  for filename in os.listdir(DIRECTORY):
+  for filename in os.listdir(TEXT_DIRECTORY):
     if '-norm' not in filename:
       hyphen_index = filename.index('-', 2) # index of first hyphen after book name
       book = filename[:hyphen_index]
@@ -22,7 +21,7 @@ def read_books():
         book_to_chapters[book] = [None] * 28
 
       chapter_contents = ''
-      with open(os.path.join(DIRECTORY, filename), 'r') as handle:
+      with open(os.path.join(TEXT_DIRECTORY, filename), 'r') as handle:
         for line in handle:
           chapter_contents += line
         # note: chapter may start in middle of sentence; need to combine chapters into books

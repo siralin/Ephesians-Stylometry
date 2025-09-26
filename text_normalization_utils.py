@@ -2,15 +2,10 @@ import unicodedata
 import os
 from general_utils import FILE_TYPE_SUFFIX, NORMALIZED_FILE_SUFFIX, TEXT_DIRECTORY
 
-# https://stackoverflow.com/a/518232
-def strip_accents(s):
-  return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
-
+# Returns the given text with all punctuation removed.
+# All returned characters will be capital Greek letters or spaces.
 def normalize(text):
-  result = strip_accents(text).upper()
-
-  without_verse_numbers = ''.join([i for i in result if not i.isdigit()])
-  result = ' '.join(without_verse_numbers.split())
+  result = text.upper().replace('.', '').replace(';', '')
 
   # check all resulting characters to make sure they're simple greek letters
   for c in result:
