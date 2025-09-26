@@ -8,13 +8,14 @@ from collections import Counter
 # TODO determine best values here
 NGRAM_SIZE = 2
 NUM_NGRAMS_WANTED = 40 # maximum reasonable value is 25 ^ NGRAM_SIZE
-MERGE_WORDS = False # Whether to remove the spaces in the normalized text.
+MERGE_WORDS = True # Whether to remove the spaces in the normalized text.
 NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
 
 book_to_text = read_normalized_texts()
 if MERGE_WORDS:
-  # TODO remove spaces
-  pass
+  for book, text in book_to_text.items():
+    book_to_text.update({book: "".join(text.split())})
+print(book_to_text)
 
 # first, calculate frequency of every possible ngram in each book.
 # This is a list of Counters, one for each ngram
