@@ -50,7 +50,7 @@ def _normalize_frequencies(book_to_ngram_frequencies, normalization_method):
   if normalization_method == 'zscore':
     return _normalize_frequencies_to_zscore(book_to_ngram_frequencies)
   elif normalization_method == 'simple':
-    pass # TODO implement
+    return _normalize_frequencies_simple(book_to_ngram_frequencies)
   else:
     raise ValueError(normalization_method)
 
@@ -71,3 +71,17 @@ def _normalize_frequencies_to_zscore(book_to_ngram_frequencies):
     book_to_ngram_zscores[book_index] = [(freq - means[ngram_index]) / std_devs[ngram_index] for ngram_index, freq in enumerate(ngram_frequencies)]
 
   return book_to_ngram_zscores
+
+def _normalize_frequencies_simple(book_to_ngram_frequencies):
+  # Invert the 2d List.
+  # Need to convert the Zip to a List so that it can be iterated twice.
+  ngram_to_book_to_frequencies = list(zip(*book_to_ngram_frequencies))
+
+  maxes = [max(book_to_freqs) for book_to_freqs in ngram_to_book_to_frequencies]
+  mins = [min(book_to_freqs) for book_to_freqs in ngram_to_book_to_frequencies]
+  multipliers = [2 / (max_freq - min_freq) for max_freq, min_freq in zip(maxes, mins)] # one element per ngram
+
+  book_to_ngram_normalized_frequencies = [None] * len(book_to_ngram_frequencies)
+  for book_index, ngram_frequencies in enumerate(book_to_ngram_frequencies):
+    book_to_ngram_normalized_frequencies[book_index] = [(x - min_freq) * multiplier - 1 for x, min_freq, multiplier in zip(ngram_frequencies, mins, multipliers)]
+  return book_to_ngram_normalized_frequencies

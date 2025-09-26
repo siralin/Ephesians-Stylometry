@@ -50,7 +50,7 @@ def generate_scatter_plot(book_to_normalized_ngram_frequency, books):
   scatter = ax.scatter(
       X_reduced[:, 0],
       X_reduced[:, 1],
-      c = [_get_label_color(book) for book in books]
+      c = [get_label_color(book) for book in books]
   )
 
   for i, book in enumerate(books):
