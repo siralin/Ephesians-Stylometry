@@ -1,13 +1,11 @@
 from ngram_utils import ngram_counts_to_normalized_frequencies
 from text_normalization_utils import read_normalized_texts
-from delta_plot_utils import generate_scatter_plot
-from pprint import pprint
+from ngram_scatter_plot_utils import generate_scatter_plot
+from ngram_dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt
-import pandas as pd
-from sklearn.decomposition import PCA
 from collections import Counter
-import math
 
+# TODO determine best values here
 NGRAM_SIZE = 2
 NUM_NGRAMS_WANTED = 40 # maximum reasonable value is 25 ^ NGRAM_SIZE
 MERGE_WORDS = False # Whether to remove the spaces in the normalized text.
@@ -42,12 +40,17 @@ for index, book in enumerate(book_to_text):
 book_to_normalized_ngram_frequency, ngrams = ngram_counts_to_normalized_frequencies(
   NUM_NGRAMS_WANTED, book_to_ngram_counts, overall_ngram_counts, NORMALIZATION_METHOD)
 
+"""
 # In Python 3.7+, dictionary iteration order is always the same,
 # so the keys() call will produce book titles in the right order.
 generate_scatter_plot(book_to_normalized_ngram_frequency, book_to_text.keys())
-
 title = str(NUM_NGRAMS_WANTED) + " most frequent " + str(NGRAM_SIZE) + "grams (" + str(MERGE_WORDS) + " " + NORMALIZATION_METHOD + ")"
 plt.gca().update({"title":title})
+plt.show()
+"""
+
+generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys())
+print(check_dendrogram_valid())
 plt.show()
 
 """
