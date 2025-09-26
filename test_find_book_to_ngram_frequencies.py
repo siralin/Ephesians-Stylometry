@@ -1,15 +1,15 @@
 import unittest
-from delta_utils import find_book_to_word_frequencies
+from ngram_utils import _find_book_to_ngram_frequencies
 
-class TestFindBookToWordFrequencies(unittest.TestCase):
+class TestFindBookToNgramFrequencies(unittest.TestCase):
 
-  def test_find_book_to_word_frequencies(self):
-    book_to_word_counts = {
+  def _find_book_to_unigram_frequencies(self):
+    book_to_unigram_counts = {
       'textA': {'a': 2},
       'textB': {'a': 1, 'b': 3},
       'textC': {'a': 0, 'c': 5}}
-    most_frequent_words = ['a', 'b']
-    frequencies = find_book_to_word_frequencies(book_to_word_counts, most_frequent_words)
+    most_frequent_unigrams = ['a', 'b']
+    frequencies = _find_book_to_ngram_frequencies(book_to_unigram_counts, most_frequent_unigrams)
 
     self.assertEqual(len(frequencies), 3)
     self.assertEqual(frequencies['textA'], {'a': 1, 'b': 0})

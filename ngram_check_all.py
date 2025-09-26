@@ -18,8 +18,6 @@ for merge_words in [False, True]: # True has to be second because it modifies th
         book_to_normalized_ngram_frequency, ngrams = calculate_normalized_ngram_frequencies(
           book_to_text, num_ngrams_wanted, ngram_size, normalization_method)
 
-        # TODO distance & linkage
-
         for linkage_algorithm in ['complete', 'average', 'weighted', 'centroid', 'median', 'ward']:
           for distance_metric in ['canberra', 'chebyshev', 'cityblock', 'euclidean', 'hamming', 'jaccard', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule']:
             if linkage_algorithm in ['centroid', 'median', 'ward'] and distance_metric != 'euclidean':
@@ -29,5 +27,6 @@ for merge_words in [False, True]: # True has to be second because it modifies th
             print('testing ' + desc)
             generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys())
             if (check_dendrogram_valid()):
-              plt.show()
+              #plt.show()
+              plt.savefig(desc + '.png', format='png', dpi=100)
             plt.close() # otherwise they stay open and consume all the memory
