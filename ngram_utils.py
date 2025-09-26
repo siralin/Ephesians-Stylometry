@@ -26,14 +26,8 @@ def calculate_normalized_ngram_frequencies(book_to_text, num_ngrams, ngram_size,
         book_to_ngram_counts[index][ngram] += 1
         overall_ngram_counts[ngram] += 1
 
-  # ngrams: a List of the most frequent ngrams
-  #
-  # book_to_normalized_ngram_frequency: a 2d List[book index][ngram index]
-  # where the book index matches the index of the same book in book_to_ngram_counts and book_to_text
-  # and the ngram index matches the index of the same ngram in ngrams.
   return _ngram_counts_to_normalized_frequencies(
     num_ngrams, book_to_ngram_counts, overall_ngram_counts, normalization_method)
-
 
 # Returns a tuple of a 2d array and a list of ngrams
 # where array[book index][ngram index] = zscore
