@@ -1,7 +1,7 @@
-UNCONTESTED_PAUL_BOOKS = ["romans", "1-corinthians", "2-corinthians", "galatians", "philippians", "1-thessalonians", "philemon"]
+UNCONTESTED_PAUL_BOOKS = ["romans", "1 corinthians", "2 corinthians", "galatians", "philippians", "1 thessalonians", "philemon"]
 
-CONTESTED_PAUL_BOOKS = ["ephesians", "colossians", "2-thessalonians", "1-timothy", "2-timothy", "titus", 'ephesiansparallel', 'colossiansparallel', 'ephesiansunique', 'colossiansunique']
+CONTESTED_PAUL_BOOKS = ["ephesians", "colossians", "2 thessalonians", "1 timothy", "2 timothy", "titus"]
 
-TEXT_DIRECTORY = 'netbible_chapters'
-PARALLEL_TEXT_SUBDIRECTORY = 'parallels'
+TEXT_DIRECTORY = 'opengnt_books'
 NORMALIZED_FILE_SUFFIX = '-norm'
+FILE_TYPE_SUFFIX = '.txt'

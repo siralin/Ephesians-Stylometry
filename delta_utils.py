@@ -3,6 +3,7 @@ from collections import Counter
 from statistics import stdev, fmean
 from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS, TEXT_DIRECTORY, NORMALIZED_FILE_SUFFIX
 
+"""
 # convert frequency to z-score (the number of standard deviations above/below the mean)
 # this means that over the whole corpus,
 # the mean for each word is 0 and the standard deviation is 1
@@ -29,7 +30,7 @@ def normalize_frequencies_to_zscore(words, title_to_word_frequencies):
       title_to_word_zscores[book][word] = zscore
 
   return title_to_word_zscores
-
+"""
 # title_to_word_zscores: dictionary of text title to dictionary of word to its z-score
 # returns dictionary of text title to
 #     dictionary of other text title to manhattan distance between their z-scores
@@ -44,6 +45,7 @@ def calculate_text_manhattan_distances(title_to_word_zscores):
       manhattan_distances[title][other_title] = sum
   return manhattan_distances
 
+"""
 # Returns the frequencies of the given words
 # (as a fraction of the total words in the book).
 def find_book_to_word_frequencies(book_to_word_counts, words):
@@ -64,12 +66,13 @@ def find_book_to_word_frequencies(book_to_word_counts, words):
       book_to_word_frequencies[book][word] = count / num_words_in_book
 
   return book_to_word_frequencies
+"""
 
 # Teturns a dictionary of book name
 #   to dictionary of chapter number to text of that chapter,
 #   with the text normalized to remove all punctuation and capitalization.
 # WARNING: includes 'parallel' and 'unique' book divisions for some books
-def read_normalized_texts():
+def read_normalized_texts_netbible():
   book_to_chapter_to_text = {}
 
   for filename in os.listdir(TEXT_DIRECTORY):
@@ -125,7 +128,7 @@ def find_zscores_for_given_words(words):
   book_to_word_frequencies = find_book_to_word_frequencies(book_to_word_counts, words)
   return normalize_frequencies_to_zscore(words, book_to_word_frequencies)
 
-
+"""
 # using the given word count dicts,
 # returns a dictionary of book name
 #   to dictionary of word to z-score (normalized frequency)
@@ -139,3 +142,4 @@ def word_counts_to_zscores(num_most_frequent_words, book_to_word_counts, total_w
 
   # we have a dictionary of dictionaries
   return normalize_frequencies_to_zscore(most_frequent_words, book_to_word_frequencies)
+"""

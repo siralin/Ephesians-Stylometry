@@ -4,6 +4,35 @@ from sklearn.decomposition import PCA
 from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 from scipy.cluster.hierarchy import dendrogram, linkage
 
+label_text = {
+  '1 corinthians': '1C',
+  '1 john': '1J',
+  '1 peter': '1P',
+  '1 thessalonians': '1Th',
+  '1 timothy': '1Ti',
+  '2 corinthians': '2C',
+  '2 john': '2J',
+  '2 peter': '2P',
+  '2 thessalonians': '2Th',
+  '2 timothy': '2Ti',
+  '3 john': '3J',
+  'acts': 'A',
+  'colossians': 'C',
+  'ephesians': 'E',
+  'galatians': 'G',
+  'hebrews': 'H',
+  'james': 'Ja',
+  'john': 'Jo',
+  'jude': 'Ju',
+  'luke': 'L',
+  'mark': 'Mar',
+  'matthew':'Mat',
+  'philemon': 'Phile',
+  'philippians': 'Phili',
+  'revelation': 'Re',
+  'romans': 'Ro',
+  'titus': 'T'}
+
 # book_to_bigram_to_norm_freq: list of lists
 #  where book_to_bigram_to_norm_freq[0] gets you all the bigram frequencies for the first book
 # book_titles: list of titles in the same order as book_to_bigram_to_norm_freq
@@ -68,6 +97,31 @@ def check_dendrogram_labels_valid(label_colors, num_uncontested_paul_books = len
 
   raise RuntimeError("dendrogram appears to be missing labels")
 
+# Generates a scatter plot of the given books with their ngram data compressed into two dimensions.
+# Returns nothing.
+# To display the plot, call plt.show().
+#
+# book_to_normalized_ngram_frequency: a 2d List[book index][ngram index]
+# where the book index matches the index of the same book in the given books
+# books: List of book titles
+def generate_scatter_plot(book_to_normalized_ngram_frequency, books):
+  data = pd.DataFrame(book_to_normalized_ngram_frequency)
+
+  unique_figure_id = 1
+  fig = plt.figure(unique_figure_id, figsize=(8, 6))
+  ax = fig.add_subplot()
+
+  X_reduced = PCA(n_components=2).fit_transform(data)
+  scatter = ax.scatter(
+      X_reduced[:, 0],
+      X_reduced[:, 1],
+      c = [get_label_color(book) for book in books]
+  )
+
+  for i, book in enumerate(books):
+    ax.annotate(label_text[book], (X_reduced[i, 0], X_reduced[i, 1]))
+
+"""
 # book_to_word_zscores: dictionary of book title to dictionary of word/ngram to its zscore.
 def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment, title=""):
 
@@ -104,11 +158,11 @@ def display_graph(book_to_word_zscores, label_x_adjustment, label_y_adjustment, 
     ax.annotate(label, (X_reduced[i, 0] + label_x_adjustment, X_reduced[i, 1] + label_y_adjustment))
 
   plt.show()
-
-def get_label_color(label_text):
-  if label_text in UNCONTESTED_PAUL_BOOKS:
+"""
+def get_label_color(book_label):
+  if book_label in UNCONTESTED_PAUL_BOOKS:
     return "blue"
-  elif label_text in CONTESTED_PAUL_BOOKS:
+  elif book_label in CONTESTED_PAUL_BOOKS:
     return "red"
   else:
     return "green"
