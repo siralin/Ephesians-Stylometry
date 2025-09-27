@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 book_to_text = read_normalized_texts()
 
-for num_words_wanted in range(1, 100):
+for num_words_wanted in range(1, 2):
   for normalization_method in ['simple', 'zscore']:
     book_to_normalized_word_frequency, words = calculate_normalized_word_frequencies(
       book_to_text, num_words_wanted, normalization_method)
