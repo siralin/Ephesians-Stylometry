@@ -1,9 +1,7 @@
 from ngram_utils import calculate_normalized_ngram_frequencies
 from read_text_utils import read_normalized_texts
-from ngram_scatter_plot_utils import generate_scatter_plot
-from ngram_dendrogram_utils import generate_dendrogram, check_dendrogram_valid, save_dendrogram
+from dendrogram_utils import generate_dendrogram, check_dendrogram_valid, save_dendrogram
 import matplotlib.pyplot as plt
-from collections import Counter
 
 book_to_text = read_normalized_texts()
 
@@ -23,10 +21,10 @@ for merge_words in [False, True]: # True has to be second because it modifies th
             if linkage_algorithm in ['centroid', 'median', 'ward'] and distance_metric != 'euclidean':
               continue
 
-            desc = ' '.join([str(num_ngrams_wanted), str(ngram_size), str(merge_words), normalization_method, linkage_algorithm, distance_metric])
-            print('testing ' + desc)
+            desc = [str(num_ngrams_wanted), str(ngram_size) + 'gram', str(merge_words), normalization_method, linkage_algorithm, distance_metric]
+            print('testing ' + ' '.join(desc))
             generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys())
             if (check_dendrogram_valid()):
               #plt.show()
-              save_dendrogram([merge_words, ngram_size, 'gram', num_ngrams_wanted, normalization_method, linkage_algorithm, distance_metric])
+              save_dendrogram(desc)
             plt.close() # otherwise they stay open and consume all the memory

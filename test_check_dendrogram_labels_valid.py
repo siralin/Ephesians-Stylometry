@@ -1,5 +1,5 @@
 import unittest
-from ngram_dendrogram_utils import _check_dendrogram_labels_valid
+from dendrogram_utils import _check_dendrogram_labels_valid
 
 class TestCheckDendrogramLabelsValid(unittest.TestCase):
 

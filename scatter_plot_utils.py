@@ -32,15 +32,15 @@ label_text = {
   'romans': 'Ro',
   'titus': 'T'}
 
-# Generates a scatter plot of the given books with their ngram data compressed into two dimensions.
+# Generates a scatter plot of the given books with their unit data compressed into two dimensions.
 # Returns nothing.
 # To display the plot, call plt.show().
 #
-# book_to_normalized_ngram_frequency: a 2d List[book index][ngram index]
+# book_to_normalized_unit_frequency: a 2d List[book index][unit index]
 # where the book index matches the index of the same book in the given books
 # books: List of book titles
-def generate_scatter_plot(book_to_normalized_ngram_frequency, books):
-  data = pd.DataFrame(book_to_normalized_ngram_frequency)
+def generate_scatter_plot(book_to_normalized_unit_frequency, books):
+  data = pd.DataFrame(book_to_normalized_unit_frequency)
 
   unique_figure_id = 1
   fig = plt.figure(unique_figure_id, figsize=(8, 6))
