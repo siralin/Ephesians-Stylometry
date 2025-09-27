@@ -1,5 +1,5 @@
 import unittest
-from ngram_utils import _normalize_frequencies_to_zscore
+from unit_frequency_utils import _normalize_frequencies_to_zscore
 from statistics import stdev, fmean
 
 class TestNormalizeFrequenciesToZscore(unittest.TestCase):

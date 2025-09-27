@@ -17,7 +17,6 @@ def tantt_to_part_of_speech(tantt_cell):
   return '' # No word here, so no part of speech label
 
 # "Corresponding TANTT data aligned with OGNT"
-# TODO make sure no spaces in here
 parts_of_speech = [tantt_to_part_of_speech(cell) for cell in data['〔TANTT〕']]
 if any(' ' in part for part in parts_of_speech):
   raise ValueError("error: space character present in part of speech tag")
