@@ -23,7 +23,7 @@ for merge_words in [False, True]: # True has to be second because it modifies th
 
             desc = [str(num_ngrams_wanted), str(ngram_size) + 'gram', str(merge_words), normalization_method, linkage_algorithm, distance_metric]
             print('testing ' + ' '.join(desc))
-            generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys())
+            generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys(), linkage_algorithm, distance_metric)
             if (check_dendrogram_valid()):
               #plt.show()
               save_dendrogram(desc)
