@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # TODO check that when NGRAM_SIZE = 1 this matches part.py
 
 # TODO feel free to change all these parameters
-NGRAM_SIZE = 2
+NGRAM_SIZE = 1
 NUM_NGRAMS_WANTED = 40
 NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
 LINKAGE_ALGORITHM = 'ward'
