@@ -1,7 +1,7 @@
 from ngram_utils import calculate_normalized_ngram_frequencies
 from read_text_utils import read_normalized_texts
 from ngram_scatter_plot_utils import generate_scatter_plot
-from ngram_dendrogram_utils import generate_dendrogram, check_dendrogram_valid
+from ngram_dendrogram_utils import generate_dendrogram, check_dendrogram_valid, save_dendrogram
 import matplotlib.pyplot as plt
 from collections import Counter
 
@@ -28,5 +28,5 @@ for merge_words in [False, True]: # True has to be second because it modifies th
             generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys())
             if (check_dendrogram_valid()):
               #plt.show()
-              plt.savefig(desc + '.png', format='png', dpi=100)
+              save_dendrogram([merge_words, ngram_size, 'gram', num_ngrams_wanted, normalization_method, linkage_algorithm, distance_metric])
             plt.close() # otherwise they stay open and consume all the memory

@@ -3,13 +3,14 @@ from read_text_utils import read_normalized_texts
 from ngram_scatter_plot_utils import generate_scatter_plot
 from ngram_dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt
-from collections import Counter
 
 # TODO feel free to change all these parameters
 NGRAM_SIZE = 2
 NUM_NGRAMS_WANTED = 40 # maximum reasonable value is 25 ^ NGRAM_SIZE
 MERGE_WORDS = True # Whether to remove the spaces in the normalized text.
 NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
+LINKAGE_ALGORITHM = 'ward'
+DISTANCE_METRIC = 'euclidean'
 
 book_to_text = read_normalized_texts()
 if MERGE_WORDS:
@@ -31,6 +32,6 @@ title = str(NUM_NGRAMS_WANTED) + " most frequent " + str(NGRAM_SIZE) + "grams ("
 plt.gca().update({"title":title})
 plt.show()
 
-generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys())
+generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys(), LINKAGE_ALGORITHM, DISTANCE_METRIC)
 print(check_dendrogram_valid())
 plt.show()

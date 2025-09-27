@@ -3,9 +3,8 @@ from read_text_utils import read_normalized_texts
 from word_scatter_plot_utils import generate_scatter_plot
 from word_dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt
-from collections import Counter
 
-# TODO feel free to change all these parameters
+# TODO feel free to change these parameters
 NUM_WORDS_WANTED = 40
 NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
 

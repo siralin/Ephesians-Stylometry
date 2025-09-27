@@ -3,22 +3,22 @@ from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 from scipy.cluster.hierarchy import dendrogram, linkage
 from general_plot_utils import get_label_color
 
-# Saves the last-generated dendrogram, with the filename consisting of the given parameters.
-def save_dendrogram(ngram_size, num_ngrams_wanted, linkage_algorithm, distance_metric):
-  filename = '-'.join(['dendrogram', str(ngram_size) + 'gram', str(num_ngrams_wanted), linkage_algorithm, distance_metric])
-  plt.savefig(filename + '.png', format='png', dpi=100)
+# Saves the last-generated dendrogram, with the filename containing the given elements.
+def save_dendrogram(filename_elements):
+  filename = '-'.join(filename_elements)
+  plt.savefig('dendrogram-' + filename + '.png', format='png', dpi=100)
 
 # Generates a dendrogram for the given data.
 # Use plt.show() to display it
 # or plt.gca() to get its Axes and modify or analyze it.
 # Returns nothing.
 #
-# book_to_normalized_ngram_frequency: a 2d List[book index][ngram index]
+# book_to_normalized_unit_frequency: a 2d List[book index][unit index]
 #   where the book index matches the index of the same book in book_titles
-#   and the ngram indexes match across books
+#   and the unit indexes match across books
 # book_titles: Iterable of book titles
-def generate_dendrogram(book_to_normalized_ngram_frequency, book_titles):
-  Z = linkage(book_to_normalized_ngram_frequency, method='ward', metric='euclidean')
+def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_algorithm, distance_metric):
+  Z = linkage(book_to_normalized_unit_frequency, method=linkage_algorithm, metric=distance_metric)
 
   plt.figure(figsize=(8, 6))
   plt.title('Hierarchical Clustering Dendrogram')
