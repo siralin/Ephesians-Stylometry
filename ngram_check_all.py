@@ -1,5 +1,5 @@
 from ngram_utils import calculate_normalized_ngram_frequencies
-from text_normalization_utils import read_normalized_texts
+from read_text_utils import read_normalized_texts
 from ngram_scatter_plot_utils import generate_scatter_plot
 from ngram_dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt
