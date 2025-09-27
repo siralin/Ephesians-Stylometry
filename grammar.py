@@ -5,7 +5,6 @@ from dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt
 
 # In this script, an ngram is a sequence of parts of speech
-# TODO check that when NGRAM_SIZE = 1 this matches part.py
 
 # TODO feel free to change all these parameters
 NGRAM_SIZE = 1
