@@ -18,8 +18,8 @@ book_to_text = read_parts_of_speech()
 # ngrams: a List of the most frequent ngrams
 #
 # book_to_normalized_ngram_frequency: a 2d List[book index][ngram index]
-# where the book index matches the index of the same book in book_to_ngram_counts and book_to_text
-# and the ngram index matches the index of the same ngram in ngrams.
+#   where the book index matches the index of the same book in book_to_text
+#   and the ngram index matches the index of the same ngram in ngrams.
 book_to_normalized_ngram_frequency, ngrams = calculate_normalized_part_of_speech_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, NGRAM_SIZE, NORMALIZATION_METHOD)
 

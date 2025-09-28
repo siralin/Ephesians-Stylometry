@@ -55,3 +55,5 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books):
 
   for i, book in enumerate(books):
     ax.annotate(label_text[book], (X_reduced[i, 0], X_reduced[i, 1]))
+
+  fig.tight_layout()

@@ -1,4 +1,4 @@
-from read_text_utils import read_non_normalized_texts
+from sentence_length_utils import read_sentence_lengths
 import re
 import sys
 import matplotlib.pyplot as plt
@@ -11,12 +11,7 @@ from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 #   x-axis: number of words (bucketed)
 #   y-axis: frequency (as a fraction of total sentences in the book)
 #   one line per book
-
-def _get_sentence_lengths(text):
-  return [sen.count(' ') + 1 for sen in re.split(r'[\.\;]', text)]
-
-book_to_text = read_non_normalized_texts()
-book_to_sentence_lengths = {book: _get_sentence_lengths(text) for book, text in book_to_text.items()}
+book_to_sentence_lengths = read_sentence_lengths()
 
 # Find max sentence length.
 # Decide on buckets for sentence lengths (1-5 words, 6-10, etc).
@@ -38,7 +33,6 @@ for book, sentence_lengths in book_to_sentence_lengths.items():
   for sentence_length in sentence_lengths:
     buckets[(sentence_length - 1) // 10] += 1
   frequency_buckets = [b / num_sentences for b in buckets]
-  print(book, frequency_buckets)
 
   linestyle = 'dotted'
   if book in UNCONTESTED_PAUL_BOOKS:

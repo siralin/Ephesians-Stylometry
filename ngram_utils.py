@@ -19,8 +19,8 @@ def calculate_normalized_ngram_frequencies(book_to_text, num_ngrams, ngram_size,
   for index, book in enumerate(book_to_text):
     text = book_to_text[book]
     book_to_ngram_counts[index] = Counter()
-    for i in range(0, len(text) - 1):
-      ngram = text[i:i + ngram_size] # TODO WRONG MATH FOR OTHER NGRAM_SIZES
+    for i in range(0, len(text) - ngram_size + 1):
+      ngram = text[i:i + ngram_size]
 
       # can remove ngrams containing spaces if you want
       if " " not in ngram:

@@ -20,7 +20,7 @@ def save_dendrogram(filename_elements):
 def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_algorithm, distance_metric):
   Z = linkage(book_to_normalized_unit_frequency, method=linkage_algorithm, metric=distance_metric)
 
-  plt.figure(figsize=(8, 6))
+  fig = plt.figure(figsize=(8, 6))
   plt.title('Hierarchical Clustering Dendrogram')
   plt.xlabel('Book')
   plt.ylabel('Distance')
@@ -34,6 +34,8 @@ def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_
   x_labels = ax.get_xmajorticklabels()
   for x in x_labels:
     x.set_color(get_label_color(x.get_text()))
+
+  fig.tight_layout()
 
 # A valid dendrogram groups all of paul's uncontested books together without any of
 # those books that definitely aren't his in between.

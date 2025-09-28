@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 NGRAM_SIZE = 2
 NUM_NGRAMS_WANTED = 40 # maximum reasonable value is 25 ^ NGRAM_SIZE
 MERGE_WORDS = True # Whether to remove the spaces in the normalized text.
-NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
-LINKAGE_ALGORITHM = 'ward'
-DISTANCE_METRIC = 'euclidean'
+NORMALIZATION_METHOD = 'zscore' # 'zscore' or 'simple'
+LINKAGE_ALGORITHM = 'complete'
+DISTANCE_METRIC = 'cosine'
 
 book_to_text = read_normalized_texts()
 if MERGE_WORDS:
