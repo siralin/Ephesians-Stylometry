@@ -33,5 +33,4 @@ plt.gca().update({"title":title})
 plt.show()
 
 generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys(), LINKAGE_ALGORITHM, DISTANCE_METRIC)
-print(check_dendrogram_valid())
 plt.show()
