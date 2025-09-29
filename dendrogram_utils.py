@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
+from general_utils import BOOK_NAMES, UNCONTESTED_PAUL_BOOKS
 from scipy.cluster.hierarchy import dendrogram, linkage
 from general_plot_utils import get_label_color
 
@@ -41,21 +41,23 @@ def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_
 # those books that definitely aren't his in between.
 # Should be called immediately after generate_dendrogram, to check whether the generated dendrogram
 # is valid.
-def check_dendrogram_valid(num_uncontested_paul_books = len(UNCONTESTED_PAUL_BOOKS)):
+def check_dendrogram_valid(books = BOOK_NAMES):
   ax = plt.gca()
   x_label_colors = [x.get_color() for x in ax.get_xmajorticklabels()]
-  return _check_dendrogram_labels_valid(x_label_colors, num_uncontested_paul_books)
+  return _check_dendrogram_labels_valid(x_label_colors, books)
 
-def _check_dendrogram_labels_valid(label_colors, num_uncontested_paul_books = len(UNCONTESTED_PAUL_BOOKS)):
+def _check_dendrogram_labels_valid(label_colors, books = BOOK_NAMES):
+  expected_paul_books = len(set(books) & set(UNCONTESTED_PAUL_BOOKS))
+
   num_paul_books = 0
   for color in label_colors:
     if color == 'blue':
       num_paul_books += 1
-      if num_paul_books == num_uncontested_paul_books:
+      if num_paul_books == expected_paul_books:
         return True
     elif color == 'green':
       if num_paul_books > 0:
-        return num_paul_books == num_uncontested_paul_books
+        return num_paul_books == expected_paul_books
     elif color != 'red':
       raise RuntimeError("didn't expect label color " + color)
 
