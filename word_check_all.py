@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 
 book_to_text = read_normalized_texts()
 
+# Delete the shortest book(s) as they incline to outliers.
+del book_to_text['3 john']
+del book_to_text['2 john']
+
 for num_words_wanted in range(1, 100):
   for normalization_method in ['simple', 'zscore']:
     book_to_normalized_word_frequency, words = calculate_normalized_word_frequencies(

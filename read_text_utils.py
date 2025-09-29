@@ -30,6 +30,7 @@ def read_non_normalized_texts():
   return book_to_text
 
 # Returns dictionary of book name to the part of speech of every word in the book, separated by spaces.
+# TODO what about removing things like 'feminine plural' as that's dependent on topic rather than author?
 def read_parts_of_speech():
   book_to_text = {}
 
