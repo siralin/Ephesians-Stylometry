@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 # In this script, an ngram is a sequence of parts of speech
 
 # TODO feel free to change all these parameters
-NGRAM_SIZE = 1
-NUM_NGRAMS_WANTED = 40
+NGRAM_SIZE = 3
+NUM_NGRAMS_WANTED = 10
 NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
 LINKAGE_ALGORITHM = 'ward'
 DISTANCE_METRIC = 'euclidean'

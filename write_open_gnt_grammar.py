@@ -38,6 +38,16 @@ for book_index, chapter, verse, part in zip(books, chapters, verses, parts_of_sp
 
   book_to_parts_of_speech[book] += part + ' '
 
+def simplify(part):
+  return part.split('-')[0]
+
+def simplify_all(parts_of_speech):
+  parts = parts_of_speech.split(' ')
+  return ' '.join([simplify(part) for part in parts])
+
 for book, parts_of_speech in book_to_parts_of_speech.items():
   with open(os.path.join('opengnt_grammar', book + ".txt"), 'w') as file:
     file.write(parts_of_speech)
+
+  with open(os.path.join('opengnt_simple_grammar', book + '.txt'), 'w') as file:
+    file.write(simplify_all(parts_of_speech))

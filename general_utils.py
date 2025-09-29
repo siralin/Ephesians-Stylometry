@@ -3,7 +3,7 @@ UNCONTESTED_PAUL_BOOKS = ["romans", "1 corinthians", "2 corinthians", "galatians
 CONTESTED_PAUL_BOOKS = ["ephesians", "colossians", "2 thessalonians", "1 timothy", "2 timothy", "titus"]
 
 TEXT_DIRECTORY = 'opengnt_books'
-GRAMMAR_DIRECTORY = 'opengnt_grammar'
+GRAMMAR_DIRECTORY = 'opengnt_simple_grammar' # opengnt_grammar or opengnt_simple_grammar
 NORMALIZED_FILE_SUFFIX = '-norm'
 FILE_TYPE_SUFFIX = '.txt'
 
