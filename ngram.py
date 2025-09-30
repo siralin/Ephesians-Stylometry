@@ -5,12 +5,12 @@ from dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt
 
 # TODO feel free to change all these parameters
-NGRAM_SIZE = 2
-NUM_NGRAMS_WANTED = 40 # maximum reasonable value is 25 ^ NGRAM_SIZE
-MERGE_WORDS = True # Whether to remove the spaces in the normalized text.
+NGRAM_SIZE = 3
+NUM_NGRAMS_WANTED = 85 # maximum reasonable value is 25 ^ NGRAM_SIZE
+MERGE_WORDS = False # Whether to remove the spaces in the normalized text.
 NORMALIZATION_METHOD = 'zscore' # 'zscore' or 'simple'
-LINKAGE_ALGORITHM = 'complete'
-DISTANCE_METRIC = 'cosine'
+LINKAGE_ALGORITHM = 'weighted'
+DISTANCE_METRIC = 'canberra'
 
 book_to_text = read_normalized_texts()
 if MERGE_WORDS:

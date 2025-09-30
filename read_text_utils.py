@@ -1,6 +1,22 @@
 import os
 from general_utils import FILE_TYPE_SUFFIX, NORMALIZED_FILE_SUFFIX, TEXT_DIRECTORY, GRAMMAR_DIRECTORY
 
+def read_normalized_texts_with_parallels_split():
+  book_to_text = read_normalized_texts()
+  del book_to_text['ephesians']
+  del book_to_text['colossians']
+
+  with open(os.path.join('netbible_parallels', 'ephesiansparallel-norm.txt'), 'r') as handle:
+    book_to_text['ephesians parallel'] = handle.read()
+  with open(os.path.join('netbible_parallels', 'ephesiansunique-norm.txt'), 'r') as handle:
+    book_to_text['ephesians unique'] = handle.read()
+  with open(os.path.join('netbible_parallels', 'colossiansparallel-norm.txt'), 'r') as handle:
+    book_to_text['colossians parallel'] = handle.read()
+  with open(os.path.join('netbible_parallels', 'colossiansunique-norm.txt'), 'r') as handle:
+    book_to_text['colossians unique'] = handle.read()
+
+  return book_to_text
+
 # Returns dictionary of book name to all non-punctuation text in the book.
 # Includes a space between each pair of words.
 def read_normalized_texts():
