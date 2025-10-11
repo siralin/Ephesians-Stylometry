@@ -7,8 +7,8 @@ from operator import add
 
 unsorted_book_to_sentence_lengths = read_sentence_lengths()
 book_to_sentence_lengths = dict([(b, unsorted_book_to_sentence_lengths[b]) for b in UNCONTESTED_PAUL_BOOKS])
-book_to_sentence_lengths['all pauline'] = f.reduce(add, book_to_sentence_lengths.values())
-book_to_sentence_lengths['ephesians'] = unsorted_book_to_sentence_lengths['ephesians']
+book_to_sentence_lengths['All Pauline'] = f.reduce(add, book_to_sentence_lengths.values())
+book_to_sentence_lengths['Ephesians'] = unsorted_book_to_sentence_lengths['Ephesians']
 
 # Find max sentence length.
 # Decide on buckets for sentence lengths (1-5 words, 6-10, etc).

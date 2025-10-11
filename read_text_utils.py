@@ -3,17 +3,17 @@ from general_utils import FILE_TYPE_SUFFIX, NORMALIZED_FILE_SUFFIX, TEXT_DIRECTO
 
 def read_normalized_texts_with_parallels_split():
   book_to_text = read_normalized_texts()
-  del book_to_text['ephesians']
-  del book_to_text['colossians']
+  del book_to_text['Ephesians']
+  del book_to_text['Colossians']
 
   with open(os.path.join('netbible_parallels', 'ephesiansparallel-norm.txt'), 'r') as handle:
-    book_to_text['ephesians parallel'] = handle.read()
+    book_to_text['Ephesians parallel'] = handle.read()
   with open(os.path.join('netbible_parallels', 'ephesiansunique-norm.txt'), 'r') as handle:
-    book_to_text['ephesians unique'] = handle.read()
+    book_to_text['Ephesians unique'] = handle.read()
   with open(os.path.join('netbible_parallels', 'colossiansparallel-norm.txt'), 'r') as handle:
-    book_to_text['colossians parallel'] = handle.read()
+    book_to_text['Colossians parallel'] = handle.read()
   with open(os.path.join('netbible_parallels', 'colossiansunique-norm.txt'), 'r') as handle:
-    book_to_text['colossians unique'] = handle.read()
+    book_to_text['Colossians unique'] = handle.read()
 
   return book_to_text
 

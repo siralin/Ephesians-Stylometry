@@ -21,5 +21,6 @@ for x, y, err, color in zip(xs, ys, es, colors):
   ax.errorbar(x, y, err, capsize=5, capthick=2, color=color, marker='o')
 
 plt.xticks(rotation='vertical')
+plt.ylabel('Mean words per sentence')
 fig.tight_layout()
 plt.show()
