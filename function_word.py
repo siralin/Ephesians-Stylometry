@@ -5,7 +5,7 @@ from dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt
 
 # TODO feel free to change all these parameters
-NUM_FUNCTION_WORDS_WANTED = 40
+NUM_FUNCTION_WORDS_WANTED = 10
 NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
 LINKAGE_ALGORITHM = 'ward'
 DISTANCE_METRIC = 'euclidean'

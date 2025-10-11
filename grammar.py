@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 
 # TODO feel free to change all these parameters
 NGRAM_SIZE = 3
-NUM_NGRAMS_WANTED = 10
+NUM_NGRAMS_WANTED = 30
 NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
-LINKAGE_ALGORITHM = 'ward'
+LINKAGE_ALGORITHM = 'complete'
 DISTANCE_METRIC = 'euclidean'
 
 book_to_text = read_parts_of_speech()

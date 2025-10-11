@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 
 # TODO feel free to change all these parameters
 NGRAM_SIZE = 3
-NUM_NGRAMS_WANTED = 85 # maximum reasonable value is 25 ^ NGRAM_SIZE
-MERGE_WORDS = False # Whether to remove the spaces in the normalized text.
+NUM_NGRAMS_WANTED = 30 # maximum reasonable value is 25 ^ NGRAM_SIZE
+MERGE_WORDS = True # Whether to remove the spaces in the normalized text.
 NORMALIZATION_METHOD = 'zscore' # 'zscore' or 'simple'
-LINKAGE_ALGORITHM = 'weighted'
-DISTANCE_METRIC = 'canberra'
+LINKAGE_ALGORITHM = 'complete'
+DISTANCE_METRIC = 'euclidean'
 
 book_to_text = read_normalized_texts()
 if MERGE_WORDS:

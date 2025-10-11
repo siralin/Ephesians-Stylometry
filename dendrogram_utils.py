@@ -11,12 +11,14 @@ def save_dendrogram(filename_elements):
 # Generates a dendrogram for the given data.
 # Use plt.show() to display it
 # or plt.gca() to get its Axes and modify or analyze it.
-# Returns nothing.
 #
 # book_to_normalized_unit_frequency: a 2d List[book index][unit index]
 #   where the book index matches the index of the same book in book_titles
 #   and the unit indexes match across books
 # book_titles: Iterable of book titles
+#
+# Returns a dictionary of data computed to render the dendrogram,
+# containing keys 'color_list', 'icoord', 'dcoord', 'ivl', 'leaves', and 'leaves_color_list'.
 def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_algorithm, distance_metric):
   Z = linkage(book_to_normalized_unit_frequency, method=linkage_algorithm, metric=distance_metric)
 
@@ -24,7 +26,7 @@ def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_
   plt.title('Hierarchical Clustering Dendrogram')
   plt.xlabel('Book')
   plt.ylabel('Distance')
-  dendrogram(
+  dendrogram_data_structures = dendrogram(
     Z,
     leaf_rotation=90,  # rotates the x axis labels
     leaf_font_size=8,  # font size for the x axis labels
@@ -36,6 +38,7 @@ def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_
     x.set_color(get_label_color(x.get_text()))
 
   fig.tight_layout()
+  return dendrogram_data_structures # TODO check whether leaf colors actually got updated
 
 # A valid dendrogram groups all of paul's uncontested books together without any of
 # those books that definitely aren't his in between.
