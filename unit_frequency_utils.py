@@ -12,7 +12,9 @@ from statistics import stdev, fmean
 def unit_counts_to_normalized_frequencies(num_units, book_to_unit_counts, overall_unit_counts, normalization_method):
 
   # List of up to num_units units that appear the most frequently overall.
-  most_frequent_units = [x[0] for x in overall_unit_counts.most_common(num_units)]
+  most_frequent_units_and_counts = overall_unit_counts.most_common(num_units)
+  print(most_frequent_units_and_counts)
+  most_frequent_units = [x[0] for x in most_frequent_units_and_counts]
 
   return (
     unit_counts_to_normalized_frequencies_for_given_units(most_frequent_units, book_to_unit_counts, overall_unit_counts, normalization_method),

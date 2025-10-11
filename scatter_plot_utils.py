@@ -4,37 +4,37 @@ from sklearn.decomposition import PCA
 from general_plot_utils import get_label_color
 
 label_text = {
-  '1 Corinthians': '1C',
-  '1 John': '1J',
-  '1 Peter': '1P',
-  '1 Thessalonians': '1Th',
-  '1 Timothy': '1Ti',
-  '2 Corinthians': '2C',
-  '2 John': '2J',
-  '2 Peter': '2P',
-  '2 Thessalonians': '2Th',
-  '2 Timothy': '2Ti',
-  '3 John': '3J',
-  'Acts': 'A',
-  'Colossians': 'C',
+  '1 Corinthians': '1Cor',
+  '1 John': '1John',
+  '1 Peter': '1Pet',
+  '1 Thessalonians': '1Thess',
+  '1 Timothy': '1Tim',
+  '2 Corinthians': '2Cor',
+  '2 John': '2John',
+  '2 Peter': '2Pet',
+  '2 Thessalonians': '2Thess',
+  '2 Timothy': '2Tim',
+  '3 John': '3John',
+  'Acts': 'Acts',
+  'Colossians': 'Col',
   'Colossians parallel': 'CP',
   'Colossians unique': 'CU',
-  'Ephesians': 'E',
-  'Ephesians parallel': 'EP',
-  'Ephesians unique': 'EU',
-  'Galatians': 'G',
-  'Hebrews': 'H',
-  'James': 'Ja',
-  'John': 'Jo',
-  'Jude': 'Ju',
-  'Luke': 'L',
-  'Mark': 'Mar',
-  'Matthew':'Mat',
-  'Philemon': 'Phile',
-  'Philippians': 'Phili',
-  'Revelation': 'Re',
-  'Romans': 'Ro',
-  'Titus': 'T'}
+  'Ephesians': 'Eph',
+  'Ephesians parallel': 'EphP',
+  'Ephesians unique': 'EphU',
+  'Galatians': 'Gal',
+  'Hebrews': 'Heb',
+  'James': 'James',
+  'John': 'John',
+  'Jude': 'Jude',
+  'Luke': 'Luke',
+  'Mark': 'Mark',
+  'Matthew':'Matt',
+  'Philemon': 'Philem',
+  'Philippians': 'Phil',
+  'Revelation': 'Rev',
+  'Romans': 'Rom',
+  'Titus': 'Titus'}
 
 # Generates a scatter plot of the given books with their unit data compressed into two dimensions.
 # Returns nothing.
@@ -43,7 +43,7 @@ label_text = {
 # book_to_normalized_unit_frequency: a 2d List[book index][unit index]
 # where the book index matches the index of the same book in the given books
 # books: List of book titles
-def generate_scatter_plot(book_to_normalized_unit_frequency, books):
+def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None):
   data = pd.DataFrame(book_to_normalized_unit_frequency)
 
   unique_figure_id = 1
@@ -60,4 +60,5 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books):
   for i, book in enumerate(books):
     ax.annotate(label_text[book], (X_reduced[i, 0], X_reduced[i, 1]))
 
+  plt.gca().update({"title":title})
   fig.tight_layout()

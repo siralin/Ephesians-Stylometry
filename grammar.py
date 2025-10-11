@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 # In this script, an ngram is a sequence of parts of speech
 
 # TODO feel free to change all these parameters
-NGRAM_SIZE = 3
-NUM_NGRAMS_WANTED = 30
-NORMALIZATION_METHOD = 'simple' # 'zscore' or 'simple'
+NGRAM_SIZE = 1
+NUM_NGRAMS_WANTED = 50
+NORMALIZATION_METHOD = 'zscore' # 'zscore' or 'simple'
 LINKAGE_ALGORITHM = 'complete'
 DISTANCE_METRIC = 'euclidean'
 
@@ -25,11 +25,10 @@ book_to_normalized_ngram_frequency, ngrams = calculate_normalized_part_of_speech
 
 # In Python 3.7+, dictionary iteration order is always the same,
 # so the keys() call will produce book titles in the right order.
-generate_scatter_plot(book_to_normalized_ngram_frequency, book_to_text.keys())
 title = str(NUM_NGRAMS_WANTED) + " most frequent " + str(NGRAM_SIZE) + "part-grams (" + NORMALIZATION_METHOD + ")"
-plt.gca().update({"title":title})
+generate_scatter_plot(book_to_normalized_ngram_frequency, book_to_text.keys(), title)
 plt.show()
 
 generate_dendrogram(book_to_normalized_ngram_frequency, book_to_text.keys(), LINKAGE_ALGORITHM, DISTANCE_METRIC)
 print(check_dendrogram_valid())
-plt.show()
+#plt.show()
