@@ -13,6 +13,8 @@ def tantt_to_part_of_speech(tantt_cell):
   primary_tantt_info = tantt_cell.split(';')[0]
   tags = primary_tantt_info.split('=')
   if len(tags) > 3:
+    if tags[3][-1] == '〕': # Some inconsistency regarding whether there's a semicolon following the part of speech
+      return tags[3][:-1]
     return tags[3]
   return '' # No word here, so no part of speech label
 
