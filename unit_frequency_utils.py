@@ -6,15 +6,17 @@ from statistics import stdev, fmean
 # and the book index matches the index of the same book in the given book_to_unit_counts
 # and the unit index matches the index of the same unit in the returned list of units.
 #
-# num_units: int, the number of most common units the frequencies should be calculated for
+# min_count: int, the min count for the most common units the frequencies should be calculated for
 # book_to_unit_counts: List<Counter>, the number of times every unit appears in each book
 # overall_unit_counts: Counter, the number of times every unit appears in all books
-def unit_counts_to_normalized_frequencies(num_units, book_to_unit_counts, overall_unit_counts, normalization_method):
+def unit_counts_to_normalized_frequencies(min_count, book_to_unit_counts, overall_unit_counts, normalization_method):
 
   # List of up to num_units units that appear the most frequently overall.
-  most_frequent_units_and_counts = overall_unit_counts.most_common(num_units)
+  most_frequent_units_and_counts = {key: value for key, value in overall_unit_counts.items() if value >= min_count}
   print(most_frequent_units_and_counts)
-  most_frequent_units = [x[0] for x in most_frequent_units_and_counts]
+  most_frequent_units = most_frequent_units_and_counts.keys()
+  if len(most_frequent_units) < 2:
+    raise ValueError('Insufficient units found with count >= min count.')
 
   return (
     unit_counts_to_normalized_frequencies_for_given_units(most_frequent_units, book_to_unit_counts, overall_unit_counts, normalization_method),
