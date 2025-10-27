@@ -48,7 +48,7 @@ def do_pca(book_to_normalized_unit_frequency):
 # book_to_normalized_unit_frequency: a 2d List[book index][unit index]
 # where the unit index matches the index in the given units
 # units: List of units
-def generate_component_plot(book_to_normalized_unit_frequency, units):
+def generate_component_plot(book_to_normalized_unit_frequency, units, title=None):
   pca, _ = do_pca(book_to_normalized_unit_frequency)
 
   # There are two 'components' arrays, each with one element per unit
@@ -69,6 +69,8 @@ def generate_component_plot(book_to_normalized_unit_frequency, units):
   variance = pca.explained_variance_ratio_
   ax.set_xlabel('Vector A (' + to_percent(variance[0]) + ')')
   ax.set_ylabel('Vector B (' + to_percent(variance[1]) + ')')
+
+  plt.gca().update({"title":title})
   fig.tight_layout()
 
 def to_percent(decimal):
