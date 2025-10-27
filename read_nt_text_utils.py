@@ -31,8 +31,8 @@ def read_normalized_texts():
 
   return book_to_text
 
-# Returns dictionary of book name to all text in the book, including sentence-ending punctuation.
-# Includes a space between each pair of words.
+# Returns dictionary of book name to all text in the book, including sentence-ending punctuation
+# and accents.  Includes a space between each pair of words.
 def read_non_normalized_texts():
   book_to_text = {}
 

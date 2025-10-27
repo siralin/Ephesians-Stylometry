@@ -18,8 +18,8 @@ data = pd.read_csv("OpenGNT_version3_3.csv", sep = '\t')
 # "Book number, ranging from 40 to 66, representing books from Matthew to the book of Revelation."
 books = [int(val.split('｜')[0][1:]) for val in data['〔Book｜Chapter｜Verse〕']]
 
-# "Greek word of OGNT in unaccented form"
-words = [val.split('｜')[1] for val in data['〔OGNTk｜OGNTu｜OGNTa｜lexeme｜rmac｜sn〕']]
+# "Greek word of OGNT in accented form"
+words = [val.split('｜')[2] for val in data['〔OGNTk｜OGNTu｜OGNTa｜lexeme｜rmac｜sn〕']]
 
 # Find punctuation so we can identify the bits of Mark and John that were definitely added later and exclude them,
 # and so we can identify sentence breaks.
