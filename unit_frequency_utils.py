@@ -37,6 +37,20 @@ def unit_counts_to_normalized_frequencies_for_given_units(units, book_to_unit_co
   book_to_normalized_unit_frequency = _normalize_frequencies(book_to_unit_frequencies, normalization_method)
   return book_to_normalized_unit_frequency
 
+# Returns a tuple where the left side is the relative frequencies of all units
+# (as a fraction of the total units in each book)
+# in the form of a 2d List[book][unit]
+# and the right side is the list of all units
+#
+# book_to_unit_counts: List<Counter>, the number of times every unit appears in each book
+def unit_counts_to_all_raw_frequencies(book_to_unit_counts):
+  units = set()
+  for counter in book_to_unit_counts:
+    units.update(counter.keys())
+
+  unit_list = list(units)
+  return _find_book_to_unit_frequencies(book_to_unit_counts, unit_list), unit_list
+
 # Returns the relative frequencies of the given units
 # (as a fraction of the total units in each book)
 # in the form of a 2d List[book][unit]

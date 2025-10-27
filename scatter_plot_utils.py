@@ -50,7 +50,7 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None):
   fig = plt.figure(unique_figure_id, figsize=(8, 6))
   ax = fig.add_subplot()
 
-  X_reduced = PCA(n_components=2).fit_transform(data)
+  X_reduced = PCA(n_components=2,svd_solver='full').fit_transform(data)
   scatter = ax.scatter(
       X_reduced[:, 0],
       X_reduced[:, 1],

@@ -5,7 +5,7 @@ def strip_accents(s):
   return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
 
 def remove_punctuation(s):
-  return s.replace('.', '').replace(';', '').replace('᾽', '')
+  return s.replace('.', '').replace(';', '').replace('᾽', '').replace(';', '') # note two diff semicolons
 
 # Returns the given text with all punctuation and accents removed.
 # All returned characters will be lowercase Greek letters or spaces.
