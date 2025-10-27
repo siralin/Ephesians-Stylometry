@@ -36,6 +36,44 @@ label_text = {
   'Romans': 'Rom',
   'Titus': 'Titus'}
 
+# Returns tuple of PCA, DataFrame
+def do_pca(book_to_normalized_unit_frequency):
+  data = pd.DataFrame(book_to_normalized_unit_frequency)
+  return PCA(n_components=2, svd_solver='full').fit(data), data
+
+# Generates a scatter plot of the given units aligned to the two PCA vectors
+# to illustrate how each unit contributes to each vector.
+# To display the plot, call plt.show().
+#
+# book_to_normalized_unit_frequency: a 2d List[book index][unit index]
+# where the unit index matches the index in the given units
+# units: List of units
+def generate_component_plot(book_to_normalized_unit_frequency, units):
+  pca, _ = do_pca(book_to_normalized_unit_frequency)
+
+  # There are two 'components' arrays, each with one element per unit
+  # We can graph them to see how important each unit is to the PCA.
+
+  unique_figure_id = 2
+  fig = plt.figure(unique_figure_id, figsize=(8, 6))
+  ax = fig.add_subplot()
+
+  scatter = ax.scatter(
+    pca.components_[0],
+    pca.components_[1],
+  )
+
+  for i, unit in enumerate(units):
+    ax.annotate(unit, (pca.components_[0][i], pca.components_[1][i]))
+
+  variance = pca.explained_variance_ratio_
+  ax.set_xlabel('Vector A (' + to_percent(variance[0]) + ')')
+  ax.set_ylabel('Vector B (' + to_percent(variance[1]) + ')')
+  fig.tight_layout()
+
+def to_percent(decimal):
+  return f"{decimal:.0%}"
+
 # Generates a scatter plot of the given books with their unit data compressed into two dimensions.
 # Returns nothing.
 # To display the plot, call plt.show().
@@ -44,13 +82,13 @@ label_text = {
 # where the book index matches the index of the same book in the given books
 # books: List of book titles
 def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None):
-  data = pd.DataFrame(book_to_normalized_unit_frequency)
+  pca, data = do_pca(book_to_normalized_unit_frequency)
 
   unique_figure_id = 1
   fig = plt.figure(unique_figure_id, figsize=(8, 6))
   ax = fig.add_subplot()
 
-  X_reduced = PCA(n_components=2,svd_solver='full').fit_transform(data)
+  X_reduced = pca.transform(data)
   scatter = ax.scatter(
       X_reduced[:, 0],
       X_reduced[:, 1],
@@ -58,7 +96,7 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None):
   )
 
   for i, book in enumerate(books):
-    ax.annotate(label_text[book], (X_reduced[i, 0], X_reduced[i, 1]))
+    ax.annotate(label_text.get(book, book), (X_reduced[i, 0], X_reduced[i, 1]))
 
   plt.gca().update({"title":title})
   fig.tight_layout()

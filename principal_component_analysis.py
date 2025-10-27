@@ -1,6 +1,6 @@
 from read_text_utils import read_texts
 from word_utils import calculate_raw_word_frequencies, calculate_normalized_word_frequencies
-from scatter_plot_utils import generate_scatter_plot
+from scatter_plot_utils import generate_scatter_plot, generate_component_plot
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
@@ -9,6 +9,7 @@ book_to_text = read_texts()
 
 # Find 99 'most common' words (p.264 Hutchinson)
 NUM_WORDS_WANTED = 99
+NORMALIZATION_METHOD = 'zscore'
 
 # words: a List of the most frequent words
 #
@@ -16,35 +17,14 @@ NUM_WORDS_WANTED = 99
 # where the book index matches the index of the same book in book_to_word_counts and book_to_text
 # and the word index matches the index of the same word in words.
 book_to_normalized_word_frequency, words = calculate_normalized_word_frequencies(
-  book_to_text, NUM_WORDS_WANTED, 'zscore')
+  book_to_text, NUM_WORDS_WANTED, NORMALIZATION_METHOD)
 
-data = pd.DataFrame(book_to_normalized_word_frequency)
-pca = PCA(n_components=2, svd_solver='full').fit(data)
-print(pca.components_)
-print(pca.explained_variance_)
-
-# There are two 'components' arrays, each with one element per word
-# We can graph them to see how important each word is to the PCA.
-
-fig = plt.figure(1, figsize=(8, 6))
-ax = fig.add_subplot()
-
-scatter = ax.scatter(
-  pca.components_[0],
-  pca.components_[1],
-)
-
-for i, word in enumerate(words):
-  ax.annotate(word, (pca.components_[0][i], pca.components_[1][i]))
-
-fig.tight_layout()
+generate_component_plot(book_to_normalized_word_frequency, words)
 plt.show()
 
-# each is a 99-dimensional vector
-#x_vector, y_vector = pca.components_
-
-#print(x_vector, y_vector)
-#print(pca.singular_values_)
+title = str(NUM_WORDS_WANTED) + " most frequent words (" + NORMALIZATION_METHOD + ")"
+generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), title=title)
+plt.show()
 
 """
 # words: a List of all words
