@@ -9,3 +9,7 @@ How to run:
 To run unit tests: `python3.9 -m unittest`
 
 Ephesians and Colossians were split into parallel and unique verses based on https://catholic-resources.org/Bible/Paul-Colossians-Ephesians.htm
+
+The documents in other-texts/ were obtained from https://www.ccel.org/l/lake/fathers/toc.htm
+
+The documents in septuagint/ were obtained from https://sacred-texts.com/bib/sep/index.htm
