@@ -1,5 +1,5 @@
 from collections import Counter
-from read_text_utils import read_normalized_texts
+from read_nt_text_utils import read_normalized_texts
 
 book_to_text = read_normalized_texts()
 

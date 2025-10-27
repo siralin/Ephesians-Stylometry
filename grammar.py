@@ -1,5 +1,5 @@
 from grammar_utils import calculate_normalized_part_of_speech_ngram_frequencies
-from read_text_utils import read_parts_of_speech
+from read_nt_text_utils import read_parts_of_speech
 from scatter_plot_utils import generate_scatter_plot
 from dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt

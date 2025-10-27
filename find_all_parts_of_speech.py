@@ -1,4 +1,4 @@
-from read_text_utils import read_parts_of_speech
+from read_nt_text_utils import read_parts_of_speech
 
 book_to_parts = read_parts_of_speech()
 

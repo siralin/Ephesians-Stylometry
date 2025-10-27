@@ -1,5 +1,5 @@
 from function_word_utils import calculate_normalized_function_word_frequencies, FUNCTION_WORDS
-from read_text_utils import read_normalized_texts
+from read_nt_text_utils import read_normalized_texts
 from scatter_plot_utils import generate_scatter_plot
 from dendrogram_utils import generate_dendrogram, check_dendrogram_valid
 import matplotlib.pyplot as plt

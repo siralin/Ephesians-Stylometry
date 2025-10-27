@@ -1,5 +1,5 @@
 import unittest
-from read_text_utils import read_normalized_texts
+from read_nt_text_utils import read_normalized_texts
 
 class TestReadNormalizedTexts(unittest.TestCase):
 

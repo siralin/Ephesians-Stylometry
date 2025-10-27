@@ -1,5 +1,5 @@
 import unittest
-from read_text_utils import read_parts_of_speech
+from read_nt_text_utils import read_parts_of_speech
 
 class TestReadPartsOfSpeech(unittest.TestCase):
 

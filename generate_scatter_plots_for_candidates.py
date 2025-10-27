@@ -1,5 +1,5 @@
 import os
-from read_text_utils import read_normalized_texts
+from read_nt_text_utils import read_normalized_texts
 from ngram_utils import calculate_normalized_ngram_frequencies
 from scatter_plot_utils import generate_scatter_plot
 import matplotlib.pyplot as plt

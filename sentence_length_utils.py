@@ -1,5 +1,5 @@
 import re
-from read_text_utils import read_non_normalized_texts
+from read_nt_text_utils import read_non_normalized_texts
 
 def _get_sentence_lengths(text):
   return [sen.count(' ') + 1 for sen in re.split(r'[\.\;]', text)]

@@ -1,5 +1,5 @@
 from word_utils import calculate_normalized_word_frequencies
-from read_text_utils import read_normalized_texts
+from read_nt_text_utils import read_normalized_texts
 from dendrogram_utils import generate_dendrogram, check_dendrogram_valid, save_dendrogram
 import matplotlib.pyplot as plt
 
