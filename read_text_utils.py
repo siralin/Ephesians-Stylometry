@@ -29,7 +29,7 @@ def read_text_from_directory(directory):
 def normalize(book_to_text):
   book_to_normalized_text = {}
   for book, text in book_to_text.items():
-    book_to_normalized_text[book] = remove_punctuation(text).lower()
+    book_to_normalized_text[book] = remove_punctuation(text).lower().strip()
     #for c in book_to_normalized_text[book]:
     #  # check all resulting characters to make sure they're simple greek letters
     #  if ord(strip_accents(c)) not in range(945, 970) and c != ' ':
