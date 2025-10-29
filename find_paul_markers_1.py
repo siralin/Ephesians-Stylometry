@@ -17,8 +17,6 @@ for ex_book in excluded_books + excluded_nt_books:
 merge_pauline_texts(book_to_text)
 merge_ignatian_texts(book_to_text)
 
-print(book_to_text.keys())
-
 # removed: 'κύριος', 'εἶπεν', 'ισραηλ', 'κυρίου', 'θεοῦ', 'γῆς', 'θεὸς', 'υἱοὶ', 'ἰδοὺ', 'δαυιδ', 'γῆν', 'υἱὸς', 'βασιλεὺς', 'λέγει', 'ιερουσαλημ', 'βασιλέως', 'υἱῶν', 'κυρίῳ', 'λέγων', 'ἡμέρας', 'ἐγένετο'
 #function_words = ['καὶ', 'ἐν', 'τοῦ', 'ὁ', 'αὐτοῦ', 'εἰς', 'τὸν', 'τὴν', 'τὸ', 'τῷ', 'τῶν', 'δὲ', 'τῆς', 'σου', 'τὰ', 'ἐπὶ', 'οἱ', 'αὐτῶν', 'ὅτι', 'μου', 'ἡ', 'πρὸς', 'τῇ', 'οὐκ', 'τοὺς', 'μὴ', 'ἀπὸ', 'τοῖς', 'ἐκ', 'οὐ', 'αὐτῷ', 'ὡς', 'τὰς', 'αὐτὸν', 'γὰρ', 'ὑμῶν', 'αὐτῆς', 'κατὰ', 'με', 'αὐτοῖς', 'ἡμῶν', 'διὰ', 'μετὰ', 'αὐτοὺς', 'ἐστιν', 'ἐὰν', 'ἕως', 'ἐπ', 'πάντα', 'ἐγὼ', 'ἵνα', 'ἔσται', 'ὑμῖν', 'σε', 'ἢ', 'περὶ', 'τοῦτο', 'σοι', 'ταῖς', 'αἱ', 'εἰ', 'ἐξ', 'ἦν', 'μοι', 'ὑμᾶς', 'οὕτως', 'σὺ', 'οὖν', 'ταῦτα', 'ἐκεῖ', 'μετ', 'ἡμᾶς', 'αὐτόν', 'τί', 'ἀλλὰ', 'νῦν', 'ἔστιν', 'ἂν']
 
@@ -53,6 +51,9 @@ NORMALIZATION_METHOD = 'zscore'
 # and the word index matches the index of the same word in function_words.
 book_to_normalized_word_frequency = calculate_raw_function_word_frequencies(
   book_to_text, function_words)
+
+print(book_to_text.keys())
+print(book_to_normalized_word_frequency)
 
 books = list(book_to_text.keys())
 

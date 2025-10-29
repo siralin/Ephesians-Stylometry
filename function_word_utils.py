@@ -122,4 +122,7 @@ def calculate_raw_function_word_frequencies(book_to_text, function_words):
     words = book_to_text[book].split(' ')
     book_to_word_counts[index] = Counter(words)
 
+    if (book == 'Paul'):
+      print(book_to_word_counts[index])
+
   return _find_book_to_unit_frequencies(book_to_word_counts, function_words)
