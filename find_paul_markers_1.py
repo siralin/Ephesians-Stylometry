@@ -17,10 +17,7 @@ for ex_book in excluded_books + excluded_nt_books:
 merge_pauline_texts(book_to_text)
 merge_ignatian_texts(book_to_text)
 
-# removed: 'κύριος', 'εἶπεν', 'ισραηλ', 'κυρίου', 'θεοῦ', 'γῆς', 'θεὸς', 'υἱοὶ', 'ἰδοὺ', 'δαυιδ', 'γῆν', 'υἱὸς', 'βασιλεὺς', 'λέγει', 'ιερουσαλημ', 'βασιλέως', 'υἱῶν', 'κυρίῳ', 'λέγων', 'ἡμέρας', 'ἐγένετο'
-#function_words = ['καὶ', 'ἐν', 'τοῦ', 'ὁ', 'αὐτοῦ', 'εἰς', 'τὸν', 'τὴν', 'τὸ', 'τῷ', 'τῶν', 'δὲ', 'τῆς', 'σου', 'τὰ', 'ἐπὶ', 'οἱ', 'αὐτῶν', 'ὅτι', 'μου', 'ἡ', 'πρὸς', 'τῇ', 'οὐκ', 'τοὺς', 'μὴ', 'ἀπὸ', 'τοῖς', 'ἐκ', 'οὐ', 'αὐτῷ', 'ὡς', 'τὰς', 'αὐτὸν', 'γὰρ', 'ὑμῶν', 'αὐτῆς', 'κατὰ', 'με', 'αὐτοῖς', 'ἡμῶν', 'διὰ', 'μετὰ', 'αὐτοὺς', 'ἐστιν', 'ἐὰν', 'ἕως', 'ἐπ', 'πάντα', 'ἐγὼ', 'ἵνα', 'ἔσται', 'ὑμῖν', 'σε', 'ἢ', 'περὶ', 'τοῦτο', 'σοι', 'ταῖς', 'αἱ', 'εἰ', 'ἐξ', 'ἦν', 'μοι', 'ὑμᾶς', 'οὕτως', 'σὺ', 'οὖν', 'ταῦτα', 'ἐκεῖ', 'μετ', 'ἡμᾶς', 'αὐτόν', 'τί', 'ἀλλὰ', 'νῦν', 'ἔστιν', 'ἂν']
-
-function_words = ['ἔστιν']
+function_words = ['και', 'εν', 'του', 'ο', 'αυτου', 'εις', 'τον', 'την', 'το', 'δε', 'τω', 'των', 'της', 'η', 'σου', 'τα', 'επι', 'οι', 'αυτων', 'οτι', 'μου', 'προς', 'τη', 'μη', 'ουκ', 'τους', 'ου', 'απο', 'αυτον', 'τοις', 'εκ', 'αυτω', 'εστιν', 'γαρ', 'ως', 'τας', 'αυτους', 'υμων', 'αυτης', 'κατα', 'αυτοις', 'με', 'ημων', 'σε', 'δια', 'μετα', 'εγω', 'ην', 'εαν', 'ει', 'παντα', 'σοι', 'εως', 'επ', 'ινα', 'εσται', 'τι', 'υμιν', 'εξ', 'αυτην', 'τουτο', 'αι', 'περι', 'αυτη', 'ταις', 'μοι', 'συ', 'υμας', 'ουτως', 'τις', 'ταυτα', 'ουν', 'παντες', 'εκει', 'μετ', 'αλλα', 'ημας']
 
 """
 Let us set the
@@ -31,13 +28,12 @@ bottom six – roughly the top and bottom quartiles – as ‘Hutchinson markers
 and see where these scores lead us.
 """
 
-# TODO PROBLEM: shouldn't be outputting what it's outputting
 def is_paul_marker(books_and_frequencies):
   sorted_books_and_frequencies = sorted(books_and_frequencies, key=lambda x: x[1])
   print('\t', sorted_books_and_frequencies)
 
-  for i in range(1): # TODO BACK TO 5
-    if sorted_books_and_frequencies[i][0] == 'Paul':
+  for i in range(5):
+    if sorted_books_and_frequencies[i][0] == 'Paul': # TODO check if zero?
       return True
     elif sorted_books_and_frequencies[-i - 1][0] == 'Paul':
       return True
@@ -51,9 +47,6 @@ NORMALIZATION_METHOD = 'zscore'
 # and the word index matches the index of the same word in function_words.
 book_to_normalized_word_frequency = calculate_raw_function_word_frequencies(
   book_to_text, function_words)
-
-print(book_to_text.keys())
-print(book_to_normalized_word_frequency)
 
 books = list(book_to_text.keys())
 

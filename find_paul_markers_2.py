@@ -3,6 +3,7 @@ from read_text_utils import read_texts
 from general_utils import SEPTUAGINT_BOOKS
 import matplotlib.pyplot as plt
 from general_plot_utils import get_label_color
+from rearrange_texts_utils import add_merged_pauline_text
 
 #WORD = 'καὶ'
 
@@ -13,13 +14,15 @@ book_to_text = read_texts()
 for ex_book in excluded_books + excluded_nt_books:
   book_to_text.pop(ex_book)
 
+add_merged_pauline_text(book_to_text)
+
 colors = [get_label_color(b) for b in book_to_text.keys()]
 
 # eph/col interesting: ἐν, τοῦ
 #interesting: 'τὰς', 'γὰρ',
 #['καὶ', 'ἐν', 'τοῦ', 'ὁ', 'αὐτοῦ', 'εἰς', 'τὸν', 'τὴν', 'τὸ', 'τῷ', 'τῶν', 'δὲ', 'τῆς', 'τὰ', 'ἐπὶ', 'οἱ', 'αὐτῶν', 'ὅτι', 'πρὸς', 'τῇ', 'οὐκ', 'τοὺς', 'μὴ', 'ἀπὸ', 'τοῖς', 'ἐκ', 'οὐ', 'αὐτῷ', 'ὡς', 'τὰς', 'γὰρ', 'ὑμῶν', 'κατὰ', 'ἡμῶν', 'διὰ', 'μετὰ', 'ἐστιν', 'ἵνα', 'περὶ', 'τοῦτο', 'ταῖς', 'οὖν', 'ταῦτα', 'ἀλλὰ', 'νῦν']
 
-for WORD in ['ἀλλὰ']:#['καὶ', 'ἐν', 'τοῦ', 'αὐτοῦ', 'εἰς', 'τὸν', 'τῶν', 'τῆς', 'οἱ', 'ὅτι', 'τῇ', 'οὐκ', 'μὴ', 'ἐκ', 'διὰ', 'ἀλλὰ']:
+for WORD in ['και', 'το', 'δε', 'τω', 'η', 'οτι', 'μου', 'ου', 'γαρ', 'τας', 'εγω', 'ην', 'ει', 'τι', 'υμας', 'ουτως', 'παντες', 'αλλα']:
   frequencies = calculate_raw_function_word_frequencies(book_to_text, [WORD])
 
   fig = plt.figure(1, figsize=(8, 6))

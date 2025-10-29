@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 """
-Generates Figures 2a and 2b for the thesis.
-2a is the influence of the top 99 words on the two principal component vectors,
+Generates Figures 3a and 3b for the thesis.
+3a is the influence of the top 99 words on the two principal component vectors,
   excluding those which are obviously thematic.
-2b is the results of arranging certain books (NT, a few Sept, and others)
+3b is the results of arranging certain books (NT, a few Sept, and others)
   according to those vectors.
 """
 wanted_septuagint_books = ['Epistle of Jeremiah']
@@ -22,10 +22,9 @@ for ex_book in excluded_books + excluded_nt_books:
   book_to_text.pop(ex_book)
 
 rearrange_pauline_texts(book_to_text)
-# merge_colossians_ephesians_texts(book_to_text) not useful
+#merge_colossians_ephesians_texts(book_to_text) #not useful
 
-# removed: 'κύριος', 'εἶπεν', 'ισραηλ', 'κυρίου', 'θεοῦ', 'γῆς', 'θεὸς', 'υἱοὶ', 'ἰδοὺ', 'δαυιδ', 'γῆν', 'υἱὸς', 'βασιλεὺς', 'λέγει', 'ιερουσαλημ', 'βασιλέως', 'υἱῶν', 'κυρίῳ', 'λέγων', 'ἡμέρας', 'ἐγένετο'
-function_words = ['καὶ', 'ἐν', 'τοῦ', 'ὁ', 'αὐτοῦ', 'εἰς', 'τὸν', 'τὴν', 'τὸ', 'τῷ', 'τῶν', 'δὲ', 'τῆς', 'σου', 'τὰ', 'ἐπὶ', 'οἱ', 'αὐτῶν', 'ὅτι', 'μου', 'ἡ', 'πρὸς', 'τῇ', 'οὐκ', 'τοὺς', 'μὴ', 'ἀπὸ', 'τοῖς', 'ἐκ', 'οὐ', 'αὐτῷ', 'ὡς', 'τὰς', 'αὐτὸν', 'γὰρ', 'ὑμῶν', 'αὐτῆς', 'κατὰ', 'με', 'αὐτοῖς', 'ἡμῶν', 'διὰ', 'μετὰ', 'αὐτοὺς', 'ἐστιν', 'ἐὰν', 'ἕως', 'ἐπ', 'πάντα', 'ἐγὼ', 'ἵνα', 'ἔσται', 'ὑμῖν', 'σε', 'ἢ', 'περὶ', 'τοῦτο', 'σοι', 'ταῖς', 'αἱ', 'εἰ', 'ἐξ', 'ἦν', 'μοι', 'ὑμᾶς', 'οὕτως', 'σὺ', 'οὖν', 'ταῦτα', 'ἐκεῖ', 'μετ', 'ἡμᾶς', 'αὐτόν', 'τί', 'ἀλλὰ', 'νῦν', 'ἔστιν', 'ἂν']
+function_words = ['και', 'εν', 'του', 'ο', 'αυτου', 'εις', 'τον', 'την', 'το', 'δε', 'τω', 'των', 'της', 'η', 'σου', 'τα', 'επι', 'οι', 'αυτων', 'οτι', 'μου', 'προς', 'τη', 'μη', 'ουκ', 'τους', 'ου', 'απο', 'αυτον', 'τοις', 'εκ', 'αυτω', 'εστιν', 'γαρ', 'ως', 'τας', 'αυτους', 'υμων', 'αυτης', 'κατα', 'αυτοις', 'με', 'ημων', 'σε', 'δια', 'μετα', 'εγω', 'ην', 'εαν', 'ει', 'παντα', 'σοι', 'εως', 'επ', 'ινα', 'εσται', 'τι', 'υμιν', 'εξ', 'αυτην', 'τουτο', 'αι', 'περι', 'αυτη', 'ταις', 'μοι', 'συ', 'υμας', 'ουτως', 'τις', 'ταυτα', 'ουν', 'παντες', 'εκει', 'μετ', 'αλλα', 'ημας']
 
 NORMALIZATION_METHOD = 'zscore'
 

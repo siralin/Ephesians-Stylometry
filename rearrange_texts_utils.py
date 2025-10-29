@@ -20,10 +20,13 @@ def merge_ignatian_texts(book_to_text):
 
   book_to_text['Ignatius'] = ' '.join(all_ignatius)
 
-def merge_pauline_texts(book_to_text):
+def add_merged_pauline_text(book_to_text):
   all_paul = ' '.join([book_to_text['Romans'], book_to_text['1 Corinthians'], book_to_text['2 Corinthians'], book_to_text['Galatians'], book_to_text['Philippians'], book_to_text['1 Thessalonians'], book_to_text['Philemon']])
 
   book_to_text['Paul'] = all_paul
+
+def merge_pauline_texts(book_to_text):
+  add_merged_pauline_text(book_to_text)
 
   del book_to_text['Romans']
   del book_to_text['1 Corinthians']
