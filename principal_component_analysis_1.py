@@ -14,6 +14,7 @@ Generates Figures 1a and 1b for the thesis.
 book_to_text = read_texts()
 
 # Find 99 most common words (p.264 Hutchinson)
+# TODO change to 110 to get all words used .1% of the time
 NUM_WORDS_WANTED = 99
 NORMALIZATION_METHOD = 'zscore'
 

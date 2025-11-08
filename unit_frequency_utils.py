@@ -13,11 +13,13 @@ def unit_counts_to_normalized_frequencies(num_units, book_to_unit_counts, overal
 
   # List of up to num_units units that appear the most frequently overall.
   most_frequent_units_and_counts = overall_unit_counts.most_common(num_units)
-  print(most_frequent_units_and_counts)
   most_frequent_units = [x[0] for x in most_frequent_units_and_counts]
 
+  total_count = sum(overall_unit_counts.values())
+  print('frequency of least common unit is ' + str(most_frequent_units_and_counts[-1][1] / total_count))
+
   return (
-    unit_counts_to_normalized_frequencies_for_given_units(most_frequent_units, book_to_unit_counts, overall_unit_counts, normalization_method),
+    unit_counts_to_normalized_frequencies_for_given_units(most_frequent_units, book_to_unit_counts, normalization_method),
     most_frequent_units)
 
 # Returns a 2d array
@@ -27,8 +29,7 @@ def unit_counts_to_normalized_frequencies(num_units, book_to_unit_counts, overal
 #
 # units: List, the units the frequencies should be calculated for
 # book_to_unit_counts: List<Counter>, the number of times every unit appears in each book
-# overall_unit_counts: Counter, the number of times every unit appears in all books
-def unit_counts_to_normalized_frequencies_for_given_units(units, book_to_unit_counts, overall_unit_counts, normalization_method):
+def unit_counts_to_normalized_frequencies_for_given_units(units, book_to_unit_counts, normalization_method):
   # 2d List of book to unit to frequency
   # where the book indexes match those in book_to_unit_counts
   # and the unit indexes match those in units

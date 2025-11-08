@@ -17,18 +17,16 @@ wanted_septuagint_books = ['Epistle of Jeremiah']
 excluded_nt_books = ['Matthew', 'Mark', 'Luke', 'John', 'Acts']
 excluded_books = [b for b in SEPTUAGINT_BOOKS if b not in wanted_septuagint_books]
 book_to_text = read_texts()
-for ex_book in excluded_books + excluded_nt_books:
-  book_to_text.pop(ex_book)
+#for ex_book in excluded_books + excluded_nt_books:
+#  book_to_text.pop(ex_book)
 
 # get rid of uselessly short books?
 for book in set(book_to_text.keys()):
   if book not in ['Ephesians', 'Colossians'] and book_to_text[book].count(' ') < 1999:
     book_to_text.pop(book)
 
-#rearrange_pauline_texts(book_to_text)
-#merge_colossians_ephesians_texts(book_to_text) #not useful
-
-function_words = ['και', 'το', 'δε', 'τω', 'η', 'οτι', 'μου', 'ου', 'γαρ', 'τας', 'εγω', 'ην', 'ει', 'τι', 'υμας', 'ουτως', 'παντες', 'αλλα']
+# from top 110, paul in top/bottom 7
+function_words = ['και', 'αυτου', 'εις', 'το', 'δε', 'τω', 'των', 'η', 'οτι', 'μου', 'ουκ', 'ου', 'γαρ', 'τας', 'εγω', 'ην', 'ει', 'τι', 'εξ', 'τουτο', 'περι', 'μοι', 'υμας', 'ουτως', 'τις', 'παντες', 'αλλα', 'αν', 'ος']
 
 NORMALIZATION_METHOD = 'zscore'
 

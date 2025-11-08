@@ -101,15 +101,13 @@ def calculate_normalized_function_word_frequencies(book_to_text, function_words,
   # first, calculate frequency of every possible word in each book.
   # This is a list of Counters, one for each word
   book_to_word_counts = [None] * len(book_to_text)
-  overall_word_counts = Counter()
 
   for index, book in enumerate(book_to_text):
     words = book_to_text[book].split(' ')
     book_to_word_counts[index] = Counter(words)
-    overall_word_counts.update(words)
 
   return unit_counts_to_normalized_frequencies_for_given_units(
-    function_words, book_to_word_counts, overall_word_counts, normalization_method)
+    function_words, book_to_word_counts, normalization_method)
 
 # Returns the relative frequencies of the given words
 # (as a fraction of the total words in each book)

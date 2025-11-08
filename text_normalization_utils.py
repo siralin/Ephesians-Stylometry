@@ -14,7 +14,7 @@ def normalize(text):
 
   # check all resulting characters to make sure they're simple greek letters
   for c in result:
-    if ord(c) not in range(945, 970) and c != ' ':
+    if ord(c) not in range(945, 990) and c != ' ':
       print('ERROR:' + c)
 
   return result
