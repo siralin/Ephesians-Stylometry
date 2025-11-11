@@ -16,21 +16,21 @@ def read_relevant_texts_in_chunks(chunk_size):
   septuagint_book_to_text = read_text_from_directory('septuagint')
   book_to_text['Epistle of Jeremiah'] = septuagint_book_to_text['Epistle of Jeremiah']
 
-  book_to_text['Paul A'] = ' '.join([book_to_text['Philippians'], book_to_text['1 Thessalonians'], book_to_text['Philemon']])
-  del book_to_text['Philippians']
+  book_to_text['Paul A'] = ' '.join([book_to_text['1 Thessalonians'], book_to_text['Philemon']])
   del book_to_text['1 Thessalonians']
   del book_to_text['Philemon']
 
-  book_to_text['Ignatius A'] = ' '.join([book_to_text['Ignatius Ephesians'], book_to_text['Ignatius Magnesians'], book_to_text['Ignatius Philadelphians']])
-  del book_to_text['Ignatius Ephesians']
-  del book_to_text['Ignatius Magnesians']
-  del book_to_text['Ignatius Philadelphians']
-
-  book_to_text['Ignatius B'] = ' '.join([book_to_text['Ignatius Polycarp'], book_to_text['Ignatius Romans'], book_to_text['Ignatius Smyrnaeans'], book_to_text['Ignatius Trallians']])
+  book_to_text['Ignatius A'] = ' '.join([book_to_text['Ignatius Polycarp'], book_to_text['Ignatius Smyrnaeans']])
   del book_to_text['Ignatius Polycarp']
-  del book_to_text['Ignatius Romans']
   del book_to_text['Ignatius Smyrnaeans']
+
+  book_to_text['Ignatius B'] = ' '.join([book_to_text['Ignatius Magnesians'], book_to_text['Ignatius Trallians']])
+  del book_to_text['Ignatius Magnesians']
   del book_to_text['Ignatius Trallians']
+
+  book_to_text['Ignatius C'] = ' '.join([book_to_text['Ignatius Philadelphians'], book_to_text['Ignatius Romans']])
+  del book_to_text['Ignatius Philadelphians']
+  del book_to_text['Ignatius Romans']
 
   # The following texts are not epistles, so we don't want them.
   del book_to_text['Clement 2 Corinthians']

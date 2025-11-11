@@ -83,7 +83,7 @@ def to_percent(decimal):
 # book_to_normalized_unit_frequency: a 2d List[book index][unit index]
 # where the book index matches the index of the same book in the given books
 # books: List of book titles
-def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None):
+def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None, include_labels=True):
   pca, data = do_pca(book_to_normalized_unit_frequency)
 
   unique_figure_id = 1
@@ -97,8 +97,9 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None):
       c = [get_label_color(book) for book in books]
   )
 
-  for i, book in enumerate(books):
-    ax.annotate(label_text.get(book, book), (X_reduced[i, 0], X_reduced[i, 1]))
+  if include_labels:
+    for i, book in enumerate(books):
+      ax.annotate(label_text.get(book, book), (X_reduced[i, 0], X_reduced[i, 1]))
 
   plt.gca().update({"title":title})
   fig.tight_layout()

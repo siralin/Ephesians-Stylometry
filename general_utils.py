@@ -2,7 +2,10 @@ import os
 
 UNCONTESTED_PAUL_BOOKS = ["Romans", "1 Corinthians", "2 Corinthians", "Galatians", "Philippians", "1 Thessalonians", "Philemon"]
 
+# TODO rename category
 CONTESTED_PAUL_BOOKS = ["Ephesians", "Colossians"]
+
+DISPUTED_PAUL_BOOKS = ['2 Thessalonians', '1 Timothy', '2 Timothy', 'Titus']
 
 TEXT_DIRECTORY = 'opengnt_books'
 GRAMMAR_DIRECTORY = 'opengnt_grammar' # opengnt_grammar or opengnt_simple_grammar
