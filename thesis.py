@@ -15,10 +15,8 @@ book_to_text = read_relevant_texts_in_chunks(3000)
 for book, text in book_to_text.items():
   print(book, len(text.split()))
 
-"""
-# Find 99 most common words (p.264 Hutchinson)
-# TODO change to 110 to get all words used .1% of the time
-NUM_WORDS_WANTED = 99
+# TODO verify this is all words used .1% of the time
+NUM_WORDS_WANTED = 500
 NORMALIZATION_METHOD = 'zscore'
 
 # words: a List of the most frequent words
@@ -36,4 +34,3 @@ plt.show()
 
 generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), title="Figure 1b")
 plt.show()
-"""

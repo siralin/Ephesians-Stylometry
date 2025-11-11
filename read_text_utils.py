@@ -36,6 +36,11 @@ def read_relevant_texts_in_chunks(chunk_size):
   del book_to_text['Clement 2 Corinthians']
   del book_to_text['Didache']
   del book_to_text['Hermas Shepherd']
+  del book_to_text['Matthew']
+  del book_to_text['Mark']
+  del book_to_text['Luke']
+  del book_to_text['John']
+  del book_to_text['Acts']
 
   return _break_into_chunks(normalize(book_to_text), chunk_size)
 
