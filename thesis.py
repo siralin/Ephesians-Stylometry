@@ -8,6 +8,7 @@ from sklearn.decomposition import PCA
 from sklearn.metrics.pairwise import cosine_similarity
 from thesis_paul_markers import graph_paul_markers
 from ngram_utils import calculate_normalized_ngram_frequencies
+from distance_printer import print_distance_info
 
 """
 Generates figures for the thesis.
@@ -59,16 +60,11 @@ book_to_normalized_word_frequency = calculate_normalized_function_word_frequenci
 """
  PART 3: Calculate distances using Cosine Delta
  """
-def print_distance_info(all_dist, book_name):
-  dist = list(zip(all_dist[book_names.index(book_name)], book_names))
-  dist.sort(key=lambda tup: tup[0], reverse=True)
-  print('\n'.join([book + ',' + str(di) for di, book in dist]))
-
 book_names = list(book_to_text.keys())
 distances = cosine_similarity(book_to_normalized_word_frequency)
 df = pd.DataFrame(distances, index=book_names, columns=book_names)
 #df.to_csv('distances.csv')
-print_distance_info(distances, 'Ephesians')
+print_distance_info(distances, book_names, 'Ephesians')
 
 """
  PART 4: graph paul markers
@@ -95,7 +91,7 @@ print(bigrams)
 bigram_distances = cosine_similarity(book_to_normalized_bigram_frequency)
 #bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
 #bigram_df.to_csv('bigram_distances.csv')
-print_distance_info(bigram_distances, 'Ephesians')
+print_distance_info(bigram_distances, book_names, 'Ephesians')
 
 book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 3, NORMALIZATION_METHOD)
@@ -108,4 +104,4 @@ print(trigrams)
 trigram_distances = cosine_similarity(book_to_normalized_trigram_frequency)
 #trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
 #trigram_df.to_csv('trigram_distances.csv')
-print_distance_info(trigram_distances, 'Ephesians')
+print_distance_info(trigram_distances, book_names, 'Ephesians')
