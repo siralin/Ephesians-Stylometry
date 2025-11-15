@@ -23,9 +23,9 @@ def calculate_normalized_ngram_frequencies(book_to_text, num_ngrams, ngram_size,
       ngram = text[i:i + ngram_size]
 
       # can remove ngrams containing spaces if you want
-      if " " not in ngram:
-        book_to_ngram_counts[index][ngram] += 1
-        overall_ngram_counts[ngram] += 1
+      #if " " not in ngram:
+      book_to_ngram_counts[index][ngram] += 1
+      overall_ngram_counts[ngram] += 1
 
   return unit_counts_to_normalized_frequencies(
     num_ngrams, book_to_ngram_counts, overall_ngram_counts, normalization_method)
