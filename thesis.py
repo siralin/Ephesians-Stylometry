@@ -16,13 +16,13 @@ PART 1: 500 most common words
 """
 
 MIN_CHUNK_SIZE = 2000
+NUM_WORDS_WANTED = 500
+NORMALIZATION_METHOD = 'zscore'
+NUM_NGRAMS_WANTED = 500
 
 book_to_text = read_relevant_texts_in_chunks(MIN_CHUNK_SIZE)
 for book, text in book_to_text.items():
   print(book, len(text.split()))
-
-NUM_WORDS_WANTED = 500
-NORMALIZATION_METHOD = 'zscore'
 
 # words: a List of the most frequent words
 #
@@ -59,10 +59,16 @@ book_to_normalized_word_frequency = calculate_normalized_function_word_frequenci
 """
  PART 3: Calculate distances using Cosine Delta
  """
+def print_distance_info(all_dist, book_name):
+  dist = list(zip(all_dist[book_names.index(book_name)], book_names))
+  dist.sort(key=lambda tup: tup[0], reverse=True)
+  print('\n'.join([book + ',' + str(di) for di, book in dist]))
+
 book_names = list(book_to_text.keys())
 distances = cosine_similarity(book_to_normalized_word_frequency)
 df = pd.DataFrame(distances, index=book_names, columns=book_names)
 #df.to_csv('distances.csv')
+print_distance_info(distances, 'Ephesians')
 
 """
  PART 4: graph paul markers
@@ -73,8 +79,6 @@ df = pd.DataFrame(distances, index=book_names, columns=book_names)
  PART 5: ngram analysis
  """
 
-NUM_NGRAMS_WANTED = 500
-
 # ngrams: a List of the most frequent ngrams
 #
 # book_to_normalized_ngram_frequency: a 2d List[book index][ngram index]
@@ -83,23 +87,25 @@ NUM_NGRAMS_WANTED = 500
 book_to_normalized_bigram_frequency, bigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 2, NORMALIZATION_METHOD)
 print(bigrams)
-generate_scatter_plot(book_to_normalized_bigram_frequency, book_to_text.keys(), title="Figure 5a (bigrams)")
-generate_component_plot(book_to_normalized_bigram_frequency, bigrams, title="Figure 5b")
+#generate_scatter_plot(book_to_normalized_bigram_frequency, book_to_text.keys(), title="Figure 5a (bigrams)")
+#generate_component_plot(book_to_normalized_bigram_frequency, bigrams, title="Figure 5b")
 #plt.show()
 #plt.close()
 
 bigram_distances = cosine_similarity(book_to_normalized_bigram_frequency)
-bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
-bigram_df.to_csv('bigram_distances.csv')
+#bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
+#bigram_df.to_csv('bigram_distances.csv')
+print_distance_info(bigram_distances, 'Ephesians')
 
 book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 3, NORMALIZATION_METHOD)
 print(trigrams)
-generate_scatter_plot(book_to_normalized_trigram_frequency, book_to_text.keys(), title="Figure 5c (trigrams)")
-generate_component_plot(book_to_normalized_trigram_frequency, trigrams, title="Figure 5d")
+#generate_scatter_plot(book_to_normalized_trigram_frequency, book_to_text.keys(), title="Figure 5c (trigrams)")
+#generate_component_plot(book_to_normalized_trigram_frequency, trigrams, title="Figure 5d")
 #plt.show()
 #plt.close()
 
 trigram_distances = cosine_similarity(book_to_normalized_trigram_frequency)
-trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
-trigram_df.to_csv('trigram_distances.csv')
+#trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
+#trigram_df.to_csv('trigram_distances.csv')
+print_distance_info(trigram_distances, 'Ephesians')
