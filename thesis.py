@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 from sklearn.metrics.pairwise import cosine_similarity
 from thesis_paul_markers import graph_paul_markers
 from ngram_utils import calculate_normalized_ngram_frequencies
-from distance_printer import print_distance_info
+from distance_printer import print_distance_info, print_just_distances
 
 """
 Generates figures for the thesis.
@@ -16,7 +16,7 @@ Generates figures for the thesis.
 PART 1: 500 most common words
 """
 
-MIN_CHUNK_SIZE = 2000
+MIN_CHUNK_SIZE = 3000
 NUM_WORDS_WANTED = 500
 NORMALIZATION_METHOD = 'zscore'
 NUM_NGRAMS_WANTED = 500
@@ -105,3 +105,11 @@ trigram_distances = cosine_similarity(book_to_normalized_trigram_frequency)
 #trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
 #trigram_df.to_csv('trigram_distances.csv')
 print_distance_info(trigram_distances, book_names, 'Ephesians')
+
+"""
+  PART 6: comparing distances from other books
+"""
+print_just_distances(distances, book_names, 'Paul A')
+print_just_distances(distances, book_names, 'Galatians')
+print_just_distances(distances, book_names, '2 Corinthians')
+print_just_distances(distances, book_names, 'Romans B')

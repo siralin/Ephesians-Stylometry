@@ -1,12 +1,16 @@
 from general_utils import UNCONTESTED_PAUL_BOOKS, CONTESTED_PAUL_BOOKS
 from statistics import fmean
 
+def print_just_distances(all_distances, text_names, this_text_name):
+  this_text_distances = _to_distance_tuples(all_distances, text_names, this_text_name)
+  _sort_nearest_first(this_text_distances)
+  print('\n')
+  print('\n'.join([text_name + ',' + str(dist) for dist, text_name in this_text_distances]))
+
 # all_distances: 2D list.  both columns and rows match up with text_names, in order.
 #  the values are the cosine similarities between the texts.
 def print_distance_info(all_distances, text_names, this_text_name):
-  this_text_distances = _to_distance_tuples(all_distances, text_names, this_text_name)
-  _sort_nearest_first(this_text_distances)
-  print('\n'.join([text_name + ',' + str(dist) for dist, text_name in this_text_distances]))
+  print_just_distances(all_distances, text_names, this_text_name)
 
   num_closest_pauline_texts = []
   for text_name in text_names:

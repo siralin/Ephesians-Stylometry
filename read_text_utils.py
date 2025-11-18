@@ -33,7 +33,7 @@ def read_relevant_texts_in_chunks(chunk_size):
     del book_to_text['Ignatius Philadelphians']
     del book_to_text['Ignatius Romans']
 
-  elif chunk_size >= 2000:
+  elif chunk_size == 2000:
     book_to_text['Paul A'] = ' '.join([book_to_text['1 Thessalonians'], book_to_text['Philippians'], book_to_text['Philemon']])
     del book_to_text['1 Thessalonians']
     del book_to_text['Philemon']
@@ -51,6 +51,26 @@ def read_relevant_texts_in_chunks(chunk_size):
     del book_to_text['Ignatius Magnesians']
     del book_to_text['Ignatius Romans']
     del book_to_text['Ignatius Trallians']
+
+  elif chunk_size == 3000:
+    book_to_text['Paul A'] = ' '.join([book_to_text['1 Thessalonians'], book_to_text['Philippians'], book_to_text['Philemon']])
+    del book_to_text['1 Thessalonians']
+    del book_to_text['Philemon']
+    del book_to_text['Philippians']
+
+    book_to_text['Ignatius A'] = ' '.join([book_to_text['Ignatius Ephesians'], book_to_text['Ignatius Magnesians'], book_to_text['Ignatius Philadelphians']])
+    del book_to_text['Ignatius Magnesians']
+    del book_to_text['Ignatius Ephesians']
+    del book_to_text['Ignatius Philadelphians']
+
+    book_to_text['Ignatius B'] = ' '.join([book_to_text['Ignatius Smyrnaeans'], book_to_text['Ignatius Polycarp'], book_to_text['Ignatius Romans'], book_to_text['Ignatius Trallians']])
+    del book_to_text['Ignatius Smyrnaeans']
+    del book_to_text['Ignatius Polycarp']
+    del book_to_text['Ignatius Romans']
+    del book_to_text['Ignatius Trallians']
+
+  else:
+    raise ValueError
 
   # The following texts are not epistles, so we don't want them.
   del book_to_text['Clement 2 Corinthians']
