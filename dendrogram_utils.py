@@ -19,11 +19,11 @@ def save_dendrogram(filename_elements):
 #
 # Returns a dictionary of data computed to render the dendrogram,
 # containing keys 'color_list', 'icoord', 'dcoord', 'ivl', 'leaves', and 'leaves_color_list'.
-def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_algorithm, distance_metric):
+def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_algorithm, distance_metric, title="Hierarchical Clustering Dendrogram"):
   Z = linkage(book_to_normalized_unit_frequency, method=linkage_algorithm, metric=distance_metric)
 
   fig = plt.figure(figsize=(8, 6))
-  plt.title('Hierarchical Clustering Dendrogram')
+  plt.title(title)
   plt.xlabel('Book')
   plt.ylabel('Distance')
   dendrogram_data_structures = dendrogram(

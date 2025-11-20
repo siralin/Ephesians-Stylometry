@@ -1,5 +1,6 @@
 import os
 from general_utils import FILE_TYPE_SUFFIX, NORMALIZED_FILE_SUFFIX, TEXT_DIRECTORY, GRAMMAR_DIRECTORY
+from chunk_text_utils import break_into_chunks
 
 def read_normalized_texts_with_parallels_split():
   book_to_text = read_normalized_texts()
@@ -55,3 +56,30 @@ def read_parts_of_speech():
     with open(os.path.join(GRAMMAR_DIRECTORY, filename), 'r') as handle:
       book_to_text[book] = handle.read()
   return book_to_text
+
+# Does NOT include books that are too short (except the merged Paul A)
+def read_parts_of_speech_in_chunks(ideal_chunk_size, min_chunk_size):
+  book_to_parts = read_parts_of_speech()
+
+  # These are not epistles, so we don't want them.
+  del book_to_parts['Matthew']
+  del book_to_parts['Mark']
+  del book_to_parts['Luke']
+  del book_to_parts['John']
+  del book_to_parts['Acts']
+
+  if ideal_chunk_size == 2000:
+    book_to_parts['Paul A'] = ' '.join([book_to_parts['1 Thessalonians'], book_to_parts['Philippians'], book_to_parts['Philemon']])
+    del book_to_parts['1 Thessalonians']
+    del book_to_parts['Philemon']
+    del book_to_parts['Philippians']
+  else:
+    raise ValueError('define actions for chunk size ' + str(ideal_chunk_size))
+
+  book_to_chunks = break_into_chunks(book_to_parts, ideal_chunk_size)
+
+  for book, chunk in list(book_to_chunks.items()):
+    if len(chunk.split()) < min_chunk_size and book not in ['Ephesians', 'Colossians']:
+      del book_to_chunks[book]
+
+  return book_to_chunks
