@@ -68,7 +68,12 @@ def read_parts_of_speech_in_chunks(ideal_chunk_size, min_chunk_size):
   del book_to_parts['John']
   del book_to_parts['Acts']
 
-  if ideal_chunk_size == 2000:
+  if ideal_chunk_size == 1500:
+    book_to_parts['Paul A'] = ' '.join([book_to_parts['1 Thessalonians'], book_to_parts['Philemon']])
+    del book_to_parts['1 Thessalonians']
+    del book_to_parts['Philemon']
+
+  elif ideal_chunk_size >= 2000 and ideal_chunk_size <= 3000:
     book_to_parts['Paul A'] = ' '.join([book_to_parts['1 Thessalonians'], book_to_parts['Philippians'], book_to_parts['Philemon']])
     del book_to_parts['1 Thessalonians']
     del book_to_parts['Philemon']
