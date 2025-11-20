@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from thesis_paul_markers import graph_paul_markers
 from ngram_utils import calculate_normalized_ngram_frequencies
 from distance_printer import print_distance_info, print_just_distances
-from grammar_utils import calculate_normalized_part_of_speech_ngram_frequencies
+from grammar_utils import calculate_normalized_part_of_speech_ngram_frequencies, calculate_raw_part_of_speech_frequencies
 from dendrogram_utils import generate_dendrogram
 from general_utils import UNCONTESTED_PAUL_BOOKS
 
@@ -153,3 +153,22 @@ grammar_distances = cosine_similarity(book_to_normalized_part_frequency)
 #grammar_df = pd.DataFrame(grammar_distances, index=grammar_book_names, columns=grammar_book_names)
 #grammar_df.to_csv('grammar_distances.csv')
 print_distance_info(grammar_distances, grammar_book_names, 'Ephesians')
+
+"""
+PART 8: exactly how far away is Ephesians from the average Paul?
+
+1. Calculate the average Paul vector (no need to normalize)
+2. Calculate how far away from it (by percent) we are for each of the 500 dimensions
+3. Take the absolute value and average those.
+
+"""
+
+all_paul_grammar = ' '.join({k: v for k, v in book_to_parts.items() if k.startswith(tuple(UNCONTESTED_PAUL_BOOKS))}.values())
+paul_and_ephesians_book_to_parts = {'Paul': all_paul_grammar, 'Ephesians': book_to_parts['Ephesians']}
+paul_and_ephesians_to_raw_part_frequency = calculate_raw_part_of_speech_frequencies(paul_and_ephesians_book_to_parts, NUM_NGRAMS_WANTED, GRAMMAR_NGRAM_SIZE)
+
+for i in range(500):
+  paul_freq = paul_and_ephesians_to_raw_part_frequency[0][i] # TODO double check index of books
+  eph_freq = paul_and_ephesians_to_raw_part_frequency[1][i]
+  if paul_freq > 0 and eph_freq > 0:
+    print(paul_freq, eph_freq, eph_freq / paul_freq)

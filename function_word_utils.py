@@ -1,6 +1,6 @@
 from collections import Counter
 from statistics import stdev, fmean
-from unit_frequency_utils import unit_counts_to_normalized_frequencies_for_given_units, _find_book_to_unit_frequencies
+from unit_frequency_utils import unit_counts_to_normalized_frequencies_for_given_units, _find_book_to_raw_unit_frequencies
 
 # The top 100 most common words in the NT, with nouns (including pronouns) and non-"to be" verbs removed.
 NON_PRONOUN_FUNCTION_WORDS = ['ΚΑΙ', 'Ο', 'ΕΝ', 'ΔΕ',
@@ -120,4 +120,4 @@ def calculate_raw_function_word_frequencies(book_to_text, function_words):
     words = book_to_text[book].split(' ')
     book_to_word_counts[index] = Counter(words)
 
-  return _find_book_to_unit_frequencies(book_to_word_counts, function_words)
+  return _find_book_to_raw_unit_frequencies(book_to_word_counts, function_words)

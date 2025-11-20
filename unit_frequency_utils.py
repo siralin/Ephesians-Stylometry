@@ -10,17 +10,16 @@ from statistics import stdev, fmean
 # book_to_unit_counts: List<Counter>, the number of times every unit appears in each book
 # overall_unit_counts: Counter, the number of times every unit appears in all books
 def unit_counts_to_normalized_frequencies(num_units, book_to_unit_counts, overall_unit_counts, normalization_method):
-
-  # List of up to num_units units that appear the most frequently overall.
-  most_frequent_units_and_counts = overall_unit_counts.most_common(num_units)
-  most_frequent_units = [x[0] for x in most_frequent_units_and_counts]
-
-  total_count = sum(overall_unit_counts.values())
-  print('frequency of least common unit is ' + str(most_frequent_units_and_counts[-1][1] / total_count))
+  most_frequent_units = _find_most_frequent_units(num_units, overall_unit_counts)
 
   return (
     unit_counts_to_normalized_frequencies_for_given_units(most_frequent_units, book_to_unit_counts, normalization_method),
     most_frequent_units)
+
+# Returns list of up to num_units units that appear the most frequently overall.
+def _find_most_frequent_units(num_units, overall_unit_counts):
+  most_frequent_units_and_counts = overall_unit_counts.most_common(num_units)
+  return [x[0] for x in most_frequent_units_and_counts]
 
 # Returns a 2d array
 # where array[book index][unit index] = zscore
@@ -33,10 +32,17 @@ def unit_counts_to_normalized_frequencies_for_given_units(units, book_to_unit_co
   # 2d List of book to unit to frequency
   # where the book indexes match those in book_to_unit_counts
   # and the unit indexes match those in units
-  book_to_unit_frequencies = _find_book_to_unit_frequencies(book_to_unit_counts, units)
+  book_to_unit_frequencies = _find_book_to_raw_unit_frequencies(book_to_unit_counts, units)
 
   book_to_normalized_unit_frequency = _normalize_frequencies(book_to_unit_frequencies, normalization_method)
   return book_to_normalized_unit_frequency
+
+# Returns the relative frequencies of the most frequent num_units units
+# (as a fraction of the total units in each book)
+# in the form of a 2d List[book][unit]
+def unit_counts_to_raw_frequencies(num_units, book_to_unit_counts, overall_unit_counts):
+  most_frequent_units = _find_most_frequent_units(num_units, overall_unit_counts)
+  return _find_book_to_raw_unit_frequencies(book_to_unit_counts, most_frequent_units)
 
 # Returns a tuple where the left side is the relative frequencies of all units
 # (as a fraction of the total units in each book)
@@ -50,7 +56,7 @@ def unit_counts_to_all_raw_frequencies(book_to_unit_counts):
     units.update(counter.keys())
 
   unit_list = list(units)
-  return _find_book_to_unit_frequencies(book_to_unit_counts, unit_list), unit_list
+  return _find_book_to_raw_unit_frequencies(book_to_unit_counts, unit_list), unit_list
 
 # Returns the relative frequencies of the given units
 # (as a fraction of the total units in each book)
@@ -58,7 +64,7 @@ def unit_counts_to_all_raw_frequencies(book_to_unit_counts):
 #
 # book_to_unit_counts: List<Counter>, the number of times every unit appears in each book
 # units: List of units we're interested in
-def _find_book_to_unit_frequencies(book_to_unit_counts, units):
+def _find_book_to_raw_unit_frequencies(book_to_unit_counts, units):
   num_books = len(book_to_unit_counts)
   num_units = len(units)
 
