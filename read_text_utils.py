@@ -1,6 +1,6 @@
 import read_nt_text_utils
 import os
-from general_utils import FILE_TYPE_SUFFIX
+from general_utils import FILE_TYPE_SUFFIX, UNCONTESTED_PAUL_BOOKS
 import text_normalization_utils
 from chunk_text_utils import break_into_chunks
 
@@ -17,61 +17,16 @@ def read_relevant_texts_in_chunks(chunk_size):
   septuagint_book_to_text = read_text_from_directory('septuagint')
   book_to_text['Epistle of Jeremiah'] = septuagint_book_to_text['Epistle of Jeremiah']
 
-  if chunk_size == 1500:
-    book_to_text['Paul A'] = ' '.join([book_to_text['1 Thessalonians'], book_to_text['Philemon']])
-    del book_to_text['1 Thessalonians']
-    del book_to_text['Philemon']
+  pauline_text = ' '.join([book_to_text[book] for book in UNCONTESTED_PAUL_BOOKS])
+  book_to_text['Paul'] = pauline_text
+  for book in UNCONTESTED_PAUL_BOOKS:
+    del book_to_text[book]
 
-    book_to_text['Ignatius A'] = ' '.join([book_to_text['Ignatius Polycarp'], book_to_text['Ignatius Smyrnaeans']])
-    del book_to_text['Ignatius Polycarp']
-    del book_to_text['Ignatius Smyrnaeans']
-
-    book_to_text['Ignatius B'] = ' '.join([book_to_text['Ignatius Magnesians'], book_to_text['Ignatius Trallians']])
-    del book_to_text['Ignatius Magnesians']
-    del book_to_text['Ignatius Trallians']
-
-    book_to_text['Ignatius C'] = ' '.join([book_to_text['Ignatius Philadelphians'], book_to_text['Ignatius Romans']])
-    del book_to_text['Ignatius Philadelphians']
-    del book_to_text['Ignatius Romans']
-
-  elif chunk_size == 2000:
-    book_to_text['Paul A'] = ' '.join([book_to_text['1 Thessalonians'], book_to_text['Philippians'], book_to_text['Philemon']])
-    del book_to_text['1 Thessalonians']
-    del book_to_text['Philemon']
-    del book_to_text['Philippians']
-
-    book_to_text['Ignatius A'] = ' '.join([book_to_text['Ignatius Ephesians'], book_to_text['Ignatius Polycarp']])
-    del book_to_text['Ignatius Polycarp']
-    del book_to_text['Ignatius Ephesians']
-
-    book_to_text['Ignatius B'] = ' '.join([book_to_text['Ignatius Smyrnaeans'], book_to_text['Ignatius Philadelphians']])
-    del book_to_text['Ignatius Smyrnaeans']
-    del book_to_text['Ignatius Philadelphians']
-
-    book_to_text['Ignatius C'] = ' '.join([book_to_text['Ignatius Magnesians'], book_to_text['Ignatius Romans'], book_to_text['Ignatius Trallians']])
-    del book_to_text['Ignatius Magnesians']
-    del book_to_text['Ignatius Romans']
-    del book_to_text['Ignatius Trallians']
-
-  elif chunk_size == 3000:
-    book_to_text['Paul A'] = ' '.join([book_to_text['1 Thessalonians'], book_to_text['Philippians'], book_to_text['Philemon']])
-    del book_to_text['1 Thessalonians']
-    del book_to_text['Philemon']
-    del book_to_text['Philippians']
-
-    book_to_text['Ignatius A'] = ' '.join([book_to_text['Ignatius Ephesians'], book_to_text['Ignatius Magnesians'], book_to_text['Ignatius Philadelphians']])
-    del book_to_text['Ignatius Magnesians']
-    del book_to_text['Ignatius Ephesians']
-    del book_to_text['Ignatius Philadelphians']
-
-    book_to_text['Ignatius B'] = ' '.join([book_to_text['Ignatius Smyrnaeans'], book_to_text['Ignatius Polycarp'], book_to_text['Ignatius Romans'], book_to_text['Ignatius Trallians']])
-    del book_to_text['Ignatius Smyrnaeans']
-    del book_to_text['Ignatius Polycarp']
-    del book_to_text['Ignatius Romans']
-    del book_to_text['Ignatius Trallians']
-
-  else:
-    raise ValueError
+  ignatius_books = [x for x in list(book_to_text.keys()) if x.startswith('Ignatius')]
+  ignatius_text = ' '.join([book_to_text[book] for book in ignatius_books])
+  book_to_text['Ignatius'] = ignatius_text
+  for book in ignatius_books:
+    del book_to_text[book]
 
   # The following texts are not epistles, so we don't want them.
   del book_to_text['Clement 2 Corinthians']

@@ -1,5 +1,5 @@
 import os
-from general_utils import FILE_TYPE_SUFFIX, NORMALIZED_FILE_SUFFIX, TEXT_DIRECTORY, GRAMMAR_DIRECTORY
+from general_utils import FILE_TYPE_SUFFIX, NORMALIZED_FILE_SUFFIX, TEXT_DIRECTORY, GRAMMAR_DIRECTORY, UNCONTESTED_PAUL_BOOKS
 from chunk_text_utils import break_into_chunks
 
 def read_normalized_texts_with_parallels_split():
@@ -68,18 +68,10 @@ def read_parts_of_speech_in_chunks(ideal_chunk_size, min_chunk_size):
   del book_to_parts['John']
   del book_to_parts['Acts']
 
-  if ideal_chunk_size == 1500:
-    book_to_parts['Paul A'] = ' '.join([book_to_parts['1 Thessalonians'], book_to_parts['Philemon']])
-    del book_to_parts['1 Thessalonians']
-    del book_to_parts['Philemon']
-
-  elif ideal_chunk_size >= 2000 and ideal_chunk_size <= 3000:
-    book_to_parts['Paul A'] = ' '.join([book_to_parts['1 Thessalonians'], book_to_parts['Philippians'], book_to_parts['Philemon']])
-    del book_to_parts['1 Thessalonians']
-    del book_to_parts['Philemon']
-    del book_to_parts['Philippians']
-  else:
-    raise ValueError('define actions for chunk size ' + str(ideal_chunk_size))
+  pauline_text = ' '.join([book_to_parts[book] for book in UNCONTESTED_PAUL_BOOKS])
+  book_to_parts['Paul'] = pauline_text
+  for book in UNCONTESTED_PAUL_BOOKS:
+    del book_to_parts[book]
 
   book_to_chunks = break_into_chunks(book_to_parts, ideal_chunk_size)
 

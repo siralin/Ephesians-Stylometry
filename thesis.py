@@ -20,8 +20,8 @@ Generates figures for the thesis.
 PART 1: 500 most common words
 """
 
-IDEAL_CHUNK_SIZE = 2000
-MIN_CHUNK_SIZE = 1500
+IDEAL_CHUNK_SIZE = 3000
+MIN_CHUNK_SIZE = 3000
 
 NUM_WORDS_WANTED = 500
 NORMALIZATION_METHOD = 'zscore'
@@ -82,7 +82,7 @@ generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGOR
 distances = cosine_similarity(book_to_normalized_word_frequency)
 df = pd.DataFrame(distances, index=book_names, columns=book_names)
 #df.to_csv('distances.csv')
-print_distance_info(distances, book_names, 'Ephesians')
+#print_distance_info(distances, book_names, 'Ephesians')
 
 """
  PART 4: graph paul markers
@@ -110,7 +110,7 @@ generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALG
 bigram_distances = cosine_similarity(book_to_normalized_bigram_frequency)
 #bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
 #bigram_df.to_csv('bigram_distances.csv')
-print_distance_info(bigram_distances, book_names, 'Ephesians')
+#print_distance_info(bigram_distances, book_names, 'Ephesians')
 
 book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 3, NORMALIZATION_METHOD)
@@ -124,7 +124,7 @@ generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_AL
 trigram_distances = cosine_similarity(book_to_normalized_trigram_frequency)
 #trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
 #trigram_df.to_csv('trigram_distances.csv')
-print_distance_info(trigram_distances, book_names, 'Ephesians')
+#print_distance_info(trigram_distances, book_names, 'Ephesians')
 
 """
   PART 6: comparing distances from other books
@@ -152,4 +152,4 @@ plt.close()
 grammar_distances = cosine_similarity(book_to_normalized_part_frequency)
 #grammar_df = pd.DataFrame(grammar_distances, index=grammar_book_names, columns=grammar_book_names)
 #grammar_df.to_csv('grammar_distances.csv')
-print_distance_info(grammar_distances, grammar_book_names, 'Ephesians')
+#print_distance_info(grammar_distances, grammar_book_names, 'Ephesians')
