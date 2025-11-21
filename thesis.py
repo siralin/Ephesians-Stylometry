@@ -72,7 +72,7 @@ book_to_normalized_word_frequency = calculate_normalized_function_word_frequenci
 
 #generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), title="Figure 2a")
 #generate_component_plot(book_to_normalized_word_frequency, function_words, title="Figure 2b")
-generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 2c')
+#generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 2c')
 #plt.show()
 #plt.close()
 
@@ -81,13 +81,13 @@ generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGOR
  """
 distances = cosine_similarity(book_to_normalized_word_frequency)
 df = pd.DataFrame(distances, index=book_names, columns=book_names)
-#df.to_csv('distances.csv')
+df.to_csv('function_word_distances.csv')
 print_distance_info(distances, book_names, 'Ephesians')
 
 """
  PART 4: graph paul markers
 """
-# graph_paul_markers(book_to_text)
+graph_paul_markers(book_to_text, title="Figure 4")
 
 """
  PART 5: ngram analysis
@@ -108,8 +108,8 @@ generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALG
 #plt.close()
 
 bigram_distances = cosine_similarity(book_to_normalized_bigram_frequency)
-#bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
-#bigram_df.to_csv('bigram_distances.csv')
+bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
+bigram_df.to_csv('bigram_distances.csv')
 print_distance_info(bigram_distances, book_names, 'Ephesians')
 
 book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_frequencies(
@@ -122,8 +122,8 @@ generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_AL
 #plt.close()
 
 trigram_distances = cosine_similarity(book_to_normalized_trigram_frequency)
-#trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
-#trigram_df.to_csv('trigram_distances.csv')
+trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
+trigram_df.to_csv('trigram_distances.csv')
 print_distance_info(trigram_distances, book_names, 'Ephesians')
 
 """
@@ -150,6 +150,6 @@ plt.show()
 plt.close()
 
 grammar_distances = cosine_similarity(book_to_normalized_part_frequency)
-#grammar_df = pd.DataFrame(grammar_distances, index=grammar_book_names, columns=grammar_book_names)
-#grammar_df.to_csv('grammar_distances.csv')
+grammar_df = pd.DataFrame(grammar_distances, index=grammar_book_names, columns=grammar_book_names)
+grammar_df.to_csv('grammar_distances.csv')
 print_distance_info(grammar_distances, grammar_book_names, 'Ephesians')

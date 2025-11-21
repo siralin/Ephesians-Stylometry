@@ -101,5 +101,9 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None, 
     for i, book in enumerate(books):
       ax.annotate(label_text.get(book, book), (X_reduced[i, 0], X_reduced[i, 1]))
 
+  variance = pca.explained_variance_ratio_
+  ax.set_xlabel('Vector A (' + to_percent(variance[0]) + ')')
+  ax.set_ylabel('Vector B (' + to_percent(variance[1]) + ')')
+
   plt.gca().update({"title":title})
   fig.tight_layout()
