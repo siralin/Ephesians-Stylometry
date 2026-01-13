@@ -17,11 +17,7 @@ label_text = {
   '3 John': '3John',
   'Acts': 'Acts',
   'Colossians': 'Col',
-  'Colossians parallel': 'CP',
-  'Colossians unique': 'CU',
   'Ephesians': 'Eph',
-  'Ephesians parallel': 'EphP',
-  'Ephesians unique': 'EphU',
   'Galatians': 'Gal',
   'Hebrews': 'Heb',
   'James': 'James',
@@ -34,7 +30,24 @@ label_text = {
   'Philippians': 'Phil',
   'Revelation': 'Rev',
   'Romans': 'Rom',
-  'Titus': 'Titus'}
+  'Titus': 'Titus',
+  'Paul': 'Paul',
+  'Ignatius': 'Ign',
+  'Clement 1 Corinthians': 'Clem1Cor',
+  'Clement 2 Corinthians': 'Clem2Cor',
+  'Barnabas': 'Bar',
+  'Didache': 'Did',
+  'Diognetus': 'Dio',
+  'Hermas Shepherd': 'Hermas',
+  'Ignatius Ephesians': 'IgEph',
+  'Ignatius Magnesians': 'Mag',
+  'Ignatius Philadelphians': 'IgPhil',
+  'Ignatius Polycarp': 'IgPoly',
+  'Ignatius Romans': 'IgRom',
+  'Ignatius Smyrnaeans': 'Smy',
+  'Ignatius Trallians': 'Tra',
+  'Iranaeus Martyrdom Polycarp': 'IrMartyr',
+  'Epistle of Jeremiah': 'Jer'}
 
 # Returns tuple of PCA, DataFrame
 def do_pca(book_to_normalized_unit_frequency):
@@ -83,11 +96,11 @@ def to_percent(decimal):
 # book_to_normalized_unit_frequency: a 2d List[book index][unit index]
 # where the book index matches the index of the same book in the given books
 # books: List of book titles
-def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None, include_labels=True):
+def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None, include_labels=True, base_xy=(0,0), xy_adjustments={}, figsize=(8,6)):
   pca, data = do_pca(book_to_normalized_unit_frequency)
 
   unique_figure_id = 1
-  fig = plt.figure(unique_figure_id, figsize=(8, 6))
+  fig = plt.figure(unique_figure_id, figsize=figsize)
   ax = fig.add_subplot()
 
   X_reduced = pca.transform(data)
@@ -99,7 +112,15 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None, 
 
   if include_labels:
     for i, book in enumerate(books):
-      ax.annotate(label_text.get(book, book), (X_reduced[i, 0], X_reduced[i, 1]))
+      x = X_reduced[i, 0] + base_xy[0] + xy_adjustments.get(book, (0, 0))[0]
+      y = X_reduced[i, 1] + base_xy[1] + xy_adjustments.get(book, (0, 0))[1]
+
+      book_name = book
+      book_suffix = ''
+      if book.endswith(('A', 'B', 'C', 'D')):
+        book_name = book[:-2]
+        book_suffix = book[-2:]
+      ax.annotate(label_text.get(book_name, book) + book_suffix, (x, y))
 
   variance = pca.explained_variance_ratio_
   ax.set_xlabel('Vector A (' + to_percent(variance[0]) + ')')

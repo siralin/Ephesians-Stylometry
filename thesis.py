@@ -13,6 +13,7 @@ from distance_printer import print_distance_info, print_just_distances
 from grammar_utils import calculate_normalized_part_of_speech_ngram_frequencies
 from dendrogram_utils import generate_dendrogram
 from general_utils import UNCONTESTED_PAUL_BOOKS
+from statistics import fmean
 
 """
 Generates figures for the thesis.
@@ -29,7 +30,7 @@ NUM_NGRAMS_WANTED = 500
 GRAMMAR_NGRAM_SIZE = 1
 
 # for dendrograms
-LINKAGE_ALGORITHM = 'average' # best with grammar dendrogram at least
+LINKAGE_ALGORITHM = 'average' # best at grouping Pauline books in grammar dendrogram at least
 DISTANCE_METRIC = 'cosine'
 
 book_to_text = read_relevant_texts_in_chunks(IDEAL_CHUNK_SIZE)
@@ -48,11 +49,10 @@ book_to_normalized_word_frequency, words = calculate_normalized_word_frequencies
 
 print(words)
 
-#generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), title="Figure 1a", include_labels=True)
-#generate_component_plot(book_to_normalized_word_frequency, words, title="Figure 1b")
-#generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 1c')
-#plt.show()
-#plt.close()
+xy_adjustments = {}
+generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 1", True, (0.1, -0.2), xy_adjustments, figsize=(16, 9))
+plt.show()
+plt.close()
 
 """
 PART 2: remove non-function words and too-short texts
@@ -103,7 +103,7 @@ book_to_normalized_bigram_frequency, bigrams = calculate_normalized_ngram_freque
 print(bigrams)
 #generate_scatter_plot(book_to_normalized_bigram_frequency, book_to_text.keys(), title="Figure 5a (bigrams)")
 #generate_component_plot(book_to_normalized_bigram_frequency, bigrams, title="Figure 5b")
-generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 5c')
+#generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 5c')
 #plt.show()
 #plt.close()
 
@@ -117,7 +117,7 @@ book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_freq
 print(trigrams)
 #generate_scatter_plot(book_to_normalized_trigram_frequency, book_to_text.keys(), title="Figure 5d (trigrams)")
 #generate_component_plot(book_to_normalized_trigram_frequency, trigrams, title="Figure 5e")
-generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 5f')
+#generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 5f')
 #plt.show()
 #plt.close()
 
@@ -145,9 +145,9 @@ print(parts)
 
 #generate_scatter_plot(book_to_normalized_part_frequency, grammar_book_names, title="Figure 7a (parts of speech)")
 #generate_component_plot(book_to_normalized_part_frequency, parts, title="Figure 7b")
-generate_dendrogram(book_to_normalized_part_frequency, grammar_book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 7c')
-plt.show()
-plt.close()
+#generate_dendrogram(book_to_normalized_part_frequency, grammar_book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 7c')
+#plt.show()
+#plt.close()
 
 grammar_distances = cosine_similarity(book_to_normalized_part_frequency)
 grammar_df = pd.DataFrame(grammar_distances, index=grammar_book_names, columns=grammar_book_names)

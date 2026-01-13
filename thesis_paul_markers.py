@@ -7,7 +7,7 @@ def graph_paul_markers(book_to_text, title):
   colors = [get_label_color(b) for b in book_to_text.keys()]
 
   figure_letter = 'a'
-  for word in  ['δε', 'τουτο']:
+  for word in  ['δε', 'τουτο', 'εν']:
     frequencies = calculate_raw_function_word_frequencies(book_to_text, [word])
 
     fig = plt.figure(1, figsize=(8, 6))
