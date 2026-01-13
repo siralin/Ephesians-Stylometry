@@ -1,7 +1,7 @@
 import unittest
-from read_text_utils import _break_up
+from chunk_text_utils import _break_up
 
-class TestReadTextUtils(unittest.TestCase):
+class TestChunkTextUtils(unittest.TestCase):
 
   # No need to break anything or add a letter to the label if it's already short enough
   def test_dont_break_up(self):
