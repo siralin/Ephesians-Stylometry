@@ -50,9 +50,9 @@ book_to_normalized_word_frequency, words = calculate_normalized_word_frequencies
 print(words)
 
 xy_adjustments = {}
-generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 1", True, (0.1, -0.2), xy_adjustments, figsize=(16, 9))
-plt.show()
-plt.close()
+#generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 1", True, (0.1, -0.2), xy_adjustments, figsize=(16, 9))
+#plt.show()
+#plt.close()
 
 """
 PART 2: remove non-function words and too-short texts
@@ -70,14 +70,14 @@ function_words = ['και', 'εν', 'του', 'ο', 'δε', 'το', 'εις', '�
 book_to_normalized_word_frequency = calculate_normalized_function_word_frequencies(
   book_to_text, function_words, NORMALIZATION_METHOD)
 
-#generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), title="Figure 2a")
-#generate_component_plot(book_to_normalized_word_frequency, function_words, title="Figure 2b")
-#generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 2c')
+#generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 2a", True, (0.2, -0.2))
+#graph_paul_markers(book_to_text, title="Figure 3")
+#generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 2b')
 #plt.show()
 #plt.close()
 
 """
- PART 3: Calculate distances using Cosine Delta
+ PART X: Calculate distances using Cosine Delta
  """
 distances = cosine_similarity(book_to_normalized_word_frequency)
 df = pd.DataFrame(distances, index=book_names, columns=book_names)
@@ -85,12 +85,7 @@ df.to_csv('function_word_distances.csv')
 print_distance_info(distances, book_names, 'Ephesians')
 
 """
- PART 4: graph paul markers
-"""
-graph_paul_markers(book_to_text, title="Figure 4")
-
-"""
- PART 5: ngram analysis
+ PART 4: ngram analysis
  """
 
 # ngrams: a List of the most frequent ngrams
@@ -100,56 +95,38 @@ graph_paul_markers(book_to_text, title="Figure 4")
 # and the ngram index matches the index of the same ngram in ngrams.
 book_to_normalized_bigram_frequency, bigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 2, NORMALIZATION_METHOD)
-print(bigrams)
-#generate_scatter_plot(book_to_normalized_bigram_frequency, book_to_text.keys(), title="Figure 5a (bigrams)")
-#generate_component_plot(book_to_normalized_bigram_frequency, bigrams, title="Figure 5b")
-#generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 5c')
+#generate_scatter_plot(book_to_normalized_bigram_frequency, book_to_text.keys(), "Figure 4a: Bigrams", True, (0.2, -0.2))
+#generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, 'Figure 4b')
 #plt.show()
 #plt.close()
 
 bigram_distances = cosine_similarity(book_to_normalized_bigram_frequency)
 bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
 bigram_df.to_csv('bigram_distances.csv')
-print_distance_info(bigram_distances, book_names, 'Ephesians')
 
 book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 3, NORMALIZATION_METHOD)
-print(trigrams)
-#generate_scatter_plot(book_to_normalized_trigram_frequency, book_to_text.keys(), title="Figure 5d (trigrams)")
-#generate_component_plot(book_to_normalized_trigram_frequency, trigrams, title="Figure 5e")
-#generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 5f')
+#generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, 'Figure 5: Trigrams',)
 #plt.show()
 #plt.close()
 
 trigram_distances = cosine_similarity(book_to_normalized_trigram_frequency)
 trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
 trigram_df.to_csv('trigram_distances.csv')
-print_distance_info(trigram_distances, book_names, 'Ephesians')
 
 """
-  PART 6: comparing distances from other books
-"""
-#print_just_distances(distances, book_names, 'Paul A')
-#print_just_distances(distances, book_names, 'Galatians')
-#print_just_distances(distances, book_names, '2 Corinthians A') #
-#print_just_distances(distances, book_names, 'Romans B')
-
-"""
-  PART 7: grammatical PCA
+  PART 6: grammatical PCA
 """
 book_to_parts = read_parts_of_speech_in_chunks(IDEAL_CHUNK_SIZE, MIN_CHUNK_SIZE)
 grammar_book_names = list(book_to_parts.keys())
 book_to_normalized_part_frequency, parts = calculate_normalized_part_of_speech_ngram_frequencies(
   book_to_parts, NUM_NGRAMS_WANTED, GRAMMAR_NGRAM_SIZE, NORMALIZATION_METHOD)
-print(parts)
 
-#generate_scatter_plot(book_to_normalized_part_frequency, grammar_book_names, title="Figure 7a (parts of speech)")
-#generate_component_plot(book_to_normalized_part_frequency, parts, title="Figure 7b")
-#generate_dendrogram(book_to_normalized_part_frequency, grammar_book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 7c')
-#plt.show()
-#plt.close()
+#generate_scatter_plot(book_to_normalized_part_frequency, grammar_book_names, "Figure 6a: Parts of speech", True, (0.2, -0.2))
+generate_dendrogram(book_to_normalized_part_frequency, grammar_book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 6b')
+plt.show()
+plt.close()
 
 grammar_distances = cosine_similarity(book_to_normalized_part_frequency)
 grammar_df = pd.DataFrame(grammar_distances, index=grammar_book_names, columns=grammar_book_names)
 grammar_df.to_csv('grammar_distances.csv')
-print_distance_info(grammar_distances, grammar_book_names, 'Ephesians')

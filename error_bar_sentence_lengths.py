@@ -22,5 +22,6 @@ for x, y, err, color in zip(xs, ys, es, colors):
 
 plt.xticks(rotation='vertical')
 plt.ylabel('Mean words per sentence')
+plt.gca().update({"title":'Figure 7'})
 fig.tight_layout()
 plt.show()
