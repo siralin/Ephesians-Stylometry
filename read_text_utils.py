@@ -85,16 +85,6 @@ def read_relevant_texts_in_chunks(chunk_size):
 
   return break_into_chunks(normalize(book_to_text), chunk_size)
 
-# Returns dictionary of book name to all text in the book, not including accents.
-# Includes a space between each pair of words.  Everything is lower-case and punctuation-free.
-# Includes the Septuagint and various other ancient texts.
-def read_texts():
-  book_to_text = read_nt_text_utils.read_non_normalized_texts()
-  book_to_text.update(read_text_from_directory('septuagint'))
-  book_to_text.update(read_text_from_directory('other-texts'))
-
-  return normalize(book_to_text)
-
 # Returns dictionary of book name to all text in the book, including sentence-ending punctuation
 # and accents.  Includes a space between each pair of words.
 def read_text_from_directory(directory):

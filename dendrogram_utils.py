@@ -3,11 +3,6 @@ from general_utils import BOOK_NAMES, UNCONTESTED_PAUL_BOOKS
 from scipy.cluster.hierarchy import dendrogram, linkage
 from general_plot_utils import get_label_color
 
-# Saves the last-generated dendrogram, with the filename containing the given elements.
-def save_dendrogram(filename_elements):
-  filename = '-'.join(filename_elements)
-  plt.savefig('dendrogram-' + filename + '.png', format='png', dpi=100)
-
 # Generates a dendrogram for the given data.
 # Use plt.show() to display it
 # or plt.gca() to get its Axes and modify or analyze it.
@@ -39,15 +34,6 @@ def generate_dendrogram(book_to_normalized_unit_frequency, book_titles, linkage_
 
   fig.tight_layout()
   return dendrogram_data_structures # TODO check whether leaf colors actually got updated
-
-# A valid dendrogram groups all of paul's uncontested books together without any of
-# those books that definitely aren't his in between.
-# Should be called immediately after generate_dendrogram, to check whether the generated dendrogram
-# is valid.
-def check_dendrogram_valid(books = BOOK_NAMES):
-  ax = plt.gca()
-  x_label_colors = [x.get_color() for x in ax.get_xmajorticklabels()]
-  return _check_dendrogram_labels_valid(x_label_colors, books)
 
 def _check_dendrogram_labels_valid(label_colors, books = BOOK_NAMES):
   expected_paul_books = len(set(books) & set(UNCONTESTED_PAUL_BOOKS))

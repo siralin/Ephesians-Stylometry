@@ -54,38 +54,6 @@ def do_pca(book_to_normalized_unit_frequency):
   data = pd.DataFrame(book_to_normalized_unit_frequency)
   return PCA(n_components=2, svd_solver='full').fit(data), data
 
-# Generates a scatter plot of the given units aligned to the two PCA vectors
-# to illustrate how each unit contributes to each vector.
-# To display the plot, call plt.show().
-#
-# book_to_normalized_unit_frequency: a 2d List[book index][unit index]
-# where the unit index matches the index in the given units
-# units: List of units
-def generate_component_plot(book_to_normalized_unit_frequency, units, title=None):
-  pca, _ = do_pca(book_to_normalized_unit_frequency)
-
-  # There are two 'components' arrays, each with one element per unit
-  # We can graph them to see how important each unit is to the PCA.
-
-  unique_figure_id = 2
-  fig = plt.figure(unique_figure_id, figsize=(8, 6))
-  ax = fig.add_subplot()
-
-  scatter = ax.scatter(
-    pca.components_[0],
-    pca.components_[1],
-  )
-
-  for i, unit in enumerate(units):
-    ax.annotate(unit, (pca.components_[0][i], pca.components_[1][i]))
-
-  variance = pca.explained_variance_ratio_
-  ax.set_xlabel('Vector A (' + to_percent(variance[0]) + ')')
-  ax.set_ylabel('Vector B (' + to_percent(variance[1]) + ')')
-
-  plt.gca().update({"title":title})
-  fig.tight_layout()
-
 def to_percent(decimal):
   return f"{decimal:.0%}"
 
