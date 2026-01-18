@@ -57,12 +57,11 @@ def do_pca(book_to_normalized_unit_frequency):
 def to_percent(decimal):
   return f"{decimal:.0%}"
 
-# Generates a scatter plot of the given books with their unit data compressed into two dimensions.
-# Returns nothing.
-# To display the plot, call plt.show().
+# Generates and displays a scatter plot of the given books
+# with their unit data compressed into two dimensions.
 #
 # book_to_normalized_unit_frequency: a 2d List[book index][unit index]
-# where the book index matches the index of the same book in the given books
+#   where the book index matches the index of the same book in the given books
 # books: List of book titles
 def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None, include_labels=True, base_xy=(0,0), xy_adjustments={}, figsize=(8,6)):
   pca, data = do_pca(book_to_normalized_unit_frequency)
@@ -96,3 +95,5 @@ def generate_scatter_plot(book_to_normalized_unit_frequency, books, title=None, 
 
   plt.gca().update({"title":title})
   fig.tight_layout()
+  plt.show()
+  plt.close()

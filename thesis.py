@@ -30,8 +30,6 @@ LINKAGE_ALGORITHM = 'average' # best at grouping Pauline books in grammar dendro
 DISTANCE_METRIC = 'cosine'
 
 book_to_text = read_relevant_texts_in_chunks(IDEAL_CHUNK_SIZE)
-for book, text in book_to_text.items():
-  print(book, len(text.split()))
 
 book_names = list(book_to_text.keys())
 
@@ -46,9 +44,7 @@ book_to_normalized_word_frequency, words = calculate_normalized_word_frequencies
 print(words)
 
 xy_adjustments = {}
-#generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 1", True, (0.1, -0.2), xy_adjustments, figsize=(16, 9))
-plt.show()
-plt.close()
+generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 1", True, (0.1, -0.2), xy_adjustments, figsize=(16, 9))
 
 """
 PART 2: remove non-function words and too-short texts
@@ -66,11 +62,9 @@ function_words = ['και', 'εν', 'του', 'ο', 'δε', 'το', 'εις', '�
 book_to_normalized_word_frequency = calculate_normalized_function_word_frequencies(
   book_to_text, function_words, NORMALIZATION_METHOD)
 
-#generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 2a", True, (0.2, -0.2))
-#graph_paul_markers(book_to_text, title="Figure 3")
-#generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 2b')
-#plt.show()
-#plt.close()
+generate_scatter_plot(book_to_normalized_word_frequency, book_to_text.keys(), "Figure 2a", True, (0.2, -0.2))
+graph_paul_markers(book_to_text, title="Figure 3")
+generate_dendrogram(book_to_normalized_word_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 2b')
 
 """
  PART X: Calculate distances using Cosine Delta
@@ -90,20 +84,16 @@ df.to_csv('function_word_distances.csv')
 # and the ngram index matches the index of the same ngram in ngrams.
 book_to_normalized_bigram_frequency, bigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 2, NORMALIZATION_METHOD)
-#generate_scatter_plot(book_to_normalized_bigram_frequency, book_to_text.keys(), "Figure 4a: Bigrams", True, (0.2, -0.2))
-#generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, 'Figure 4b')
-#plt.show()
-#plt.close()
+generate_scatter_plot(book_to_normalized_bigram_frequency, book_to_text.keys(), "Figure 4a: Bigrams", True, (0.2, -0.2))
+generate_dendrogram(book_to_normalized_bigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, 'Figure 4b')
 
 bigram_distances = cosine_similarity(book_to_normalized_bigram_frequency)
 bigram_df = pd.DataFrame(bigram_distances, index=book_names, columns=book_names)
 bigram_df.to_csv('bigram_distances.csv')
 
-#book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_frequencies(
+book_to_normalized_trigram_frequency, trigrams = calculate_normalized_ngram_frequencies(
   book_to_text, NUM_NGRAMS_WANTED, 3, NORMALIZATION_METHOD)
-#generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, 'Figure 5: Trigrams',)
-#plt.show()
-#plt.close()
+generate_dendrogram(book_to_normalized_trigram_frequency, book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, 'Figure 5: Trigrams',)
 
 trigram_distances = cosine_similarity(book_to_normalized_trigram_frequency)
 trigram_df = pd.DataFrame(trigram_distances, index=book_names, columns=book_names)
@@ -117,10 +107,8 @@ grammar_book_names = list(book_to_parts.keys())
 book_to_normalized_part_frequency, parts = calculate_normalized_part_of_speech_ngram_frequencies(
   book_to_parts, NUM_NGRAMS_WANTED, GRAMMAR_NGRAM_SIZE, NORMALIZATION_METHOD)
 
-#generate_scatter_plot(book_to_normalized_part_frequency, grammar_book_names, "Figure 6a: Parts of speech", True, (0.2, -0.2))
-#generate_dendrogram(book_to_normalized_part_frequency, grammar_book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 6b')
-plt.show()
-plt.close()
+generate_scatter_plot(book_to_normalized_part_frequency, grammar_book_names, "Figure 6a: Parts of speech", True, (0.2, -0.2))
+generate_dendrogram(book_to_normalized_part_frequency, grammar_book_names, LINKAGE_ALGORITHM, DISTANCE_METRIC, title='Figure 6b')
 
 grammar_distances = cosine_similarity(book_to_normalized_part_frequency)
 grammar_df = pd.DataFrame(grammar_distances, index=grammar_book_names, columns=grammar_book_names)
